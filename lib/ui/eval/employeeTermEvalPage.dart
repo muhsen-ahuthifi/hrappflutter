@@ -1,6 +1,5 @@
 //employeeTermEvalPage.dart EmployeeTermEvalPanal
 import 'package:flutter/material.dart';
-import 'package:hrapp/ui/widget/colorUtlit.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
 import 'package:hrapp/util/app_url.dart';
 import '../../model/eval/emp_term_eval_panal.dart';

@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/providers/user_provider.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';

@@ -16,6 +16,8 @@ import '../eval/employeeForEvalPage.dart';
 import '../eval/employeeTermEvalPage.dart';
 import '../eval/recivedEvalPage.dart';
 import '../eval/sentEvalPage.dart';
+import '../eval/periodEvalPage.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({Key key,@required this.uiType}) : super(key: key);
 
@@ -26,7 +28,7 @@ class HomePage extends StatelessWidget {
     //  var tabs=getTabs();
     var title=this.uiType==HomeSysKey.Vacation ? 'الاجازات':this.uiType==HomeSysKey.Manager ?  'اعتماد الاجازات': 'التقييمات';
     return DefaultTabController(
-      length: this.uiType==HomeSysKey.Vacation?5:this.uiType==HomeSysKey.Manager?2:4,
+      length: this.uiType==HomeSysKey.Vacation?5:this.uiType==HomeSysKey.Manager?2:5,
       child: Scaffold(
      backgroundColor: SmartAppTheme.background,
         appBar: AppBar(
@@ -99,6 +101,7 @@ class HomePage extends StatelessWidget {
                 Tab(text: 'التقييمات الصادرة'),
               Tab(text: 'تقييمات قيد الانتظار'),
               Tab(text: 'التقييمات الواردة تفصيلي'),
+                Tab(text: 'تقييم لفترات'),
 
             ]),
         ),
@@ -134,7 +137,8 @@ class HomePage extends StatelessWidget {
              RecivedEvalPage(),
             SentEvalPage(),
              EmployeeForEvalPage(),
-             EmployeeTermEvalPage()
+             EmployeeTermEvalPage(),
+            PeriodEvalPage()
              ],
              ),
              ),

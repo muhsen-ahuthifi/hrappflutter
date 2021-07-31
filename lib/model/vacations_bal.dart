@@ -14,7 +14,7 @@ class VacationsBal {
 
   factory VacationsBal.fromJson(Map<String, dynamic> json) {
     return VacationsBal(
-      id:1,
+      id:json['id']??1,
       allowHourTrans:true,
      // id: json['id'],
       availableafter: json['available_after']??'',

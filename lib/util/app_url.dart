@@ -8,37 +8,43 @@ class AppUrl {
   static const String forgotPassword = baseURL + "/forgot-password";
   
   static const String VacationsBal= baseURL + "/VacationsBalPanel";
-  // static const String VacationTransPanel= baseURL + "/EmpVacationTransPanel";
-  //  static const String SpareVacationPanel= baseURL + "/EmpSpareVacationPanel"; 
-  //   static const String ManagerVacTransPanel= baseURL + "/ManagerVacTransPanel"; 
-  //   static const String PermissionTransPanel= baseURL + "/EmpPermissionTransPanel"; 
-  //   static const String SparePermissionPanel= baseURL + "/EmpSparePermissionPanel"; 
-  //   static const String ManagerPermissionPanel= baseURL + "/ManagerPermissionPanel"; 
+   static const String VacationTransPanel= baseURL + "/EmpVacationTransPanel";
+    static const String SpareVacationPanel= baseURL + "/EmpSpareVacationPanel"; 
+    static const String ManagerVacTransPanel= baseURL + "/ManagerVacTransPanel"; 
+   static const String PermissionTransPanel= baseURL + "/EmpPermissionTransPanel"; 
+    static const String SparePermissionPanel= baseURL + "/EmpSparePermissionPanel"; 
+    static const String ManagerPermissionPanel= baseURL + "/ManagerPermissionPanel"; 
+
 
   //  static const String SentEvalPanal= baseURL + "/SentEvalPanal"; 
   //   static const String RecivedEvalPanal= baseURL + "/RecivedEvalPanal"; 
   //   static const String EmployeeForEvalPanel= baseURL + "/EmployeeForEvalPanel"; 
   //   static const String EmployeeTermEvalPanal= baseURL + "/EmployeeTermEvalPanal"; 
-    static const String VacationTransPost= baseURL + "/VacationTransPost";
-    static const String PermissionTransPost= baseURL + "/PermissionTransPost"; 
+    static const String VacationTransPost= baseURL + "/VacationTransSync";
+    static const String PermissionTransPost= baseURL + "/PermissionTransSync"; 
 
+   static const String ManagerVacationTransPost= baseURL + "/ManageVacationSync";
+    static const String ManagerPermissionTransPost= baseURL + "/ManagePermissionSync"; 
 
-    static const String VacationTransPanel= baseURL + "/VacationsBalPanel";
+    //static const String VacationTransPanel= baseURL + "/VacationsBalPanel";
 
-   static const String SpareVacationPanel= baseURL + "/VacationsBalPanel"; 
-    static const String ManagerVacTransPanel= baseURL + "/VacationsBalPanel"; 
+   //static const String SpareVacationPanel= baseURL + "/VacationsBalPanel"; 
+  //  static const String ManagerVacTransPanel= baseURL + "/VacationsBalPanel"; 
 
-    static const String PermissionTransPanel= baseURL + "/VacationsBalPanel"; 
-    static const String SparePermissionPanel= baseURL + "/VacationsBalPanel"; 
-    static const String ManagerPermissionPanel= baseURL + "/VacationsBalPanel"; 
+   // static const String PermissionTransPanel= baseURL + "/VacationsBalPanel"; 
+  //  static const String SparePermissionPanel= baseURL + "/VacationsBalPanel"; 
+   // static const String ManagerPermissionPanel= baseURL + "/VacationsBalPanel"; 
 
-   static const String SentEvalPanal= baseURL + "/EvalPostPanal"; 
-    static const String RecivedEvalPanal= baseURL + "/EvalPostPanal"; 
-    static const String EmployeeForEvalPanel= baseURL + "/EvalPostPanal"; 
-    static const String EmployeeTermEvalPanal= baseURL + "/EvalPostPanal"; 
+   static const String SentEvalPanal= baseURL + "/SentEvalPanal?emp=127"; 
+    static const String RecivedEvalPanal= baseURL + "/RecivedEvalPanal?evalemp=127"; 
+    static const String EmployeeForEvalPanel= baseURL + "/EmployeeForEvalPanel?emp=127"; 
+    static const String EmployeeTermEvalPanal= baseURL + "/EmployeeTermEvalPanal?evalemp=127"; 
 
+    static const String EvalPostDetilsPanal= baseURL + "/EmployeeTermEvalPanal"; 
 
-  
+      static const String PeriodEvalPanal= baseURL + "/EvalByEmpPeriodsPanel"; 
+    static const String RecivedHistoryEvalPanal= baseURL + "/RecivedEvalPanal"; 
+
       static const String EmployeeFilter= baseURL + "/EmployeeFilter"; 
 
   

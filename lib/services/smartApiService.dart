@@ -53,7 +53,18 @@ class ApiListResults<T> {
 
    
   }
+  Future<Map<String, dynamic>> putFormData(String url, Map<String, dynamic> formData) async {
 
+       final String token=await UserPreferences().getToken();
+    return await http.put(url,
+        body: json.encode(formData),
+        headers: {'Content-Type': 'application/json','authorization': 'Bearer '+token})
+        .then(onValue)
+        .catchError(onError);
+       //   print('go1111111111111');
+
+   
+  }
     Future<FutureOr> onValue(http.Response response) async {
     if (response.statusCode == 200) {
     final Map<String, dynamic> responseData = json.decode(response.body);

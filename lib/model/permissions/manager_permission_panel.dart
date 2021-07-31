@@ -1,5 +1,5 @@
 class ManagerPermissionPanel {
- // final int id;
+  final int id;
   final String monitortype;
   final double period;
     final double bal;
@@ -14,24 +14,31 @@ class ManagerPermissionPanel {
       final bool manager_appreoved;
       final bool hr_appreoved;
       final String appreoveState;
+    final String rejectNote;
+      final String note;
 
-  ManagerPermissionPanel({this.monitortype, this.emp,this.spareEmp, this.bal, this.period,this.atDate,this.fromHour,this.toHour,this.hr_appreoved, this.manager_appreoved, this.appreoved, this.appreoveState});
+  ManagerPermissionPanel({this.id,this.monitortype, this.emp,this.spareEmp, this.bal, this.period,this.atDate,this.fromHour,this.toHour,this.hr_appreoved, this.manager_appreoved, this.appreoved, this.appreoveState,this.rejectNote,this.note});
 
   factory ManagerPermissionPanel.fromJson(Map<String, dynamic> json) {
     return ManagerPermissionPanel(
      // id: json['id'],
-      emp: json['available_after']??'',
-      spareEmp: json['available_after']??'',
+        id: json['id'],
+      spareEmp: json['spare_emp']??'',
+        emp: json['n']??'',
       monitortype: json['monitortype']??'',
-      period: json['usedbal'],
-      bal: json['remainderbal'],
-      fromHour: json['available_after']??'',
-      toHour: json['available_after']??'',
-atDate: json['available_after']??'',
-      hr_appreoved:false,
-      manager_appreoved:false,
-      appreoved:false,
-appreoveState:"قيد الانتظار",
+      period: json['vdays'],
+      bal: json['bal'],
+      fromHour: json['fhour']??'',
+      toHour: json['tohour']??'',
+      atDate: json['fdate']??'',
+
+      hr_appreoved:json['appreoved'],
+      manager_appreoved:json['manager_appreoved'],
+      appreoved:json['appreoved']&&json['manager_appreoved'],
+appreoveState:json['appreoved']&&json['manager_appreoved']?"تمت الموافقة":
+" قيد الانتظار",
+rejectNote: json['rej_reason']??'',
+note: json['note']??'',
     );
   }
 }

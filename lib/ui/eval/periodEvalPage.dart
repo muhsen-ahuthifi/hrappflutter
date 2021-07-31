@@ -1,25 +1,26 @@
-//employeeTermEvalPage.dart EmployeeTermEvalPanal
+
 import 'package:flutter/material.dart';
+import 'package:hrapp/ui/eval/recivedHistoryEvalPage.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
 import 'package:hrapp/util/app_url.dart';
-import '../../model/eval/emp_term_eval_panal.dart';
+import '../../model/eval/emp_period_eval_panal.dart';
 import '../../services/smartApiService.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
 
 
-class EmployeeTermEvalPage extends StatefulWidget {
- const EmployeeTermEvalPage({Key key}) : super(key: key);
+class PeriodEvalPage extends StatefulWidget {
+ const PeriodEvalPage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _EmployeeTermEvalPageState();
+    return _PeriodEvalPageState();
   }
 }
-class _EmployeeTermEvalPageState extends State<EmployeeTermEvalPage> {
-ApiListResults<EmployeeTermEvalPanal> response;
+class _PeriodEvalPageState extends State<PeriodEvalPage> {
+ApiListResults<PeriodEvalPanal> response;
 
 Future _getData() {
-   return fetchPanelData(AppUrl.EmployeeTermEvalPanal,(row)=>new EmployeeTermEvalPanal.fromJson(row))
+   return fetchPanelData(AppUrl.PeriodEvalPanal,(row)=>new PeriodEvalPanal.fromJson(row))
   .then((_response) {
       if (mounted) {
     setState(() {
@@ -50,7 +51,7 @@ return RefreshIndicator(
           return  errorView(response.message);
 
           }
-          List<EmployeeTermEvalPanal> data = response.data;
+          List<PeriodEvalPanal> data = response.data;
           if(data.length==0){
           return  noResultViewView();
           }else{
@@ -65,7 +66,7 @@ return RefreshIndicator(
  
   }
 
-  ListView _smartListView(BuildContext context,List<EmployeeTermEvalPanal> data) {
+  ListView _smartListView(BuildContext context,List<PeriodEvalPanal> data) {
  
     return ListView.builder(
       
@@ -75,6 +76,9 @@ return RefreshIndicator(
         itemBuilder: (context, index) {
           return _ListRowView(data: data[index],
            callback: () {
+             final row=data[index];
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RecivedHistoryEvalPage(period_id:row.id,period_n: row.period )));
+
           // var dd=data[index];
          //  print(dd.monitortype);
           });
@@ -89,7 +93,7 @@ return RefreshIndicator(
 
 class _ListRowView extends StatelessWidget {
 
-  final EmployeeTermEvalPanal data;
+  final PeriodEvalPanal data;
 
   const _ListRowView({Key key, this.data,this.callback})
       : super(key: key);
@@ -146,7 +150,7 @@ class _ListRowView extends StatelessWidget {
                                               Container(
                                             width: 200,
                                             child: Text(
-                                                data.term,   
+                                                data.period,   
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w500,
@@ -167,7 +171,7 @@ class _ListRowView extends StatelessWidget {
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 2, bottom: 3),
                                                   child: Text(
-                                                    data.aspect,
+                                                    data.job,
                                                   
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
@@ -237,7 +241,7 @@ class _ListRowView extends StatelessWidget {
                                     padding: const EdgeInsets.all(4.0),
                                     child: CustomPaint(
                                       painter: CurvePainter(
-                                    
+                                      
                                           angle: 360*data.pg/100),
                                       child: SizedBox(
                                         width: 68,

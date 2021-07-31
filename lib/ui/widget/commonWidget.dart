@@ -10,17 +10,17 @@ loadingView()=> Center(child:CircularProgressIndicator());
 
   Widget noResultViewView() {
      
-     return Column(
+     return ListView( children:[ Center(child:Column(
         mainAxisAlignment: MainAxisAlignment.center,
          crossAxisAlignment: CrossAxisAlignment.center,
        children:[
-     Image.asset('res/img/ic_cup.png',alignment: Alignment.center),
-          ] 
+     Image.asset('res/img/bg_no_item_cactus.png',alignment: Alignment.center),
+          ] ))]
     );
   }
   Widget errorView(String msg) {
      
-     return Column(
+     return  ListView( children:[ Column(
        children:[
       Container(
     padding: EdgeInsets.symmetric(vertical: 15,horizontal: 15),
@@ -39,14 +39,14 @@ loadingView()=> Center(child:CircularProgressIndicator());
       child: Text( msg,style: TextStyle(fontSize: 16, color: Colors.white),
       ),
           ),] 
-    );
+    )]);
   }
 
 
 cardBoxDecoration()=>
  BoxDecoration(
-                  color: SmartAppTheme.cardBackground,
-                 
+                color: SmartAppTheme.cardBackground,
+              //   backgroundBlendMode: BlendMode.dstOver,
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(8.0),
                       bottomRight: Radius.circular(8.0),
@@ -56,15 +56,31 @@ cardBoxDecoration()=>
                     BoxShadow(
                         color: SmartAppTheme.grey.withOpacity(0.2),
                         offset: Offset(1.1, 1.1),
-                        blurRadius: 10.0),
+                        blurRadius: 5.0),
+                  ],
+                );
+
+cardFlatBoxDecoration()=>
+ BoxDecoration(
+                color: SmartAppTheme.cardBackground,
+              //   backgroundBlendMode: BlendMode.dstOver,
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(8.0),
+                      bottomRight: Radius.circular(8.0),
+                      bottomLeft: Radius.circular(8.0),
+                      topLeft: Radius.circular(8.0)),
+                  boxShadow:[
+                    BoxShadow(
+                        color: SmartAppTheme.grey.withOpacity(0.2),
+                        offset: Offset(1.1, 1.1),
+                        blurRadius: 2.0),
                   ],
                 );
 
 
 
-
-
 smartErrorToast(BuildContext context,String title,String msg)=> Flushbar( title: title,message:msg,duration: Duration(seconds: 3),backgroundColor: Colors.redAccent,).show(context);
+smartSuccessToast(BuildContext context,String title,String msg)=> Flushbar( title: title,message:msg,duration: Duration(seconds: 3),backgroundColor: Colors.blue,).show(context);
 
 
     smartConfirmDialog(BuildContext context,String title,String msg,Function okFn) {
@@ -86,7 +102,8 @@ class DialogOptions {
   String key;
   String label;
   bool checked;
-    DialogOptions({this.key, this.label,this.checked});
+   bool reject;
+    DialogOptions({this.key, this.label,this.checked,this.reject});
 
   }
 
@@ -108,13 +125,15 @@ class DialogOptions {
 }
 
 smartStateDialog(BuildContext context,String title,List<DialogOptions> options,final List<Widget> children) {
-    showDialog(
-      context: context,      
+    showModalBottomSheet(
+      context: context,  
+          
       builder: (context) => 
-      SimpleDialog(
-      title:Text(title),
+      ListView(
+        
+    //  title:Text(title),
      //  content:Text(msg,textAlign: TextAlign.center),
-     children:[...options.map((option) =>  ListTile(title:Text(option.label),leading: option.checked?const Icon(Icons.check_circle,color:Colors.blueGrey):const Icon(Icons.access_time,color: Colors.orange),)).toList(),...children],
+     children:[...options.map((option) =>  ListTile(title:Text(option.label),leading:option.reject?const Icon(Icons.close,color:Colors.red): option.checked?const Icon(Icons.check_circle,color:Colors.blue):const Icon(Icons.access_time,color: Colors.orange),)).toList(),...children],
 
       ),
     );
@@ -142,15 +161,41 @@ smartStateDialog(BuildContext context,String title,List<DialogOptions> options,f
     
 
   }
+
+smartOptionsBottomSheet(BuildContext context,String title,List<DialogOptions> options,Function(String key) callbackFn) {
+    showModalBottomSheet(
+      context: context,      
+      builder: (context) => 
+      ListView(
+     // title:Text(title),
+     //  content:Text(msg,textAlign: TextAlign.center),
+     children:options.map((option) =>  ListTile(title:Text(option.label),onTap:()=>Navigator.pop(context,option.key))).toList(),
+
+      ),
+    ).then((value) => {
+      if(value!=null){
+        callbackFn(value)
+      }
+    });
+}
 class CurvePainter extends CustomPainter {
   final double angle;
-  final List<Color> colors;
+  //final List<Color> colors;
 
-  CurvePainter({this.colors, this.angle = 140});
+  CurvePainter({ this.angle = 140});
 
   @override
   void paint(Canvas canvas, Size size) {
-   // List<Color> colorsList = [];
+   List<Color> colors = [
+                                             Colors.red,
+                                           
+                                           Colors.blue,
+                                             Colors.green,
+                                            // Color(0xFF8A98E8),
+                                            // Color(0xFF8A98E8),
+                                            // SmartAppTheme.nearlyDarkBlue
+
+                                          ];
     // if (colors = null) {
     //   colorsList = colors ?? [];
     // } else {
@@ -258,3 +303,6 @@ class CurvePainter extends CustomPainter {
     return redian;
   }
 }
+//,MainAxisAlignment mainAxisAlignment,CrossAxisAlignment crossAxisAlignment
+    //      MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
+    // CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,

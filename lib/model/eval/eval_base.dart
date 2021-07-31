@@ -11,6 +11,6 @@ abstract  class  BaseEvalPanal {
     final double pgw;
     final double weight;
 
-  BaseEvalPanal(this.id, this.department, this.emp, this.evaldoc, this.job, this.period, this.pg, this.pgw, this.weight);
+  BaseEvalPanal(this.id,  this.emp, this.department,this.evaldoc, this.job, this.period, this.pg, this.pgw, this.weight);
 
     }

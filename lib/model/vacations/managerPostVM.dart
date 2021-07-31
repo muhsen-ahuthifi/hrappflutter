@@ -4,3 +4,50 @@ class VactionApproveType {
   static const String Reject = "2";
 
 }
+
+class ManagerVacTransPostVM {
+  final int id;
+  final String monitortype;
+  final double period;
+    final double bal;
+    final String fromDate;
+    final String toDate;
+      final String spareEmp;
+      final String emp;
+
+      final bool appreoved;
+      // final bool manager_appreoved;
+      // final bool hr_appreoved;
+      // final String appreoveState;
+  //final String rejectNote;
+      final String note;
+
+  ManagerVacTransPostVM({this.id,this.monitortype,this.emp, this.spareEmp, this.bal, this.period,this.fromDate,this.toDate, this.appreoved, this.note});
+
+//   factory ManagerVacTransPostVM.fromJson(Map<String, dynamic> json) {
+//     return ManagerVacTransPostVM(
+//      // id: json['id'],
+//       id: json['id'],
+//             emp: json['n']??'',
+
+//       spareEmp: json['spare_emp']??'',
+//       monitortype: json['monitortype']??'',
+//       period: json['vdays'],
+//       bal: json['bal'],
+//       fromDate: json['fdate']??'',
+//       toDate: json['todate']??'',
+
+//       hr_appreoved:json['appreoved'],
+//       manager_appreoved:json['manager_appreoved'],
+//       appreoved:json['appreoved']&&json['manager_appreoved'],
+// appreoveState:json['appreoved']&&json['manager_appreoved']?"تمت الموافقة":
+// " قيد الانتظار",
+// rejectNote: json['rej_reason']??'',
+// note: json['note']??'',
+//     );
+//   }
+}
+
+
+
+

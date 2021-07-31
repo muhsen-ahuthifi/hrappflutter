@@ -2,36 +2,36 @@ class SparePermissionPanel {
  // final int id;
   final String monitortype;
   final double period;
-    final double bal;
+  //  final double bal;
     final String fromHour;
     final String toHour;
         final String atDate;
 
-  //    final String spareEmp;
+     final String note;
       final String emp;
+      final String manager;
 
-      final bool appreoved;
-      final bool manager_appreoved;
-      final bool hr_appreoved;
-      final String appreoveState;
+    //  final bool appreoved;
+   //   final bool manager_appreoved;
+   //  final bool hr_appreoved;
+     // final String appreoveState;
 
-  SparePermissionPanel({this.monitortype, this.emp, this.bal, this.period,this.atDate,this.fromHour,this.toHour,this.hr_appreoved, this.manager_appreoved, this.appreoved, this.appreoveState});
+  SparePermissionPanel({this.monitortype, this.emp,this.note,  this.period,this.atDate,this.fromHour,this.toHour, this.manager});
 
   factory SparePermissionPanel.fromJson(Map<String, dynamic> json) {
     return SparePermissionPanel(
-     // id: json['id'],
-      emp: json['available_after']??'',
-     // spareEmp: json['available_after'],
+     //  id: json['id'],
+      emp: json['n']??'',
       monitortype: json['monitortype']??'',
-      period: json['usedbal'],
-      bal: json['remainderbal'],
-      fromHour: json['available_after']??'',
-      toHour: json['available_after']??'',
-atDate: json['available_after']??'',
-      hr_appreoved:false,
-      manager_appreoved:false,
-      appreoved:true,
-appreoveState:"معتمد",
+      period: json['vdays'],
+    //  bal: json['bal'],
+      fromHour: json['fhour']??'',
+      toHour: json['tohour']??'',
+      atDate: json['fdate']??'',
+     // req_reject:json['req_reject'],
+      manager:json['manager']??'',
+     
+note: json['note']??'',
     );
   }
 }

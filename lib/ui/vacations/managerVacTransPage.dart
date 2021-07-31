@@ -3,41 +3,69 @@ import 'package:hrapp/model/vacations/managerPostVM.dart';
 import 'package:hrapp/model/vacations/manager_vactrans_panel.dart';
 import 'package:hrapp/model/vacations/vacationsPostVM.dart';
 import 'package:hrapp/ui/review/managerReviewPostPage.dart';
+import 'package:hrapp/ui/widget/commonVacTransWidget.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
 import 'package:hrapp/util/app_url.dart';
 import '../../services/smartApiService.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
 
-
-class ManagerVacTransPage extends StatelessWidget {
-    const ManagerVacTransPage({Key key}) : super(key: key);
+class ManagerVacTransPage extends StatefulWidget {
+ const ManagerVacTransPage({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<StatefulWidget> createState() {
+    return _ManagerVacTransPageState();
+  }
+}
+class _ManagerVacTransPageState extends State<ManagerVacTransPage> {
+ApiListResults<ManagerVacTransPanel> response;
 
-    return FutureBuilder<ApiListResults<ManagerVacTransPanel>>(
-      future:fetchPanelData(AppUrl.ManagerVacTransPanel,(row)=>new ManagerVacTransPanel.fromJson(row)),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-             if(!snapshot.data.success){
-          return  errorView(snapshot.data.message);
+Future _getData() {
+   return fetchPanelData(AppUrl.ManagerVacTransPanel,(row)=>new ManagerVacTransPanel.fromJson(row))
+  .then((_response) {
+       if (mounted) {
+    setState(() {
+      response = _response;
+    });
+}
+  });
+}
+
+@override
+void initState() {
+super.initState();
+  this._getData();
+}
+  @override
+  Widget build(BuildContext context) {
+return RefreshIndicator(
+    onRefresh: _getData,
+    child: getCurrentView(context));
+  
+  }
+
+  Widget getCurrentView(BuildContext context) {
+
+
+     if (response!=null) {
+          if(!response.success){
+          return  errorView(response.message);
 
           }
-          List<ManagerVacTransPanel> data = snapshot.data.data;
+          List<ManagerVacTransPanel> data = response.data;
           if(data.length==0){
           return  noResultViewView();
           }else{
           return _smartListView(context,data);
           }
-        } else if (snapshot.hasError) {
-          return  errorView(snapshot.error);
-        }
+          }
+        //  else if (snapshot.hasError) {
+        //   return  errorView(snapshot.error);
+        // }
          return loadingView();
       
-      },
-    );
+ 
   }
-
   ListView _smartListView(BuildContext context,List<ManagerVacTransPanel> data) {
  
     return ListView.builder(
@@ -54,9 +82,14 @@ class ManagerVacTransPage extends StatelessWidget {
               DialogOptions(key:VactionApproveType.Reject,label:'رفض')
 
              ],
-             (key)=>{
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => ManagerReviewPostPage(vm: data[index],postType:VactionPostType.Vacation,rejected: key==VactionApproveType.Reject)))
+             (key) async{
+               final row=data[index];
+                final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ManagerReviewPostPage(vm: ManagerVacTransPostVM(id: row.id,emp: row.emp,spareEmp: row.spareEmp,period: row.period,fromDate: row.fromDate,toDate: row.toDate,monitortype: row.monitortype,bal: row.bal,note: row.note,appreoved: key==VactionApproveType.Apporve),postType:VactionPostType.Vacation)));
           //  smartErrorToast(context, key, data[index].monitortype)
+          if(result!=null&&result){ 
+            smartSuccessToast(context,"الاعتماد","تمت العملية بنجاح");
+            _getData();
+          }
              });
           // var dd=data[index];
          //  print(dd.monitortype);
@@ -98,165 +131,25 @@ class _ListRowView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                right: 4, bottom: 8, top: 16),
-                            child: Text(
-                              data.monitortype,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                
-                                  fontFamily: SmartAppTheme.fontName,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  letterSpacing: -0.1,
-                                  color: SmartAppTheme.darkText),
-                            ),
-                          ),
+                               
+                         smartVacTypeTitle(data.monitortype),
+                          SizedBox(height:5),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 4, bottom: 3),
-                                    child: Text(
-                                      data.period.toString(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: SmartAppTheme.fontName,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 32,
-                                        color: SmartAppTheme.nearlyDarkBlue,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 8, bottom: 8),
-                                    child: Text(
-                                      'يوم',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: SmartAppTheme.fontName,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18,
-                                        letterSpacing: -0.2,
-                                        color: SmartAppTheme.nearlyDarkBlue,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      data.appreoved?
-                                      Icon(Icons.thumb_up, color: Colors.blueGrey,size: 30)
-                                      : Icon(Icons.access_time, color: Colors.orange,size: 30),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 4, bottom: 14),
-                                    child: Text(
-                                      data.appreoveState,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: SmartAppTheme.fontName,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12,
-                                        letterSpacing: 0.0,
-                                        color: SmartAppTheme.nearlyDarkBlue,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
+                         
+                              smartBadgTitle("يوم",data.period.toString()),
+                             smartVacTransState(data.appreoved,false,data.appreoveState),
+
+                           
                             ],
                           ),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                              children:[ 
-                             
-                         Padding(
-                            padding: const EdgeInsets.only(left:4,right: 4, bottom: 8),
-                            child: Text(
-                              data.emp,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: SmartAppTheme.fontName,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  letterSpacing: -0.1,
-                                  color: SmartAppTheme.lightText),
-                            ),
+                            smartVacSubTitle('الموظف',data.emp),
+                            SizedBox(height:6),
+                            smartVacSubTitle('المناوب',data.spareEmp),
+
                          
-                      ),
-                         Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 2, bottom: 8),
-                                    child: Text(
-                                      'الموظف',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: SmartAppTheme.fontName,
-                                        fontWeight: FontWeight.w500,
-                                         fontSize: 12,
-                                        letterSpacing: -0.2,
-                                        color: SmartAppTheme.nearlyDarkBlue,
-                                      ),
-                                    ),
-                                  ),
-                                
-                      ],
-                      ),
-                          Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                              children:[ 
-                         Padding(
-                            padding: const EdgeInsets.only(left:4,right: 4, bottom: 2),
-                            child: Text(
-                              data.spareEmp,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: SmartAppTheme.fontName,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  letterSpacing: -0.1,
-                                  color: SmartAppTheme.lightText),
-                            ),
-                         
-                      ),
-                         Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 2, bottom: 2),
-                                    child: Text(
-                                      ' المناوب',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: SmartAppTheme.fontName,
-                                        fontWeight: FontWeight.w500,
-                                         fontSize: 12,
-                                        letterSpacing: -0.2,
-                                        color: SmartAppTheme.nearlyDarkBlue,
-                                      ),
-                                    ),
-                                  ),
-                                
-                      ],
-                      )
-                       
                         ],
                       ),
                     ),
@@ -278,116 +171,11 @@ class _ListRowView extends StatelessWidget {
                           left: 24, right: 24, top: 8, bottom: 16),
                       child: Row(
                         children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  data.fromDate.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontFamily: SmartAppTheme.fontName,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    letterSpacing: -0.2,
-                                    color: SmartAppTheme.darkText,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 6),
-                                  child: Text(
-                                    'من تاريخ',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: SmartAppTheme.fontName,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color:
-                                          SmartAppTheme.grey.withOpacity(0.5),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      data.toDate.toString(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: SmartAppTheme.fontName,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        letterSpacing: -0.2,
-                                        color: SmartAppTheme.darkText,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Text(
-                                        'الى تاريخ',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: SmartAppTheme.fontName,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: SmartAppTheme.grey
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text(
-                                      data.bal.toString(),
-                                      style: TextStyle(
-                                        fontFamily: SmartAppTheme.fontName,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        letterSpacing: -0.2,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Text(
-                                        'الرصيد',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: SmartAppTheme.fontName,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: SmartAppTheme.grey
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
+                        smartBadgLabel( 'من تاريخ',data.fromDate.toString(),CrossAxisAlignment.start),
+                         smartBadgLabel('الى تاريخ',data.toDate.toString(),CrossAxisAlignment.center),
+                         smartBadgLabel('الرصيد',data.bal.toString(),CrossAxisAlignment.end),
+                         
+                        
                         ],
                       ),
                     )

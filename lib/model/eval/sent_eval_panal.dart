@@ -16,12 +16,12 @@ class SentEvalPanal  extends BaseEvalPanal{
  // SentEvalPanal({this.id, this.emp, this.department, this.job, this.evaldoc,this.period,this.pg,this.pgw,this.weight});
 
   SentEvalPanal({int id, String emp, String department, String job, String evaldoc,String period,double pg,double pgw,double weight})
-: super(id, emp, department, job, evaldoc,period,pg,pgw,weight);
+: super(id, emp, department, evaldoc,job,period,pg,pgw,weight);
   factory SentEvalPanal.fromJson(Map<String, dynamic> json) {
     return SentEvalPanal(
       id: json['id'],
-     emp: json['emp']??'',
-      department: json['department']??'',
+     emp: json['n']??'',
+      department: json['evaldepartment']??'',
       evaldoc: json['evaldoc']??'',
       job: json['job']??'',
       period: json['period']??'',

@@ -185,10 +185,13 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
 
   Map<String, dynamic> _getFormData() {
     return <String, dynamic>{
-      'fromdate': this._fromDateInputValue.text,
-      'todate': this._toDateInputValue.text,
-      'note': this._noteInput.text,
-      'spare_emp': this._sparEmpInputValue.toJson(),
+      'StartDate': this._fromDateInputValue.text,
+      'EndDate': this._toDateInputValue.text,
+      'Trans_Remark': this._noteInput.text,
+      'Employee_IdSpare': this._sparEmpInputValue.id,
+      'MonitorType_Id': this.vm.id,
+
+      
     };
   }
 
@@ -242,9 +245,11 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
           );
 
           if (pickedDate != null) {
+           // 'yyyy-MM-dd HH:mm'
+            final DateTime formatedTimeValue = DateTime(now.year,now.month,now.day,pickedDate.hour,pickedDate.minute);
             String formattedDate = pickedDate.format(context);
             setState(() {
-              valueInput.text = formattedDate;
+              valueInput.text = DateFormat('yyyy-MM-dd HH:mm').format(formatedTimeValue);
               dateInput.text =formattedDate; //set output date to TextField value.
             });
           }

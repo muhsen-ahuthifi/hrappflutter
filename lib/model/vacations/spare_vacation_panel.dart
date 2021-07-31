@@ -2,34 +2,38 @@ class SpareVacationPanel {
  // final int id;
   final String monitortype;
   final double period;
-    final double bal;
+    //final double bal;
     final String fromDate;
     final String toDate;
     //  final String spareEmp;
       final String emp;
 
-      final bool appreoved;
-      final bool manager_appreoved;
-      final bool hr_appreoved;
-      final String appreoveState;
+      // final bool appreoved;
+      // final bool manager_appreoved;
+      // final bool hr_appreoved;
+      // final String appreoveState;
+      final String note;
+      final String manager;
 
-  SpareVacationPanel({this.monitortype,this.emp, this.bal, this.period,this.fromDate,this.toDate,this.hr_appreoved, this.manager_appreoved, this.appreoved, this.appreoveState});
+
+
+
+    SpareVacationPanel({this.monitortype, this.emp,this.note,  this.period,this.fromDate,this.toDate, this.manager});
 
   factory SpareVacationPanel.fromJson(Map<String, dynamic> json) {
     return SpareVacationPanel(
-     // id: json['id'],
-    emp: json['monitortype'],
-
+     //  id: json['id'],
+      emp: json['n']??'',
       monitortype: json['monitortype']??'',
-      period: json['usedbal']??'',
-      bal: json['remainderbal']??'',
-      fromDate: json['available_after']??'',
-      toDate: json['available_after']??'',
-
-      hr_appreoved:false,
-      manager_appreoved:false,
-      appreoved:false,
-appreoveState:"قيد الانتظار",
+      period: json['vdays'],
+    //  bal: json['bal'],
+       fromDate: json['fdate']??'',
+      toDate: json['todate']??'',
+     
+     // req_reject:json['req_reject'],
+      manager:json['manager']??'',
+     
+note: json['note']??'',
     );
   }
 }

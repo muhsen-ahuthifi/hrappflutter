@@ -6,37 +6,63 @@ import 'package:hrapp/util/app_url.dart';
 import '../../model/eval/recived_eval_panal.dart';
 import '../../services/smartApiService.dart';
 
-class  RecivedEvalPage extends StatelessWidget {
-    const  RecivedEvalPage({Key key}) : super(key: key);
-
-
+class RecivedEvalPage extends StatefulWidget {
+ const RecivedEvalPage({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<StatefulWidget> createState() {
+    return _RecivedEvalPageState();
+  }
+}
+class _RecivedEvalPageState extends State<RecivedEvalPage> {
+ApiListResults<RecivedEvalPanal> response;
 
-    return FutureBuilder<ApiListResults< RecivedEvalPanal>>(
-      future:fetchPanelData(AppUrl. RecivedEvalPanal,(row)=>new  RecivedEvalPanal.fromJson(row)),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-            if(!snapshot.data.success){
-          return  errorView(snapshot.data.message);
+Future _getData() {
+   return fetchPanelData(AppUrl.RecivedEvalPanal,(row)=>new RecivedEvalPanal.fromJson(row))
+  .then((_response) {
+    if (mounted) {
+    setState(() {
+      response = _response;
+    });
+}
+  });
+}
+
+@override
+void initState() {
+super.initState();
+  this._getData();
+}
+  @override
+  Widget build(BuildContext context) {
+return RefreshIndicator(
+    onRefresh: _getData,
+    child: getCurrentView(context));
+  
+  }
+
+  Widget getCurrentView(BuildContext context) {
+
+
+     if (response!=null) {
+          if(!response.success){
+          return  errorView(response.message);
 
           }
-          List< RecivedEvalPanal> data = snapshot.data.data;
-        if(data.length==0){
+          List<RecivedEvalPanal> data = response.data;
+          if(data.length==0){
           return  noResultViewView();
           }else{
           return _smartListView(context,data);
           }
-        } else if (snapshot.hasError) {
-          return  errorView(snapshot.error);
-        }
+          }
+        //  else if (snapshot.hasError) {
+        //   return  errorView(snapshot.error);
+        // }
          return loadingView();
       
-      },
-    );
+ 
   }
-
   ListView _smartListView(BuildContext context,List< RecivedEvalPanal> data) {
  
     return ListView.builder(
@@ -100,7 +126,7 @@ class _ListRowView extends StatelessWidget {
                                         height: 48,
                                         width: 2,
                                         decoration: BoxDecoration(
-                                          color: Color(4287078629)
+                                          color: Color(0xFFF56E98)
                                               .withOpacity(0.5),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(4.0)),
@@ -118,7 +144,7 @@ class _ListRowView extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   left: 4, bottom: 2),
                                               child: Text(
-                                                data.emp,                                             
+                                                data.evaldoc,                                             
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w500,
@@ -138,15 +164,19 @@ class _ListRowView extends StatelessWidget {
      
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 2, bottom: 3),
-                                                  child: Text(
-                                                    data.department,
-                                                    textAlign: TextAlign.center,
+                                                  child: 
+                                                  Container(
+                                                 width: 200,
+                                                 child:
+                                                  Text(
+                                                    data.period,
+                                                    textAlign: TextAlign.start,
                                                     style: TextStyle(
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                       color: SmartAppTheme.darkerText,
                                                     ),
-                                                  ),
+                                                  )),
                                                 ),
                                           
                                               ],
@@ -159,71 +189,7 @@ class _ListRowView extends StatelessWidget {
                                   SizedBox(
                                     height: 8,
                                   ),
-                                  Row(
-                                    children: <Widget>[
-                                      Container(
-                                        height: 48,
-                                        width: 2,
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFF56E98)
-                                              .withOpacity(0.5),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4.0)),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(6.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 0, bottom: 2),
-                                              child: Text(
-                                                data.period,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                   //fontFamily:
-                                                    //  SmartAppTheme.fontName,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 11,
-                                                  letterSpacing: -0.1,
-                                                  color: SmartAppTheme.grey
-                                                      .withOpacity(0.5),
-                                                ),
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: <Widget>[
-                                         
-                                                Padding(
-                                                  padding:
-                                                 const EdgeInsets.only(left: 2, bottom: 3),
-                                                  child: Text(
-                                                   data.evaldoc,
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 14,
-                                                      color: SmartAppTheme.darkerText,
-                                                    ),
-                                                  ),
-                                                ),
-                                            
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  )
+                              
                                 ],
                               ),
                             ),
@@ -274,12 +240,7 @@ class _ListRowView extends StatelessWidget {
                                     padding: const EdgeInsets.all(4.0),
                                     child: CustomPaint(
                                       painter: CurvePainter(
-                                          colors: [
-                                            Color(0xFF8A98E8),
-                                            Color(0xFF8A98E8),
-                                            SmartAppTheme.nearlyDarkBlue
-
-                                          ],
+                                     
                                           angle: 360*data.pg/100),
                                       child: SizedBox(
                                         width: 68,

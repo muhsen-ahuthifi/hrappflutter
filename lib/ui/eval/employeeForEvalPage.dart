@@ -6,36 +6,64 @@ import '../../services/smartApiService.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
 
 
-
-class EmployeeForEvalPage extends StatelessWidget {
-    const EmployeeForEvalPage({Key key}) : super(key: key);
-
-
+class EmployeeForEvalPage extends StatefulWidget {
+ const EmployeeForEvalPage({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<StatefulWidget> createState() {
+    return _EmployeeForEvalPageState();
+  }
+}
+class _EmployeeForEvalPageState extends State<EmployeeForEvalPage> {
+ApiListResults<EmployeeForEvalPanel> response;
 
-    return FutureBuilder<ApiListResults<EmployeeForEvalPanel>>(
-      future:fetchPanelData(AppUrl.EmployeeForEvalPanel,(row)=>new EmployeeForEvalPanel.fromJson(row)),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-            if(!snapshot.data.success){
-          return  errorView(snapshot.data.message);
+Future _getData() {
+   return fetchPanelData(AppUrl.EmployeeForEvalPanel,(row)=>new EmployeeForEvalPanel.fromJson(row))
+  .then((_response) {
+
+           if (mounted) {
+    setState(() {
+      response = _response;
+    });
+}
+    //
+  });
+}
+
+@override
+void initState() {
+super.initState();
+  this._getData();
+}
+  @override
+  Widget build(BuildContext context) {
+return RefreshIndicator(
+    onRefresh: _getData,
+    child: getCurrentView(context));
+  
+  }
+
+  Widget getCurrentView(BuildContext context) {
+
+
+     if (response!=null) {
+          if(!response.success){
+          return  errorView(response.message);
 
           }
-          List<EmployeeForEvalPanel> data = snapshot.data.data;
-        if(data.length==0){
+          List<EmployeeForEvalPanel> data = response.data;
+          if(data.length==0){
           return  noResultViewView();
           }else{
           return _smartListView(context,data);
           }
-        } else if (snapshot.hasError) {
-          return  errorView(snapshot.error);
-        }
+          }
+        //  else if (snapshot.hasError) {
+        //   return  errorView(snapshot.error);
+        // }
          return loadingView();
       
-      },
-    );
+ 
   }
 
   ListView _smartListView(BuildContext context,List<EmployeeForEvalPanel> data) {
@@ -272,12 +300,7 @@ class _ListRowView extends StatelessWidget {
                                     padding: const EdgeInsets.all(4.0),
                                     child: CustomPaint(
                                       painter: CurvePainter(
-                                          colors: [
-                                            Color(0xFF8A98E8),
-                                            Color(0xFF8A98E8),
-                                            SmartAppTheme.nearlyDarkBlue
-
-                                          ],
+                                      
                                           angle: 360*data.pg/100),
                                       child: SizedBox(
                                         width: 68,

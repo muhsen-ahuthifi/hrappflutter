@@ -1,7 +1,5 @@
-
-
 class ManagerVacTransPanel {
- // final int id;
+  final int id;
   final String monitortype;
   final double period;
     final double bal;
@@ -14,25 +12,31 @@ class ManagerVacTransPanel {
       final bool manager_appreoved;
       final bool hr_appreoved;
       final String appreoveState;
+  final String rejectNote;
+      final String note;
 
-  ManagerVacTransPanel({this.monitortype,this.emp, this.spareEmp, this.bal, this.period,this.fromDate,this.toDate,this.hr_appreoved, this.manager_appreoved, this.appreoved, this.appreoveState});
+  ManagerVacTransPanel({this.id,this.monitortype,this.emp, this.spareEmp, this.bal, this.period,this.fromDate,this.toDate,this.hr_appreoved, this.manager_appreoved, this.appreoved, this.appreoveState,this.rejectNote,this.note});
 
   factory ManagerVacTransPanel.fromJson(Map<String, dynamic> json) {
     return ManagerVacTransPanel(
      // id: json['id'],
-    emp: json['monitortype'],
+      id: json['id'],
+            emp: json['n']??'',
 
-      spareEmp: json['available_after']??'',
+      spareEmp: json['spare_emp']??'',
       monitortype: json['monitortype']??'',
-      period: json['usedbal'],
-      bal: json['remainderbal'],
-      fromDate: json['available_after']??'',
-      toDate: json['available_after']??'',
+      period: json['vdays'],
+      bal: json['bal'],
+      fromDate: json['fdate']??'',
+      toDate: json['todate']??'',
 
-      hr_appreoved:false,
-      manager_appreoved:false,
-      appreoved:false,
-appreoveState:"قيد الانتظار",
+      hr_appreoved:json['appreoved'],
+      manager_appreoved:json['manager_appreoved'],
+      appreoved:json['appreoved']&&json['manager_appreoved'],
+appreoveState:json['appreoved']&&json['manager_appreoved']?"تمت الموافقة":
+" قيد الانتظار",
+rejectNote: json['rej_reason']??'',
+note: json['note']??'',
     );
   }
 }

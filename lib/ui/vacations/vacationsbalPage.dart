@@ -1,42 +1,70 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:hrapp/model/vacations/vacationsPostVM.dart';
 import 'package:hrapp/ui/vacations/vacationsPostPage.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
+import 'package:hrapp/ui/widget/commonVacTransWidget.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
 import 'package:hrapp/util/app_url.dart';
 import '../../model/vacations_bal.dart';
 import '../../services/smartApiService.dart';
 
 //VacationsPostPage
-class VacationsBalPage extends StatelessWidget {
-    const VacationsBalPage({Key key}) : super(key: key);
+class VacationsBalPage extends StatefulWidget {
+      const VacationsBalPage({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<StatefulWidget> createState() {
+    return _VacationsBalPageState();
+  }
+}
+class _VacationsBalPageState extends State<VacationsBalPage> {
+ApiListResults<VacationsBal> response;
 
-    return FutureBuilder<ApiListResults<VacationsBal>>(
-      future:fetchPanelData(AppUrl.VacationsBal,(row)=>new VacationsBal.fromJson(row)),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          if(!snapshot.data.success){
-         return  errorView(snapshot.data.message);
+Future _getData() {
+   return fetchPanelData(AppUrl.VacationsBal,(row)=>new VacationsBal.fromJson(row))
+  .then((_response) {
+     if (mounted) {
+    setState(() {
+      response = _response;
+    });
+}
+  });
+}
+
+@override
+void initState() {
+super.initState();
+  this._getData();
+}
+  @override
+  Widget build(BuildContext context) {
+return RefreshIndicator(
+    onRefresh: _getData,
+    child: getCurrentView(context));
+  
+  }
+
+  Widget getCurrentView(BuildContext context) {
+
+
+     if (response!=null) {
+          if(!response.success){
+          return  errorView(response.message);
 
           }
-          List<VacationsBal> data = snapshot.data.data;
+          List<VacationsBal> data = response.data;
           if(data.length==0){
           return  noResultViewView();
           }else{
           return _smartListView(context,data);
           }
-        } else if (snapshot.hasError) {
-          return  errorView(snapshot.error);
-        }
+          }
+        //  else if (snapshot.hasError) {
+        //   return  errorView(snapshot.error);
+        // }
          return loadingView();
       
-      },
-    );
+ 
   }
 
   ListView _smartListView(BuildContext context,List<VacationsBal> data) {
@@ -56,10 +84,15 @@ class VacationsBalPage extends StatelessWidget {
               DialogOptions(key:VactionPostType.Permission,label:'طلب اجازة ساعية')
 
              ],
-             (key)=>{
+             (key) async{
 
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => VacationsPostPage(vm: data[index],postType:key)))
+                final result = await   Navigator.push(context, MaterialPageRoute(builder: (context) => VacationsPostPage(vm: data[index],postType:key)));
+           if(result!=null&&result){
+                smartSuccessToast(context,"الاجازات","تمت العملية بنجاح");
+            _getData();
+          }
           //  smartErrorToast(context, key, data[index].monitortype)
+
              });
              }
              else{
@@ -110,57 +143,17 @@ class _ListRowView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                right: 4, bottom: 8, top: 16),
-                            child: Text(
-                              data.monitortype,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  letterSpacing: -0.1,
-                                  color: SmartAppTheme.darkText),
-                            ),
-                          ),
+                       
+                         smartVacTypeTitle(data.monitortype),
+                          SizedBox(height:5),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 4, bottom: 3),
-                                    child: Text(
-                                      data.remainderbal.toString(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 32,
-                                        color: SmartAppTheme.nearlyDarkBlue,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 8, bottom: 8),
-                                    child: Text(
-                                      'يوم',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18,
-                                        letterSpacing: -0.2,
-                                        color: SmartAppTheme.nearlyDarkBlue,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
+                           
+                           smartBadgTitle("يوم",data.remainderbal.toString()),
+
+                            Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
@@ -217,114 +210,14 @@ class _ListRowView extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 24, right: 24, top: 8, bottom: 16),
+                      padding: const EdgeInsets.only( left: 24, right: 24, top: 8, bottom: 16),
                       child: Row(
                         children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  data.begbal.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    letterSpacing: -0.2,
-                                    color: SmartAppTheme.darkText,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 6),
-                                  child: Text(
-                                    'افتتاحي',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color:
-                                          SmartAppTheme.grey.withOpacity(0.5),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      data.usedbal.toString(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        letterSpacing: -0.2,
-                                        color: SmartAppTheme.darkText,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Text(
-                                        'مستخدم',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: SmartAppTheme.grey
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text(
-                                      data.remainderbal.toString(),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        letterSpacing: -0.2,
-                                        color: SmartAppTheme.darkText,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Text(
-                                        'متبقي',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: SmartAppTheme.grey
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
+                
+                        smartBadgLabel('افتتاحي',data.begbal.toString(),CrossAxisAlignment.start),
+                         smartBadgLabel('مستخدم',data.usedbal.toString(),CrossAxisAlignment.center),
+                         smartBadgLabel('متبقي',data.remainderbal.toString(),CrossAxisAlignment.end),
+                         
                         ],
                       ),
                     )

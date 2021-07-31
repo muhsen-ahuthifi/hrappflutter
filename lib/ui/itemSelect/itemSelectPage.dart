@@ -54,6 +54,7 @@ class _ItemSelectPageState extends State<ItemSelectPage> {
                 delegate: _delegate,
               );
               if (selected != null) {
+                 Navigator.pop(context,selected);
                 // ScaffoldMessenger.of(context).showSnackBar(
                 //   SnackBar(
                 //     content: Text('You have selected the word: $selected'),

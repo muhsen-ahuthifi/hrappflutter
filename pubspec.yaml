@@ -33,6 +33,7 @@ dependencies:
   http: ^0.12.1
   shared_preferences: ^0.5.8
   flushbar: ^1.10.4
+  status_change: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

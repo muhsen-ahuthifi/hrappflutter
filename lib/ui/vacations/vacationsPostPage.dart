@@ -19,13 +19,13 @@ class VacationsPostPage extends StatefulWidget {
 
   @override
   _VacationsPostPageState createState() =>
-      _VacationsPostPageState(vm: this.vm, postType: this.postType);
+      _VacationsPostPageState();
 }
 
 class _VacationsPostPageState extends State<VacationsPostPage> {
-  _VacationsPostPageState({@required this.vm, @required this.postType});
-  final VacationsBal vm;
-  final String postType;
+  // _VacationsPostPageState({@required this.vm, @required this.postType});
+  // final VacationsBal vm;
+  // final String postType;
 
   final formKey = new GlobalKey<FormState>();
 
@@ -51,7 +51,7 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
   @override
   Widget build(BuildContext context) {
     //final height = MediaQuery.of(context).size.height;
-    final isTimePost = this.postType == VactionPostType.Permission;
+    final isTimePost = this.widget.postType == VactionPostType.Permission;
     return Scaffold(
       backgroundColor: SmartAppTheme.white,
       body: Container(
@@ -77,7 +77,7 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
                     color:
                         isTimePost ? Colors.orange : SmartAppTheme.colorPrimary,
                   ),
-                  Text(this.vm.monitortype, style: SmartAppTheme.title),
+                  Text(this.widget.vm.monitortype, style: SmartAppTheme.title),
                   const SizedBox(height: 5),
 
                   Text(isTimePost ? "اجازة ساعية" : "اجازة يومية",
@@ -169,7 +169,7 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
       _reset(resetControllers: false);
       setState(() => this._pending = true);
 
-      final String url = this.postType == VactionPostType.Permission
+      final String url = this.widget.postType == VactionPostType.Permission
           ? AppUrl.PermissionTransPost
           : AppUrl.VacationTransPost;
 
@@ -189,7 +189,7 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
       'EndDate': this._toDateInputValue.text,
       'Trans_Remark': this._noteInput.text,
       'Employee_IdSpare': this._sparEmpInputValue.id,
-      'MonitorType_Id': this.vm.id,
+      'MonitorType_Id': this.widget.vm.id,
 
       
     };

@@ -85,7 +85,7 @@ return RefreshIndicator(
              (key) async{
                final row=data[index];
                 final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ManagerReviewPostPage(vm: ManagerVacTransPostVM(id: row.id,emp: row.emp,spareEmp: row.spareEmp,period: row.period,fromDate: row.fromDate,toDate: row.toDate,monitortype: row.monitortype,bal: row.bal,note: row.note,appreoved: key==VactionApproveType.Apporve),postType:VactionPostType.Vacation)));
-          //  smartErrorToast(context, key, data[index].monitortype)
+          //         Navigator.pop(context, true); smartErrorToast(context, key, data[index].monitortype)
           if(result!=null&&result){ 
             smartSuccessToast(context,"الاعتماد","تمت العملية بنجاح");
             _getData();

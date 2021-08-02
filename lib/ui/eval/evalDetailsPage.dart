@@ -11,18 +11,18 @@ class EvalDetailsPage extends StatefulWidget {
   final BaseEvalPanal vm;
   @override
   State<StatefulWidget> createState() {
-    return _EvalDetailsPageState(vm:this.vm);
+    return _EvalDetailsPageState();
   }
 }
 class _EvalDetailsPageState extends State<EvalDetailsPage> {
-    _EvalDetailsPageState({@required this.vm});
+ //   _EvalDetailsPageState({@required this.vm});
 
-  final BaseEvalPanal vm;
+  //final BaseEvalPanal vm;
   ApiListResults<EmployeeTermEvalPanal> response;
   double topBarOpacity = 1.0;
 
 Future _getData() {
-   return fetchPanelData(AppUrl.EvalPostDetilsPanal+"?evalemp=127&&evalpost="+this.vm.id.toString(),(row)=>new EmployeeTermEvalPanal.fromJson(row))
+   return fetchPanelData(AppUrl.EvalPostDetilsPanal+"?evalemp=127&&evalpost="+widget.vm.id.toString(),(row)=>new EmployeeTermEvalPanal.fromJson(row))
   .then((_response) {
        if (mounted) {
     setState(() {
@@ -172,7 +172,7 @@ Widget getAppBarUI() {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                 this.vm.emp,
+                                 widget.vm.emp,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,

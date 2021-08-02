@@ -1,4 +1,6 @@
 class AppUrl {
+    static const bool devMode = true;
+
   static const String liveBaseURL = "https://sps.alaman.org/ar/api";
  // static const String localBaseURL = "http://10.0.2.2:4000/api/v1";
 //https://sps.alaman.org/ar/api/
@@ -37,7 +39,9 @@ class AppUrl {
 
    static const String SentEvalPanal= baseURL + "/SentEvalPanal?emp=127"; 
     static const String RecivedEvalPanal= baseURL + "/RecivedEvalPanal?evalemp=127"; 
-    static const String EmployeeForEvalPanel= baseURL + "/EmployeeForEvalPanel?emp=127"; 
+   // static const String EmployeeForEvalPanel= baseURL + "/EmployeeForEvalPanel?emp=127"; 
+        static const String EmployeeForEvalPanel= baseURL + "/SentEvalPanal?emp=127"; 
+
     static const String EmployeeTermEvalPanal= baseURL + "/EmployeeTermEvalPanal?evalemp=127"; 
 
     static const String EvalPostDetilsPanal= baseURL + "/EmployeeTermEvalPanal"; 
@@ -47,7 +51,9 @@ class AppUrl {
 
       static const String EmployeeFilter= baseURL + "/EmployeeFilter"; 
 
-  
+      static const String DocumentTermForEval= baseURL + "/EvalDocumentTermForEval"; 
+      static const String EvalPosts= baseURL + "/EvalPosts"; 
+
   
   
 }

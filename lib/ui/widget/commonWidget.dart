@@ -107,7 +107,7 @@ class DialogOptions {
 
   }
 
-    smartOptionsDialog(BuildContext context,String title,List<DialogOptions> options,Function(String key) callbackFn) {
+  void  smartOptionsDialog(BuildContext context,String title,List<DialogOptions> options,Function(String key) callbackFn) {
     showDialog(
       context: context,      
       builder: (context) => 

@@ -13,21 +13,21 @@ class RecivedHistoryEvalPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _RecivedHistoryEvalPageState(period_id:this.period_id,period_n:period_n);
+    return _RecivedHistoryEvalPageState();
   }
 }
 
 class _RecivedHistoryEvalPageState extends State<RecivedHistoryEvalPage> {
-  _RecivedHistoryEvalPageState({@required this.period_id,@required this.period_n});
+  //_RecivedHistoryEvalPageState({@required this.period_id,@required this.period_n});
 
 ApiListResults<RecivedEvalPanal> response;
-  final int period_id;
-  final String period_n;
+  // final int period_id;
+  // final String period_n;
 
   double topBarOpacity = 1.0;
 
 Future _getData() {
-   return fetchPanelData(AppUrl.RecivedHistoryEvalPanal+"?period="+this.period_id.toString(),(row)=>new RecivedEvalPanal.fromJson(row))
+   return fetchPanelData(AppUrl.RecivedHistoryEvalPanal+"?period="+widget.period_id.toString(),(row)=>new RecivedEvalPanal.fromJson(row))
   .then((_response) {
     if (mounted) {
     setState(() {
@@ -160,7 +160,7 @@ Widget getAppBarUI() {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                 this.period_n,
+                                 widget.period_n,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,

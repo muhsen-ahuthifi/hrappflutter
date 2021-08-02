@@ -6,18 +6,6 @@ import 'package:hrapp/ui/widget/AppTheme.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
 import 'package:hrapp/ui/widget/formFields.dart';
 import 'package:hrapp/util/app_url.dart';
-// import 'package:hrapp/model/ManagerReview/ManagerReviewPostVM.dart';
-
-// class ManagerReviewPostPage extends StatefulWidget {
-//   const ManagerReviewPostPage({Key key,@required this.vm,@required this.postType,@required this.rejected}) : super(key: key);
-
-//   final dynamic vm;
-//   final String postType;
-//   final bool rejected;
-
-//   @override
-//   _ManagerReviewPostPageState createState() => _ManagerReviewPostPageState(vm: this.vm,postType:this.postType,rejected:this.rejected);
-// }
 
 
 class ManagerReviewPostPage extends StatefulWidget {
@@ -29,13 +17,13 @@ class ManagerReviewPostPage extends StatefulWidget {
  //final bool rejected;
   @override
   _ManagerReviewPostPageState createState() =>
-      _ManagerReviewPostPageState(vm: this.vm, postType: this.postType);
+      _ManagerReviewPostPageState();
 }
 
 class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
-  _ManagerReviewPostPageState({@required this.vm, @required this.postType});
-  final ManagerVacTransPostVM vm;
-  final String postType;
+  // _ManagerReviewPostPageState({});
+  // final ManagerVacTransPostVM vm;
+  // final String postType;
 
   final formKey = new GlobalKey<FormState>();
 
@@ -59,10 +47,10 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
   //       this._fromDateInput.text = this.vm.fromDate; //set the initial value of text field
   //       this._toDateInput.text = this.vm.toDate;
     _reset();
-      this._sparEmpInput.text = this.vm.spareEmp;
-        this._empInput.text= this.vm.emp;
-        this._fromDateInput.text = this.vm.fromDate; //set the initial value of text field
-        this._toDateInput.text  = this.vm.toDate;
+      this._sparEmpInput.text = widget.vm.spareEmp;
+        this._empInput.text= widget.vm.emp;
+        this._fromDateInput.text = widget.vm.fromDate; //set the initial value of text field
+        this._toDateInput.text  = widget.vm.toDate;
         // this._fromDateInputValue.text = "";
         // this._toDateInputValue.text = "";
 
@@ -71,7 +59,7 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
   @override
   Widget build(BuildContext context) {
     //final height = MediaQuery.of(context).size.height;
-    final isTimePost = this.postType == VactionPostType.Permission;
+    final isTimePost = widget.postType == VactionPostType.Permission;
     return Scaffold(
       backgroundColor: SmartAppTheme.white,
       body: Container(
@@ -97,7 +85,7 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
                     color:
                         isTimePost ? Colors.orange : SmartAppTheme.colorPrimary,
                   ),
-                  Text(this.vm.monitortype, style: SmartAppTheme.title),
+                  Text(widget.vm.monitortype, style: SmartAppTheme.title),
                   const SizedBox(height: 5),
 
                   Text(isTimePost ? "اجازة ساعية" : "اجازة يومية",
@@ -106,12 +94,12 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
                   //  const Divider(),
                   const SizedBox(height: 10),
                   isTimePost
-                      ? smartTimeInput(this._fromDateInput,"من الساعة", this.vm.fromDate)
-                      : smartDateInput(this._fromDateInput,"من تاريخ", this.vm.fromDate),
+                      ? smartTimeInput(this._fromDateInput,"من الساعة", widget.vm.fromDate)
+                      : smartDateInput(this._fromDateInput,"من تاريخ", widget.vm.fromDate),
                   const SizedBox(height: 10),
                   isTimePost
-                      ? smartTimeInput(this._toDateInput,"الى الساعة", this.vm.toDate)
-                      : smartDateInput(this._toDateInput,  "الى تاريخ", this.vm.toDate),
+                      ? smartTimeInput(this._toDateInput,"الى الساعة", widget.vm.toDate)
+                      : smartDateInput(this._toDateInput,  "الى تاريخ", widget.vm.toDate),
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: this._empInput,
@@ -194,7 +182,7 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
       _reset(resetControllers: false);
       setState(() => this._pending = true);
 
-      final String url = this.postType == VactionPostType.Permission
+      final String url = widget.postType == VactionPostType.Permission
           ? AppUrl.ManagerPermissionTransPost
           : AppUrl.ManagerVacationTransPost;
 
@@ -210,10 +198,10 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
 
   Map<String, dynamic> _getFormData() {
     return <String, dynamic>{
-      'Id': this.vm.id,
+      'Id': widget.vm.id,
       // 'EndDate': this._toDateInputValue.text,
       'RejectReason': this._noteInput.text,
-      'RejectReq': this.vm.appreoved?0:1,
+      'RejectReq': widget.vm.appreoved?0:1,
       // 'MonitorType_Id': this.vm.id,
 
       

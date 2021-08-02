@@ -5,6 +5,8 @@ import '../../model/eval/emp_for_eval_panal.dart';
 import '../../services/smartApiService.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
 
+import 'evalFormPage.dart';
+
 
 class EmployeeForEvalPage extends StatefulWidget {
  const EmployeeForEvalPage({Key key}) : super(key: key);
@@ -75,7 +77,14 @@ return RefreshIndicator(
            padding: EdgeInsets.only( left:4,right: 4,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
         itemBuilder: (context, index) {
           return _ListRowView(data: data[index],
-           callback: () {
+           callback: () async {
+                 //      Navigator.push(context, MaterialPageRoute(builder: (context) => EvalFormPage(vm: data[index])));
+         final row=data[index];
+                final result = await  Navigator.push(context, MaterialPageRoute(builder: (context) => EvalFormPage(vm: row)));
+           if(result!=null&&result){
+            smartSuccessToast(context,"التقييم","تمت العملية بنجاح");
+            _getData();
+          }
           // var dd=data[index];
          //  print(dd.monitortype);
           });

@@ -76,7 +76,7 @@ return RefreshIndicator(
            padding: EdgeInsets.only( left:16,right: 16,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
         itemBuilder: (context, index) {
           return _ListRowView(data: data[index],
-           callback: () {
+           callback: () async {
              if(data[index].allowHourTrans){
             smartOptionsDialog(context,data[index].monitortype,
              [
@@ -96,7 +96,11 @@ return RefreshIndicator(
              });
              }
              else{
-          Navigator.push(context, MaterialPageRoute(builder: (context) => VacationsPostPage(vm: data[index],postType:VactionPostType.Vacation)));
+         final result = await     Navigator.push(context, MaterialPageRoute(builder: (context) => VacationsPostPage(vm: data[index],postType:VactionPostType.Vacation)));
+                if(result!=null&&result){
+                smartSuccessToast(context,"الاجازات","تمت العملية بنجاح");
+            _getData();
+          }
              }
             
           // var dd=data[index];

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb;
+// import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hrapp/providers/auth.dart';
@@ -26,7 +26,8 @@ class SmartApp extends StatelessWidget {
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
       statusBarBrightness:
-          !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
+         // !kIsWeb && 
+          Platform.isAndroid ? Brightness.dark : Brightness.light,
       systemNavigationBarColor: Colors.white,
       systemNavigationBarDividerColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark,
@@ -38,6 +39,7 @@ class SmartApp extends StatelessWidget {
       ],
       child: MaterialApp(
       title: 'HR',
+      
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
     GlobalCupertinoLocalizations.delegate,
@@ -52,7 +54,7 @@ class SmartApp extends StatelessWidget {
       theme: ThemeData(
             textTheme: SmartAppTheme.textTheme,
             fontFamily: 'Tajawal Regular',
-       //platform: TargetPlatform.iOS,
+     // platform: TargetPlatform.iOS,
 
         // This is the theme of your application.
         //

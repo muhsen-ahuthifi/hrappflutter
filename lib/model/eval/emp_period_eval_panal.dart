@@ -8,12 +8,14 @@ class PeriodEvalPanal {
    final String period;
 
     final double pg;
+      final int eval_count;
+
   
-  PeriodEvalPanal({this.id, this.period, this.job, this.pg});
+  PeriodEvalPanal({this.id, this.period, this.job, this.pg,this.eval_count});
 
   factory PeriodEvalPanal.fromJson(Map<String, dynamic> json) {
     return PeriodEvalPanal(
-      id: json['id']??0,
+      id: json['period_id']??0,
   //   period: json['n']??'',
     //  aspect: json['aspect']??'',
      // evaldoc: json['evaldoc']??'',
@@ -21,8 +23,9 @@ class PeriodEvalPanal {
     period: json['n']??'',
 
      // aspect_pg:json['aspect_pg'],
-      pg: json['pg'],
-    
+      pg: json['pg']??0,
+          eval_count: json['child_count']??0,
+
 
       
     );

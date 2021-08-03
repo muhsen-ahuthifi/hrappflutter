@@ -37,12 +37,12 @@ class AppUrl {
   //  static const String SparePermissionPanel= baseURL + "/VacationsBalPanel"; 
    // static const String ManagerPermissionPanel= baseURL + "/VacationsBalPanel"; 
 
-   static const String SentEvalPanal= baseURL + "/SentEvalPanal?emp=127"; 
-    static const String RecivedEvalPanal= baseURL + "/RecivedEvalPanal?evalemp=127"; 
+   static const String SentEvalPanal= baseURL + "/SentEvalPanal";//?emp=127 
+    static const String RecivedEvalPanal= baseURL + "/RecivedEvalPanal";//?evalemp=127; 
    // static const String EmployeeForEvalPanel= baseURL + "/EmployeeForEvalPanel?emp=127"; 
-        static const String EmployeeForEvalPanel= baseURL + "/SentEvalPanal?emp=127"; 
+        static const String EmployeeForEvalPanel= baseURL + "/EmployeeForEvalPanel"; //?emp=127
 
-    static const String EmployeeTermEvalPanal= baseURL + "/EmployeeTermEvalPanal?evalemp=127"; 
+    static const String EmployeeTermEvalPanal= baseURL + "/EmployeeTermEvalPanal"; //?evalemp=127
 
     static const String EvalPostDetilsPanal= baseURL + "/EmployeeTermEvalPanal"; 
 
@@ -52,7 +52,7 @@ class AppUrl {
       static const String EmployeeFilter= baseURL + "/EmployeeFilter"; 
 
       static const String DocumentTermForEval= baseURL + "/EvalDocumentTermForEval"; 
-      static const String EvalPosts= baseURL + "/EvalPosts"; 
+      static const String EvalPosts= baseURL + "/EvalPostsSyncSimple"; 
 
   
   

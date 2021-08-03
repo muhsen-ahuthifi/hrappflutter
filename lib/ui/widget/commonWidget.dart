@@ -186,10 +186,26 @@ class CurvePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-   List<Color> colors = [
-                                             Colors.red,
+    
+   List<Color> colors =
+   this.angle<=180?[
+  Colors.red,
+  Colors.red,
+   ]:
+    this.angle<=260?[
+  Colors.yellow,
+    Colors.yellow,
+
+   ]:
+    this.angle<=320?[
+  Colors.blue,
+    Colors.blue,
+
+   ]:
+    [
                                            
-                                           Colors.blue,
+                                            Colors.green,
+                                        //   Colors.blue,
                                              Colors.green,
                                             // Color(0xFF8A98E8),
                                             // Color(0xFF8A98E8),

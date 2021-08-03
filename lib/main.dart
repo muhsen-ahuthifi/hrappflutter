@@ -11,7 +11,7 @@ import 'package:hrapp/ui/widget/AppTheme.dart';
 import 'package:hrapp/util/shared_preference.dart';
 import 'package:provider/provider.dart';
 import 'model/user.dart';
-import 'ui/splash/splashPage.dart';
+// import 'ui/splash/splashPage.dart';
 
 void main() {
   runApp(SmartApp());
@@ -38,7 +38,7 @@ class SmartApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MaterialApp(
-      title: 'HR',
+      title: 'Alaman_HR',
       
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
@@ -111,7 +111,7 @@ class SmartApp extends StatelessWidget {
               }
               ),
             routes: {
-            '/splash': (context) => SplashPage(),
+           // '/splash': (context) => SplashPage(),
             '/login': (context) => LoginPage(),
             '/apps': (context) => AppsPage(),
           }

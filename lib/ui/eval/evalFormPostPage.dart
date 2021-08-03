@@ -44,7 +44,12 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
   @override
   Widget build(BuildContext context) {
     //final height = MediaQuery.of(context).size.height;
-   
+    double evalPg=0;
+   this.widget.termsGroup.values.forEach((element) {
+     element.forEach((row) {
+       evalPg+=row.getEvalPercentAge();
+     });
+   });
     return Scaffold(
       backgroundColor: SmartAppTheme.white,
       body: Container(
@@ -63,13 +68,71 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
                 children: [
                   //  navBackButton(context),
                   const SizedBox(height: 40),
-                  Image.asset(
-                    'res/img/ic_cup.png',
-                    alignment: Alignment.center,
-                    height: 100,
-                    color:
-                       Colors.orange 
-                  ),
+                     Padding(
+                            padding: const EdgeInsets.only(left: 0),
+                            child: Center(
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: SmartAppTheme.white,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(60.0),
+                                        ),
+                                        border: new Border.all(
+                                            width: 3,
+                                            color: SmartAppTheme.nearlyDarkBlue
+                                                .withOpacity(0.2)),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            '${(evalPg.toInt())}%',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 16,
+                                              letterSpacing: 0.0,
+                                              color: SmartAppTheme.nearlyDarkBlue,
+                                            ),
+                                          ),
+               
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: CustomPaint(
+                                      painter: CurvePainter(
+                                     
+                                          angle: 360*evalPg/100),
+                                      child: SizedBox(
+                                        width: 68,
+                                        height: 68,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                  // Image.asset(
+                  //   'res/img/ic_cup.png',
+                  //   alignment: Alignment.center,
+                  //   height: 100,
+                  //   color:
+                  //      Colors.orange 
+                  // ),
                   Text(this.widget.vm.emp, style: SmartAppTheme.title),
                   const SizedBox(height: 5),
 
@@ -158,13 +221,27 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
   }
 
   Map<String, dynamic> _getFormData() {
+   //print(json.encode(this.widget.termsGroup.values.reduce((value, element) => value+element)));
     return <String, dynamic>{
-       'advice': this._adviceInputValue.text,
-       'strongth': this._strongthInputValue.text,
-      'weakness': this._weaknessInput.text,
-
-     // 'Employee_IdSpare': this._sparEmpInputValue.id,
-     // 'MonitorType_Id': this.vm.id,
+ 
+      'transaction':{
+          'MoreInfo': this._adviceInputValue.text,
+       'Strongth': this._strongthInputValue.text,
+      'Weakness': this._weaknessInput.text,
+      'EvalDocument_Id':this.widget.vm.evaldoc_id,
+      'Job_Id':this.widget.vm.job_id,
+      'Period_Id':this.widget.vm.period_id,
+        'Department_Id':this.widget.vm.department_id,
+        'EvalCycle_Id':this.widget.vm.evalcycle_id,
+        'Weight':this.widget.vm.weight,
+        'Id':this.widget.vm.id,
+        'Code':0,
+        'DescendantEmp_Id': this.widget.vm.descendantEmp_Id,
+      'Employee_Id': this.widget.vm.emp_id,
+      },
+         
+      'details':this.widget.termsGroup.values.reduce((value, element) => value+element),
+    
 
       
     };

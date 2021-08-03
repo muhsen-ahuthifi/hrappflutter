@@ -426,6 +426,7 @@ final DocumentTermForEval option;
 class __ListRowViewState extends State<_ListRowView> {
   @override
   Widget build(BuildContext context) {
+    
     return 
          Padding(
           
@@ -491,7 +492,7 @@ Divider(),
    roundedButtonStyle(bool active)=>
   ButtonStyle(
             elevation:MaterialStateProperty.all(2.0),
-                   minimumSize:MaterialStateProperty.all(Size(56,56)) ,
+                   minimumSize:MaterialStateProperty.all(Size(52,52)) ,
         foregroundColor: MaterialStateProperty.all<Color>(SmartAppTheme.white),
         backgroundColor: MaterialStateProperty.all<Color>(active?SmartAppTheme.colorPrimary:SmartAppTheme.white),
         shape: MaterialStateProperty.all<CircleBorder>( CircleBorder()),

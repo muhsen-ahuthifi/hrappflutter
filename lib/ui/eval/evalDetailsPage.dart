@@ -22,7 +22,7 @@ class _EvalDetailsPageState extends State<EvalDetailsPage> {
   double topBarOpacity = 1.0;
 
 Future _getData() {
-   return fetchPanelData(AppUrl.EvalPostDetilsPanal+"?evalemp=127&&evalpost="+widget.vm.id.toString(),(row)=>new EmployeeTermEvalPanal.fromJson(row))
+   return fetchPanelData(AppUrl.EvalPostDetilsPanal+"?evalpost="+widget.vm.id.toString(),(row)=>new EmployeeTermEvalPanal.fromJson(row))
   .then((_response) {
        if (mounted) {
     setState(() {
@@ -37,24 +37,7 @@ void initState() {
 super.initState();
   this._getData();
 }
-  // @override
-  // Widget build(BuildContext context) {
 
-  //  // return 
-  //     return Scaffold(
-  //      backgroundColor: SmartAppTheme.background,
-  //      appBar: AppBar(
-  //          title:  Text( this.vm.emp, style: SmartAppTheme.title),
-  //          backgroundColor: SmartAppTheme.white,
-  //        //  elevation: 0,
-  //           iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
-  //      ),
-  //       body: RefreshIndicator(
-  //   onRefresh: _getData,
-  //   child: getCurrentView(context))
-   
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
 // return RefreshIndicator(

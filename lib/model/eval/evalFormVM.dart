@@ -36,4 +36,20 @@ class DocumentTermForEval {
       
     );
   }
+
+    Map<String, dynamic> toJson() {
+    return {
+     // 'id': this.id,
+      'DocEvalTerm_Id': this.docterm_id,
+     // 'evalpg': this.evalpg,
+     'EvalValue': this.evalvalue,
+      'Weight': this.weight,
+     
+    };
+  }
+
+      double getEvalPercentAge()
+       {
+           return (this.evalvalue??0 * this.weight??0) / 5;
+       }
 }

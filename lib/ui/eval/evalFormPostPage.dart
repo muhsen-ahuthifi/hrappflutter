@@ -99,6 +99,7 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
                                             '${(evalPg.toInt())}%',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
+                                               fontFamily: SmartAppTheme.fontName,
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16,
                                               letterSpacing: 0.0,

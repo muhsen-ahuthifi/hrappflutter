@@ -98,7 +98,13 @@ class _ListRowView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-        return   InkWell(
+        return  Semantics(
+      label: data.getAriaLabel(),
+      value: data.getAriaValue(),
+      excludeSemantics: true,
+      link: true,
+      onTap: callback,
+   child: InkWell(
                 splashColor: Colors.transparent,
                 onTap: callback,
             child: Padding(
@@ -149,6 +155,7 @@ class _ListRowView extends StatelessWidget {
                                                 data.term,   
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(
+                                                   fontFamily: SmartAppTheme.fontName,
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 14,
                                                   letterSpacing: -0.1,
@@ -171,6 +178,7 @@ class _ListRowView extends StatelessWidget {
                                                   
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
+                                                       fontFamily: SmartAppTheme.fontName,
                                                       fontWeight: FontWeight.w600,
                                                       fontSize: 12,
                                                       color: SmartAppTheme.darkerText,
@@ -222,6 +230,7 @@ class _ListRowView extends StatelessWidget {
                                             '${(data.pg.toInt())}%',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
+                                               fontFamily: SmartAppTheme.fontName,
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16,
                                               letterSpacing: 0.0,
@@ -259,7 +268,7 @@ class _ListRowView extends StatelessWidget {
               ),
             ),
           
-        );
+        ));
       
     
   }

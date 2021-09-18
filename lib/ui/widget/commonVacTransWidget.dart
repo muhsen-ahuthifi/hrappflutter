@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'AppTheme.dart';
 smartBadgLabel(String title,String val,CrossAxisAlignment crossAxisAlignment)=>
  Expanded(
-                            child:      Column(
+                            child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment:crossAxisAlignment ,
                          
@@ -11,6 +11,7 @@ smartBadgLabel(String title,String val,CrossAxisAlignment crossAxisAlignment)=>
                                     Text(
                                       val,
                                       style: TextStyle(
+                                         fontFamily:SmartAppTheme.fontName ,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
                                         letterSpacing: -0.2,
@@ -23,6 +24,7 @@ smartBadgLabel(String title,String val,CrossAxisAlignment crossAxisAlignment)=>
                                        title,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
+                                           fontFamily:SmartAppTheme.fontName ,
                                           fontWeight: FontWeight.w500,
                                           fontSize: 12,
                                           color: SmartAppTheme.grey
@@ -47,6 +49,7 @@ smartBadgTitle(String title,String val)=>
                                       val,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
+                                         fontFamily:SmartAppTheme.fontName ,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 32,
                                         color: SmartAppTheme.colorPrimary,
@@ -60,6 +63,7 @@ smartBadgTitle(String title,String val)=>
                                       title,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
+                                         fontFamily:SmartAppTheme.fontName ,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
                                         letterSpacing: -0.2,
@@ -94,6 +98,7 @@ smartBadgTitle(String title,String val)=>
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
+                                        fontFamily:SmartAppTheme.fontName ,
                                         fontSize: 12,
                                         letterSpacing: 0.0,
                                         color: SmartAppTheme.nearlyDarkBlue,
@@ -116,6 +121,7 @@ smartBadgTitle(String title,String val)=>
                               val,
                               textAlign: TextAlign.center,
                               style: TextStyle(
+                                 fontFamily:SmartAppTheme.fontName ,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
                                   letterSpacing: -0.1,
@@ -130,6 +136,7 @@ smartBadgTitle(String title,String val)=>
                                       title,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
+                                         fontFamily:SmartAppTheme.fontName ,
                                         fontWeight: FontWeight.w500,
                                          fontSize: 12,
                                         letterSpacing: -0.2,
@@ -171,6 +178,7 @@ smartBadgTitle(String title,String val)=>
                                                 val,                                             
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
+                                                   fontFamily:SmartAppTheme.fontName ,
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 18,
                                                   letterSpacing: -0.1,

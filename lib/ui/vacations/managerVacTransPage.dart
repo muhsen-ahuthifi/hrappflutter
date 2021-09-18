@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/model/vacations/managerPostVM.dart';
 import 'package:hrapp/model/vacations/manager_vactrans_panel.dart';
@@ -76,28 +77,60 @@ return RefreshIndicator(
         itemBuilder: (context, index) {
           return _ListRowView(data: data[index],
            callback: () {
-              smartOptionsDialog(context,data[index].monitortype,
-             [
-              DialogOptions(key:VactionApproveType.Apporve,label:'موافقة'),
-              DialogOptions(key:VactionApproveType.Reject,label:'رفض')
+                 showCupertinoModalPopup<void>(
+              context: context,
+              builder: (BuildContext context) => CupertinoActionSheet(
+                title: const Text('اختيار نوع الاجراء'),
+                  cancelButton: CupertinoActionSheetAction(
+                    child: const Text('الغاء'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+              // message: const Text('Message'),
+                actions: <CupertinoActionSheetAction>[
+                  CupertinoActionSheetAction(
+                    
+                    child: const Text('موافقة'),
+                    onPressed: () {
+                       openVacApproveForm(key:VactionApproveType.Apporve,row:data[index]);
+                      
+                    },
+                  ),
+                  CupertinoActionSheetAction(
+                    child: const Text('رفض'),
+                    onPressed: () {
+                         openVacApproveForm(key:VactionApproveType.Reject,row:data[index]);
+                    },
+                  )
+                ],
+              ),
+            );
+         
+          //     smartOptionsDialog(context,data[index].monitortype,
+          //    [
+          //     DialogOptions(key:VactionApproveType.Apporve,label:'موافقة'),
+          //     DialogOptions(key:VactionApproveType.Reject,label:'رفض')
 
-             ],
-             (key) async{
-               final row=data[index];
-                final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ManagerReviewPostPage(vm: ManagerVacTransPostVM(id: row.id,emp: row.emp,spareEmp: row.spareEmp,period: row.period,fromDate: row.fromDate,toDate: row.toDate,monitortype: row.monitortype,bal: row.bal,note: row.note,appreoved: key==VactionApproveType.Apporve),postType:VactionPostType.Vacation)));
-          //         Navigator.pop(context, true); smartErrorToast(context, key, data[index].monitortype)
-          if(result!=null&&result){ 
-            smartSuccessToast(context,"الاعتماد","تمت العملية بنجاح");
-            _getData();
-          }
-             });
+          //    ],
+          //    (key) async{
+          // openVacApproveForm(key: key,row:data[index]);
+          //    }
+          //    );
           // var dd=data[index];
          //  print(dd.monitortype);
           });
         });
   }
 
-
+   openVacApproveForm({key:String,row}) async{
+       Navigator.pop(context);
+                final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ManagerReviewPostPage(vm: ManagerVacTransPostVM(id: row.id,emp: row.emp,spareEmp: row.spareEmp,period: row.period,fromDate: row.fromDate,toDate: row.toDate,monitortype: row.monitortype,bal: row.bal,note: row.note,appreoved: key==VactionApproveType.Apporve),postType:VactionPostType.Vacation)));
+            if(result!=null&&result){
+            smartSuccessToast(context,"الاعتماد","تمت العملية بنجاح");
+            _getData();
+          }
+ }
 }
 
 
@@ -113,6 +146,14 @@ class _ListRowView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
+    Semantics(
+      label: data.getAriaLabel(),
+     value: data.getAriaValue(),
+
+      excludeSemantics: true,
+      link: true,
+      onTap: callback,
+   child:
      InkWell(
                 splashColor: Colors.transparent,
                 onTap: callback,
@@ -182,6 +223,6 @@ class _ListRowView extends StatelessWidget {
                   ],
                 ),
                 ),
-              );
+              ));
   }
 }

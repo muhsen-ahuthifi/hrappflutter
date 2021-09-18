@@ -9,6 +9,12 @@ class VacationsBal {
     final double previousbal;
     final double begbal;
     final bool allowHourTrans;
+ String getAriaLabel(){
+return this.monitortype;
+}
+ String getAriaValue(){
+return this.monitortype;
+}
 
   VacationsBal({this.id,this.allowHourTrans,this.monitortype, this.availableafter, this.remainderbal, this.usedbal,this.previousbal,this.begbal});
 

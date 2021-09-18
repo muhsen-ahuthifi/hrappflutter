@@ -163,6 +163,7 @@ Widget getAppBarUI() {
                                  widget.period_n,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
+                                     fontFamily: SmartAppTheme.fontName,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 16 + 6 - 6 * topBarOpacity,
                                     letterSpacing: 1.2,
@@ -202,7 +203,16 @@ class _ListRowView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-        return   InkWell(
+        return 
+        Semantics(
+      label: data.getAriaLabel(),
+            value: data.getAriaValue(),
+
+      excludeSemantics: true,
+      link: true,
+      onTap: callback,
+   child:
+          InkWell(
                splashColor: Colors.transparent,
                 onTap: callback,
    
@@ -251,6 +261,7 @@ class _ListRowView extends StatelessWidget {
                                                 data.evaldoc,                                             
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
+                                                   fontFamily: SmartAppTheme.fontName,
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 14,
                                                   letterSpacing: -0.1,
@@ -276,6 +287,7 @@ class _ListRowView extends StatelessWidget {
                                                     data.period,
                                                     textAlign: TextAlign.start,
                                                     style: TextStyle(
+                                                       fontFamily: SmartAppTheme.fontName,
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,
                                                       color: SmartAppTheme.darkerText,
@@ -329,6 +341,7 @@ class _ListRowView extends StatelessWidget {
                                             '${(data.pg.toInt())}%',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
+                                               fontFamily: SmartAppTheme.fontName,
                                               fontWeight: FontWeight.normal,
                                               fontSize: 16,
                                               letterSpacing: 0.0,
@@ -384,6 +397,7 @@ class _ListRowView extends StatelessWidget {
                                   'الوزن',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
+                                     fontFamily: SmartAppTheme.fontName,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     letterSpacing: -0.2,
@@ -426,7 +440,7 @@ class _ListRowView extends StatelessWidget {
                                     data.weight.toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                       //fontFamily: SmartAppTheme.fontName,
+                                       fontFamily: SmartAppTheme.fontName,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12,
                                       color:
@@ -450,6 +464,7 @@ class _ListRowView extends StatelessWidget {
                                     Text(
                                       'الدرجة المحققة',
                                       style: TextStyle(
+                                         fontFamily: SmartAppTheme.fontName,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14,
                                         letterSpacing: -0.2,
@@ -495,6 +510,7 @@ class _ListRowView extends StatelessWidget {
                                         data.pgw.toString(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
+                                           fontFamily: SmartAppTheme.fontName,
                                           fontWeight: FontWeight.w600,
                                           fontSize: 12,
                                           color: SmartAppTheme.grey
@@ -515,7 +531,7 @@ class _ListRowView extends StatelessWidget {
               ),
             ),
             
-        );
+        ));
       
     
   }

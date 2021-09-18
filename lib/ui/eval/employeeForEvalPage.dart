@@ -108,7 +108,14 @@ class _ListRowView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-        return   InkWell(
+        return Semantics(
+      label: data.getAriaLabel(),
+       value: data.getAriaValue(),
+
+      excludeSemantics: true,
+      link: true,
+      onTap: callback,
+   child:  InkWell(
                 splashColor: Colors.transparent,
                 onTap: callback,
             child: Padding(
@@ -156,6 +163,7 @@ class _ListRowView extends StatelessWidget {
                                                 data.emp,                                             
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
+                                                   fontFamily: SmartAppTheme.fontName,
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 14,
                                                   letterSpacing: -0.1,
@@ -177,6 +185,7 @@ class _ListRowView extends StatelessWidget {
                                                     data.department,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
+                                                       fontFamily: SmartAppTheme.fontName,
                                                       fontWeight: FontWeight.w600,
                                                       fontSize: 12,
                                                       color: SmartAppTheme.darkerText,
@@ -221,6 +230,7 @@ class _ListRowView extends StatelessWidget {
                                                 data.period,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
+                                                   fontFamily: SmartAppTheme.fontName,
                                                    //fontFamily:
                                                     //  SmartAppTheme.fontName,
                                                   fontWeight: FontWeight.w500,
@@ -245,6 +255,7 @@ class _ListRowView extends StatelessWidget {
                                                    data.evaldoc,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
+                                                       fontFamily: SmartAppTheme.fontName,
                                                       fontWeight: FontWeight.w600,
                                                       fontSize: 14,
                                                       color: SmartAppTheme.darkerText,
@@ -292,6 +303,7 @@ class _ListRowView extends StatelessWidget {
                                   'الوزن',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
+                                     fontFamily: SmartAppTheme.fontName,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     letterSpacing: -0.2,
@@ -334,7 +346,7 @@ class _ListRowView extends StatelessWidget {
                                     data.weight.toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                       //fontFamily: SmartAppTheme.fontName,
+                                       fontFamily: SmartAppTheme.fontName,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12,
                                       color:
@@ -355,7 +367,7 @@ class _ListRowView extends StatelessWidget {
               ),
             ),
           
-        );
+        ));
       
     
   }

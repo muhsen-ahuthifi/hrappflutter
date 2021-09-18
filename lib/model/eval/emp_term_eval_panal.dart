@@ -12,13 +12,19 @@ class EmployeeTermEvalPanal {
     final double weight;
     final double aspect_pg;
 
+ String getAriaLabel(){
+return ' $term. , $aspect.' ;
+}
+ String getAriaValue(){
+ return 'النسبة: $pg %. , الوزن: $weight %. الدرجة المحققة: $pgw %.';
+}
   EmployeeTermEvalPanal({this.id, this.term, this.aspect, this.aspect_pg,this.pg,this.pgw,this.weight});
 
   factory EmployeeTermEvalPanal.fromJson(Map<String, dynamic> json) {
     return EmployeeTermEvalPanal(
       id: json['aspect_id']??0,
-     term: json['n']??'',
-      aspect: json['aspect']??'',
+     term: json['n']??'غير محدد',
+      aspect: json['aspect']??'غير محدد',
      // evaldoc: json['evaldoc']??'',
      // job: json['job']??'',
     //  period: json['period']??'',

@@ -218,6 +218,7 @@ final dataIndex=_processIndex+1;
                     //  _steps[index],
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                         fontFamily: SmartAppTheme.fontName,
                         color: getColor(index),
                       ),
                     ),
@@ -368,7 +369,7 @@ mainAxisAlignment: MainAxisAlignment.center,
               
             widget.title,
              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.orange),
+              style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.orange, fontFamily: SmartAppTheme.fontName,),
             )
              )
             ]
@@ -439,7 +440,7 @@ class __ListRowViewState extends State<_ListRowView> {
                         children: <Widget>[
                                 
                        Text(widget.option.name.toString(), 
-                       style:  TextStyle(color: widget.option.evalvalue>0?Colors.black:Colors.red,fontSize: 18), ),
+                       style:  TextStyle(color: widget.option.evalvalue>0?Colors.black:Colors.red,fontSize: 18, fontFamily: SmartAppTheme.fontName,), ),
                           SizedBox(height:10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -452,7 +453,7 @@ class __ListRowViewState extends State<_ListRowView> {
 
       ),
       ElevatedButton(
-      child: Text( "2", style:  TextStyle(color: widget.option.evalvalue==2?Colors.white:Colors.black), ),
+      child: Text( "2", style:  TextStyle(color: widget.option.evalvalue==2?Colors.white:Colors.black,), ),
       style: roundedButtonStyle(widget.option.evalvalue==2),
    onPressed:()=> setState(() { widget.option.evalvalue=2; }),
 

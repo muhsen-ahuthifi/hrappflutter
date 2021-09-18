@@ -1,30 +1,24 @@
 import 'eval_base.dart';
 
 class SentEvalPanal  extends BaseEvalPanal{
-  // final int id;
-  // final String department;
-  // final String emp;
-  // final String evaldoc;
 
-  //   final String job;
-  //   final String period;
 
-  //   final double pg;
-  //   final double pgw;
-  //   final double weight;
-
- // SentEvalPanal({this.id, this.emp, this.department, this.job, this.evaldoc,this.period,this.pg,this.pgw,this.weight});
-
+ String getAriaLabel(){
+return ' تقييم الموظف: $emp. , القسم: $department. , الوظفية: $job. ,الفترة: $period. , نموذج التقييم : $evaldoc.' ;
+}
+ String getAriaValue(){
+ return 'النسبة: $pg %. , الوزن: $weight %. الدرجة المحققة: $pgw %.';
+}
   SentEvalPanal({int id, String emp, String department, String job, String evaldoc,String period,double pg,double pgw,double weight})
 : super(id, emp, department, evaldoc,job,period,pg,pgw,weight);
   factory SentEvalPanal.fromJson(Map<String, dynamic> json) {
     return SentEvalPanal(
       id: json['id'],
-     emp: json['n']??'',
-      department: json['evaldepartment']??'',
-      evaldoc: json['evaldoc']??'',
-      job: json['job']??'',
-      period: json['period']??'',
+     emp: json['n']??'غير محدد',
+      department: json['evaldepartment']??'غير محدد',
+      evaldoc: json['evaldoc']??'غير محدد',
+      job: json['job']??'غير محدد ',
+      period: json['period']??'غير محدد',
 
       
       pg: json['pg'],

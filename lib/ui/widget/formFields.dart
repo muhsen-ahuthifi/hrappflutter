@@ -11,9 +11,11 @@ import 'package:hrapp/ui/widget/AppTheme.dart';
           TextFormField(
               obscureText: isPassword,
                validator: validatorFn,
+               style: SmartAppTheme.defaultTextStyle,
                onSaved: onSaveFn,//(value) => _password = value,
               decoration: InputDecoration(
                   border: UnderlineInputBorder(),
+                  
                   //fillColor: Color(0xfff3f3f4),
                     labelText: title,
                   filled: false))
@@ -44,7 +46,7 @@ import 'package:hrapp/ui/widget/AppTheme.dart';
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [Colors.lightBlue.shade700, Colors.lightBlue.shade700])),
-      child: Text( title,style: TextStyle(fontSize: 16, color: Colors.white),
+      child: Text( title,style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: SmartAppTheme.fontName),
       ),
           ),
     );
@@ -55,7 +57,7 @@ Widget smartLoadingButton(String title)=>  Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         CircularProgressIndicator(),
-        Text(" ... يرجى الانتظار")
+        Text(" ... يرجى الانتظار",style: TextStyle(fontSize: 14, color: Colors.white,fontWeight: FontWeight.w500,fontFamily: SmartAppTheme.fontName))
       ],
     );
 
@@ -64,11 +66,12 @@ Widget smartLoadingButton(String title)=>  Row(
               padding: const EdgeInsets.all(1.0),
               child: ElevatedButton(
                 
-                child:Text( title,style: TextStyle(fontSize: 14, color: Colors.white,fontWeight: FontWeight.w500)),
+                child:Text( title,style: TextStyle(fontSize: 14, color: Colors.white,fontWeight: FontWeight.w500,fontFamily: SmartAppTheme.fontName)),
                 onPressed: fun,
                 
               //  elevation: 4.0, MediaQuery.of(context).size.width
                  style: ButtonStyle(
+                   
                   // padding: MaterialStateProperty.all(EdgeInsets.only(left:20.0,right:20)),
                    elevation:MaterialStateProperty.all(0.0),
                    minimumSize:MaterialStateProperty.all(Size(200,52)) ,

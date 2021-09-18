@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // import 'colorUtlit.dart';
@@ -37,7 +38,27 @@ class SmartAppTheme {
     caption: caption,
     
   );
-
+   static const CupertinoTextThemeData cupertinoTextTheme = CupertinoTextThemeData(
+    // headline4:  display1,
+    // headline5: headline,
+    // headline6: title,
+    // subtitle2: subtitle,
+    // bodyText2: body2,
+    // bodyText1: body1,
+    // caption: caption,
+    textStyle: defaultIosTextStype,
+    //actionTextStyle: defaultIosTextStype,
+   // navActionTextStyle: defaultIosTextStype,
+    
+    //navTitleTextStyle: 
+  );
+  static const TextStyle defaultIosTextStype = TextStyle(
+    // color: Color.fromRGBO(0, 0, 0, 1),
+    // fontSize: 14,
+    // fontStyle: FontStyle.normal,
+    // fontWeight: FontWeight.normal,
+      fontFamily: fontName,
+  );
   static const TextStyle display1 = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
@@ -46,7 +67,10 @@ class SmartAppTheme {
     height: 0.9,
     color: darkerText,
   );
-
+  static const TextStyle defaultTextStyle = TextStyle(
+  
+      fontFamily: fontName,
+  );
   static const TextStyle headline = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
@@ -111,4 +135,32 @@ class SmartAppTheme {
   //  letterSpacing: -0.05,
     color: darkText,
   );
+
+
+  static const TextStyle searchText = TextStyle(
+    color: Color.fromRGBO(0, 0, 0, 1),
+    fontSize: 14,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.normal,
+      fontFamily: fontName,
+  );
+    static const Color scaffoldBackground = Color(0xfff0f0f0);
+
+  static const Color searchBackground = Color(0xffe0e0e0);
+
+  static const Color searchCursorColor = Color.fromRGBO(0, 122, 255, 1);
+
+  static const Color searchIconColor = Color.fromRGBO(128, 128, 128, 1);
+    static const Color menuRowDivider = Color(0xFFD9D9D9);
+
+  static const TextStyle menuRowItemName = TextStyle(
+    color: Color.fromRGBO(0, 0, 0, 0.8),
+    fontSize: 18,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.normal,
+      fontFamily: fontName,
+
+  );
+    
+
 }

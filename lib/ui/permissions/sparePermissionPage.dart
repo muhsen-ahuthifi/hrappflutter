@@ -76,19 +76,21 @@ return RefreshIndicator(
           return _ListRowView(data: data[index],
            callback: () {
              var row=data[index];
-           smartStateDialog(context,row.monitortype,
-             [
-              
-             ],
-            [
-           Padding(padding:const EdgeInsets.only(top: 20,bottom: 5, left: 16, right: 16), child:Text('المدير المباشر : '+ row.manager,style: SmartAppTheme.subtitle)),
-             Divider(),
-            Padding(padding:const EdgeInsets.only(top: 5,bottom: 5, left: 16, right: 16), child:Text('ملاحظات',style: SmartAppTheme.subtitle,)),
+              smartSuccessToast(context,'الحالة',row.getAriaValue());
 
-             Padding(padding:const EdgeInsets.only(top: 8, left: 16, right: 16),child:Text(row.note)),
+          //  smartStateDialog(context,row.monitortype,
+          //    [
               
-            ]
-             );
+          //    ],
+          //   [
+          //  Padding(padding:const EdgeInsets.only(top: 20,bottom: 5, left: 16, right: 16), child:Text('المدير المباشر : '+ row.manager,style: SmartAppTheme.subtitle)),
+          //    Divider(),
+          //   Padding(padding:const EdgeInsets.only(top: 5,bottom: 5, left: 16, right: 16), child:Text('ملاحظات',style: SmartAppTheme.subtitle,)),
+
+          //    Padding(padding:const EdgeInsets.only(top: 8, left: 16, right: 16),child:Text(row.note)),
+              
+          //   ]
+          //    );
           });
         });
   }
@@ -109,6 +111,14 @@ class _ListRowView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
+    Semantics(
+      label: data.getAriaLabel(),
+        value: data.getAriaValue(),
+
+      excludeSemantics: true,
+    //  link: true,
+    //  onTap: callback,
+   child:
      InkWell(
                 splashColor: Colors.transparent,
                 onTap: callback,
@@ -185,6 +195,6 @@ class _ListRowView extends StatelessWidget {
                   ],
                 ),
                 ),
-              );
+              ));
   }
 }

@@ -61,13 +61,21 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
     //final height = MediaQuery.of(context).size.height;
     final isTimePost = widget.postType == VactionPostType.Permission;
     return Scaffold(
+         appBar: AppBar(
+          
+     //  title:  Text( this.title, style: SmartAppTheme.lightHeadline),
+       // automaticallyImplyLeading: false,
+     backgroundColor: SmartAppTheme.white,
+      elevation: 0,
+          iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
+        ),
       backgroundColor: SmartAppTheme.white,
       body: Container(
         //  height: height,
 
         child: SingleChildScrollView(
           // child: Form(
-          padding: EdgeInsets.symmetric(
+          padding: EdgeInsets.symmetric(vertical: 0,
               horizontal: MediaQuery.of(context).size.width * .1),
           child: Form(
               key: formKey,
@@ -77,19 +85,30 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //  navBackButton(context),
-                  const SizedBox(height: 20),
+               //   const SizedBox(height: 20),
                   Image.asset(
                     'res/img/ic_cup.png',
                     alignment: Alignment.center,
-                    height: 80,
+                    
+                     height: 70,
+                   // scale: 2,
+                    width: 70,
+                     excludeFromSemantics: true,
                     color:
                         isTimePost ? Colors.orange : SmartAppTheme.colorPrimary,
                   ),
-                  Text(widget.vm.monitortype, style: SmartAppTheme.title),
+                  
+                     ExcludeSemantics(
+                  child: Text(widget.vm.monitortype, style: SmartAppTheme.title),
+                ),
+                 
                   const SizedBox(height: 5),
-
-                  Text(isTimePost ? "اجازة ساعية" : "اجازة يومية",
+   ExcludeSemantics(
+                  child:    Text(isTimePost ? "اجازة ساعية" : "اجازة يومية",
                       style: SmartAppTheme.caption),
+                ),
+                 
+               
 
                   //  const Divider(),
                   const SizedBox(height: 10),
@@ -102,6 +121,7 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
                       : smartDateInput(this._toDateInput,  "الى تاريخ", widget.vm.toDate),
                   const SizedBox(height: 10),
                   TextFormField(
+                     style:SmartAppTheme.defaultTextStyle ,
                     controller: this._empInput,
                     readOnly: true,
                       // initialValue: this.vm.emp,
@@ -115,6 +135,7 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
                   const SizedBox(height: 10),
 
                   TextFormField(
+                     style:SmartAppTheme.defaultTextStyle ,
                     controller: this._sparEmpInput,
                     readOnly: true,
                      //  initialValue: this.vm.spareEmp,
@@ -129,7 +150,7 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
                   const SizedBox(height: 4),
                   TextFormField(
                     controller: this._noteInput,
-                 
+                  style:SmartAppTheme.defaultTextStyle ,
                     maxLines: 2,
                     decoration: const InputDecoration(
                       labelText: 'ملاحظات / سبب الرفض',
@@ -212,6 +233,7 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
           String label,String val) =>
       Center(
           child: TextFormField(
+             style:SmartAppTheme.defaultTextStyle ,
         controller: dateInput,
        //initialValue: val,
         decoration: InputDecoration(
@@ -226,6 +248,7 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
        String label,String val) =>
       Center(
           child: TextFormField(
+             style:SmartAppTheme.defaultTextStyle ,
         controller: dateInput,
              //   initialValue: val,
         decoration: InputDecoration(

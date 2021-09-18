@@ -5,7 +5,9 @@ class AppUrl {
  // static const String localBaseURL = "http://10.0.2.2:4000/api/v1";
 //https://sps.alaman.org/ar/api/
   static const String baseURL = liveBaseURL;
-  static const String login =  "https://sps.alaman.org/Token";
+   static const String login =  "https://sps.alaman.org/Token";
+    //static const String login =  "http://marinafly-001-site1.atempurl.com/Token";
+
   static const String register = baseURL + "/registration";
   static const String forgotPassword = baseURL + "/forgot-password";
   

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/model/vacations/vacationsPostVM.dart';
 import 'package:hrapp/ui/vacations/vacationsPostPage.dart';
@@ -70,7 +71,7 @@ return RefreshIndicator(
   ListView _smartListView(BuildContext context,List<VacationsBal> data) {
  
     return ListView.builder(
-      
+         
         itemCount: data.length,
          scrollDirection: Axis.vertical,
            padding: EdgeInsets.only( left:16,right: 16,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
@@ -78,28 +79,54 @@ return RefreshIndicator(
           return _ListRowView(data: data[index],
            callback: () async {
              if(data[index].allowHourTrans){
-            smartOptionsDialog(context,data[index].monitortype,
-             [
-              DialogOptions(key:VactionPostType.Vacation,label:'طلب اجازة'),
-              DialogOptions(key:VactionPostType.Permission,label:'طلب اجازة ساعية')
+              showCupertinoModalPopup<void>(
+              context: context,
+              builder: (BuildContext context) => CupertinoActionSheet(
+                title: const Text('اختيار نوع الاجازة'),
+                  cancelButton: CupertinoActionSheetAction(
+                    child: const Text('الغاء'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+              // message: const Text('Message'),
+                actions: <CupertinoActionSheetAction>[
+                  CupertinoActionSheetAction(
+                    
+                    child: const Text('اجازة يومية'),
+                    onPressed: () {
+                        openVacForm(key:VactionPostType.Vacation,vm:data[index]);
+                    },
+                  ),
+                  CupertinoActionSheetAction(
+                    child: const Text('اجازة ساعية'),
+                    onPressed: () {
+                         openVacForm(key:VactionPostType.Permission,vm:data[index]);
+                    },
+                  )
+                ],
+              ),
+            );
+         
+          //   smartOptionsDialog(context,data[index].monitortype,
+          //    [
+          //     DialogOptions(key:VactionPostType.Vacation,label:'طلب اجازة'),
+          //     DialogOptions(key:VactionPostType.Permission,label:'طلب اجازة ساعية')
 
-             ],
-             (key) async{
+          //    ],
+          //    (key) async{
 
-                final result = await   Navigator.push(context, MaterialPageRoute(builder: (context) => VacationsPostPage(vm: data[index],postType:key)));
-           if(result!=null&&result){
-                smartSuccessToast(context,"الاجازات","تمت العملية بنجاح");
-            _getData();
-          }
-          //  smartErrorToast(context, key, data[index].monitortype)
+          //    openVacForm(key:key,vm:data[index]);
+          // //  smartErrorToast(context, key, data[index].monitortype)
 
-             });
+          //    }
+          //    );
              }
              else{
-         final result = await     Navigator.push(context, MaterialPageRoute(builder: (context) => VacationsPostPage(vm: data[index],postType:VactionPostType.Vacation)));
+         final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => VacationsPostPage(vm: data[index],postType:VactionPostType.Vacation)));
                 if(result!=null&&result){
                 smartSuccessToast(context,"الاجازات","تمت العملية بنجاح");
-            _getData();
+                  _getData();
           }
              }
             
@@ -110,7 +137,14 @@ return RefreshIndicator(
         });
   }
 
-
+   openVacForm({key:String,vm}) async{
+       Navigator.pop(context);
+          final result = await   Navigator.push(context, MaterialPageRoute(builder: (context) => VacationsPostPage(vm: vm,postType:key)));
+           if(result!=null&&result){
+            smartSuccessToast(context,"الاجازات","تمت العملية بنجاح");
+            _getData();
+          }
+ }
 }
 
 
@@ -126,6 +160,14 @@ class _ListRowView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
+    Semantics(
+      label: data.getAriaLabel(),
+       value: data.getAriaValue(),
+
+      excludeSemantics: true,
+      link: true,
+      onTap: callback,
+   child:
      InkWell(
        
                 splashColor: Colors.transparent,
@@ -228,6 +270,6 @@ class _ListRowView extends StatelessWidget {
                   ],
                 ),
                 ),
-              );
+              ));
   }
 }

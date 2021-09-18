@@ -77,19 +77,21 @@ return RefreshIndicator(
           return _ListRowView(data: data[index],
            callback: () {
                   var row=data[index];
-           smartStateDialog(context,row.monitortype,
-             [
+                smartSuccessToast(context,'الحالة',row.getAriaValue());
 
-              DialogOptions(key:"1",label:'موافقة المدير المباشر',checked:row.manager_appreoved,reject: row.req_reject&&!row.manager_appreoved),
-              DialogOptions(key:"2",label:'اعتماد الطلب',checked:row.hr_appreoved,reject: row.req_reject&&row.manager_appreoved)
-             ],
-            [
-            Padding(padding:const EdgeInsets.only(top: 4, left: 16, right: 16), child:Text('سبب الرفض')),
-              Divider(),
-             Padding(padding:const EdgeInsets.only(top: 8, left: 16, right: 16),child:Text(row.rejectNote)),
+          //  smartStateDialog(context,row.monitortype,
+          //    [
+
+          //     DialogOptions(key:"1",label:'موافقة المدير المباشر',checked:row.manager_appreoved,reject: row.req_reject&&!row.manager_appreoved),
+          //     DialogOptions(key:"2",label:'اعتماد الطلب',checked:row.hr_appreoved,reject: row.req_reject&&row.manager_appreoved)
+          //    ],
+          //   [
+          //   Padding(padding:const EdgeInsets.only(top: 4, left: 16, right: 16), child:Text('سبب الرفض')),
+          //     Divider(),
+          //    Padding(padding:const EdgeInsets.only(top: 8, left: 16, right: 16),child:Text(row.rejectNote)),
               
-            ]
-             );
+          //   ]
+          //    );
           });
         });
   }
@@ -110,6 +112,14 @@ class _ListRowView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
+    Semantics(
+      label: data.getAriaLabel(),
+      value: data.getAriaValue(),
+
+      excludeSemantics: true,
+   //   link: true,
+    //  onTap: callback,
+   child:
      InkWell(
                 splashColor: Colors.transparent,
                 onTap: callback,
@@ -175,6 +185,6 @@ class _ListRowView extends StatelessWidget {
                   ],
                 ),
                 ),
-              );
+              ));
   }
 }

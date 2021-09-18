@@ -21,7 +21,9 @@ class ManagerVacTransPostVM {
       // final String appreoveState;
   //final String rejectNote;
       final String note;
-
+//  String getAriaLabel(){
+// return this.monitortype;
+// }
   ManagerVacTransPostVM({this.id,this.monitortype,this.emp, this.spareEmp, this.bal, this.period,this.fromDate,this.toDate, this.appreoved, this.note});
 
 //   factory ManagerVacTransPostVM.fromJson(Map<String, dynamic> json) {

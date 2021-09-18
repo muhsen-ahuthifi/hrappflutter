@@ -15,23 +15,31 @@ class SparePermissionPanel {
    //   final bool manager_appreoved;
    //  final bool hr_appreoved;
      // final String appreoveState;
+ String getAriaLabel(){
+return ' مناوبة عن  الموظف : $emp. , نوع الاذن $monitortype. ,  بتاريخ : $atDate. , من الساعة : $fromHour. , الى الساعة : $toHour. ' ;
+}
+
+ String getAriaValue(){
+ return 'ملاحظات: $note. ,  المدير المباشر : $manager. ';
+}
+
 
   SparePermissionPanel({this.monitortype, this.emp,this.note,  this.period,this.atDate,this.fromHour,this.toHour, this.manager});
 
   factory SparePermissionPanel.fromJson(Map<String, dynamic> json) {
     return SparePermissionPanel(
      //  id: json['id'],
-      emp: json['n']??'',
-      monitortype: json['monitortype']??'',
+      emp: json['n']??'غير محدد ',
+      monitortype: json['monitortype']??'غير محدد ',
       period: json['vdays'],
     //  bal: json['bal'],
-      fromHour: json['fhour']??'',
-      toHour: json['tohour']??'',
-      atDate: json['fdate']??'',
+      fromHour: json['fhour']??'غير محدد ',
+      toHour: json['tohour']??'غير محدد ',
+      atDate: json['fdate']??'غير محدد ',
      // req_reject:json['req_reject'],
-      manager:json['manager']??'',
-     
-note: json['note']??'',
+     manager: json['manager']??'غير محدد ',
+
+note: json['note']??'لا يوجد ',
     );
   }
 }

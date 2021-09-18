@@ -19,8 +19,14 @@ class EmployeeForEvalPanel {
     final int emp_id;
     final int descendantEmp_Id;
 
-     
-       
+    
+ String getAriaLabel(){
+return ' تقييم الموظف: $emp. , القسم: $department. , الوظفية: $job. ,الفترة: $period. , نموذج التقييم : $evaldoc.' ;
+}
+
+    String getAriaValue(){
+ return 'الوزن: $weight %. , قيد الانتظار';
+}
   EmployeeForEvalPanel({this.id, this.emp, this.department, this.job, this.evaldoc,this.evaldoc_id,this.period,this.weight,
   this.job_id,this.period_id,this.department_id,this.evalcycle_id,this.emp_id,this.descendantEmp_Id
   });
@@ -30,25 +36,17 @@ class EmployeeForEvalPanel {
         id: json['header_id']??0,
     
      emp: json['n']??'',
-      department: json['department']??'',
-      evaldoc: json['evaldoc']??'',
-      job: json['job']??'',
+      department: json['department']??'غير محدد',
+      evaldoc: json['evaldoc']??'غير محدد',
+      job: json['job']??'غير محدد',
        weight: json['w']??0,
       job_id: json['job_id']??0,
         period_id: json['period_id']??0,
       department_id: json['department_id']??0,
 
      evalcycle_id: json['evalcycle_id']??0,
-      period: json['period']??'',
-
-      
-      //pg: json['pg'],
-      //pgw: json['pgw'],
-
-     
+      period: json['period']??'غير محدد',
        evaldoc_id: json['evaldoc_id']??19,
-
-    
       emp_id: json['emp_id']??0,
       descendantEmp_Id: json['descendantEmp_Id']??0,
     );

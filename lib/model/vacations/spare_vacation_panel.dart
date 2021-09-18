@@ -16,24 +16,29 @@ class SpareVacationPanel {
       final String manager;
 
 
-
+ String getAriaLabel(){
+return ' مناوبة عن  الموظف : $emp. , نوع الاجازة: $monitortype. , الايام : $period. , من تاريخ : $fromDate. , الى تاريخ : $toDate. ';
+}
+ String getAriaValue(){
+ return 'ملاحظات: $note. ,  المدير المباشر : $manager. ';
+}
 
     SpareVacationPanel({this.monitortype, this.emp,this.note,  this.period,this.fromDate,this.toDate, this.manager});
 
   factory SpareVacationPanel.fromJson(Map<String, dynamic> json) {
     return SpareVacationPanel(
      //  id: json['id'],
-      emp: json['n']??'',
-      monitortype: json['monitortype']??'',
+      emp: json['n']??'غير محدد ',
+      monitortype: json['monitortype']??'غير محدد ',
       period: json['vdays'],
     //  bal: json['bal'],
-       fromDate: json['fdate']??'',
-      toDate: json['todate']??'',
+       fromDate: json['fdate']??'غير محدد ',
+      toDate: json['todate']??'غير محدد ',
      
      // req_reject:json['req_reject'],
-      manager:json['manager']??'',
+      manager: json['manager']??'غير محدد ',
      
-note: json['note']??'',
+note: json['note']??'لا يوجد',
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrapp/ui/widget/AppTheme.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
 import 'package:hrapp/util/app_route.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
 Widget _logo(){
-  return Image.asset('res/img/logo.png',alignment: Alignment.center,width: 200,);
+  return Image.asset('res/img/logo.png',alignment: Alignment.center,width: 200, excludeFromSemantics: true);
 }
   Widget _emailPasswordWidget() {
     return Column(
@@ -87,13 +88,15 @@ Widget _logo(){
                     Container(
                     padding: EdgeInsets.symmetric(vertical: 8),
                     alignment: Alignment.centerLeft,
-                    child: Text('نسيت كلمة المرور ?',
-                        style: TextStyle( fontSize: 14, fontWeight: FontWeight.w500)),
+                    
+                    child:ExcludeSemantics(
+                      child: Text('نسيت كلمة المرور ?', style: TextStyle( fontSize: 14, fontWeight: FontWeight.w500,fontFamily: SmartAppTheme.fontName)
+                    ) ),
                   ),
                   SizedBox(height: 10),
 
                  auth.loggedInStatus == Status.Authenticating
-                    ? smartLoadingButton(' ... تسجيل الدخول')
+                    ? smartLoadingButton(' ... يرجى الانتظار')
                     : smartSubmitButton(context,'تسجيل الدخول',doLogin),
                 
                   SizedBox(height: height * .055),

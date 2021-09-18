@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+// import 'package:hrapp/model/vacations/vacationsPostVM.dart';
+// import 'package:hrapp/model/vacations_bal.dart';
+// import 'package:hrapp/ui/vacations/vacationsPostPage.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
 import 'package:hrapp/ui/widget/commonVacTransWidget.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
@@ -50,6 +53,7 @@ return RefreshIndicator(
 
           }
           List<VacationTransPanel> data = response.data;
+         
           if(data.length==0){
           return  noResultViewView();
           }else{
@@ -74,27 +78,27 @@ return RefreshIndicator(
         itemBuilder: (context, index) {
           return _ListRowView(data: data[index],
            callback: () {
-             var row=data[index];
-           smartStateDialog(context,row.monitortype,
-             [
-              DialogOptions(key:"1",label:'موافقة المدير المباشر',checked:row.manager_appreoved,reject: row.req_reject&&!row.manager_appreoved),
-              DialogOptions(key:"2",label:'اعتماد الطلب',checked:row.hr_appreoved,reject: row.req_reject&&row.manager_appreoved)
 
-             ],
-            [
-             Divider(),
-          //  Padding(padding:const EdgeInsets.only(top: 4, left: 16, right: 16), child:Text('المدير المباشر : '+ row.spareEmp)),
-           //   Divider(),
-            Padding(padding:const EdgeInsets.only(top: 4, left: 16, right: 16), child:Text('سبب الرفض')),
-             Divider(),
-             Padding(padding:const EdgeInsets.only(top: 8, left: 16, right: 16),child:Text(row.rejectNote)),
+             var row=data[index];
+            smartSuccessToast(context,'الحالة',row.getAriaValue());
+
+          //  smartStateDialog(context,row.monitortype,
+          //    [
+          //     DialogOptions(key:"1",label:'موافقة المدير المباشر',checked:row.manager_appreoved,reject: row.req_reject&&!row.manager_appreoved),
+          //     DialogOptions(key:"2",label:'اعتماد الطلب',checked:row.hr_appreoved,reject: row.req_reject&&row.manager_appreoved)
+
+          //    ],
+          //   [
+          //    Divider(),
+          // //  Padding(padding:const EdgeInsets.only(top: 4, left: 16, right: 16), child:Text('المدير المباشر : '+ row.spareEmp)),
+          //  //   Divider(),
+          //   Padding(padding:const EdgeInsets.only(top: 4, left: 16, right: 16), child:Text('سبب الرفض')),
+          //    Divider(),
+          //    Padding(padding:const EdgeInsets.only(top: 8, left: 16, right: 16),child:Text(row.rejectNote)),
               
-            ]
-             );
+          //   ]
+          //    );
             
-            
-          // var dd=data[index];
-         //  print(dd.monitortype);
           });
         });
   }
@@ -140,20 +144,23 @@ class _ListRowView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-     InkWell(
+     Semantics(
+      label: data.getAriaLabel(),
+        value: data.getAriaValue(),
+
+      excludeSemantics: true,
+      link: true,
+     // onTap: callback,
+child: 
+   InkWell(
                splashColor: Colors.transparent,
-              
                 onTap: callback,
-                
-                child: 
-     Container(
+                child:Container(
       
        margin:  EdgeInsets.only(top: 8, bottom: 8),
               decoration: cardBoxDecoration(),
                 child: Column(
-                  
                   children: <Widget>[
-                  
                     Padding(
                       padding:
                           const EdgeInsets.only(top: 16, left: 16, right: 24),
@@ -161,7 +168,6 @@ class _ListRowView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                         
                          smartVacTypeTitle(data.monitortype),
                           SizedBox(height:5),
                           Row(
@@ -170,8 +176,6 @@ class _ListRowView extends StatelessWidget {
                             children: <Widget>[
                               smartBadgTitle("يوم",data.period.toString()),
                              smartVacTransState(data.appreoved,data.req_reject,data.appreoveState),
-
-                          
                             ],
                           ),
                           smartVacSubTitle('المناوب',data.spareEmp),
@@ -196,17 +200,15 @@ class _ListRowView extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 16),
                       child: Row(
                         children: <Widget>[
- 
                         smartBadgLabel( 'من تاريخ',data.fromDate.toString(),CrossAxisAlignment.start),
                          smartBadgLabel('الى تاريخ',data.toDate.toString(),CrossAxisAlignment.center),
                          smartBadgLabel('الرصيد',data.bal.toString(),CrossAxisAlignment.end),
-                         
                         ],
                       ),
                     )
                   ],
                 ),
                ),
-              );
+               ));
   }
 }

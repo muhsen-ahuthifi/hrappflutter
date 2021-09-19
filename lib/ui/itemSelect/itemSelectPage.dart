@@ -35,10 +35,10 @@ class _ItemSelectPageState extends State<ItemSelectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: SmartAppTheme.white,
+      backgroundColor: SmartAppTheme.scaffoldBackground,
       appBar: AppBar(
        // automaticallyImplyLeading: false,
-        backgroundColor: SmartAppTheme.white,
+        backgroundColor: SmartAppTheme.scaffoldBackground,
         title:  Text( this.title, style: SmartAppTheme.lightHeadline),
 
           iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
@@ -108,14 +108,14 @@ class _ItemSelectPageState extends State<ItemSelectPage> {
           // padding: EdgeInsets.only( left:16,right: 16,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
            itemBuilder: (context, idx) => Column(
              children:[ListTile(
-            title: Text(data[idx].name),
-            contentPadding:  EdgeInsets.only( left:16,right: 16,bottom: 4,top: 4 ),
+            title: Text(data[idx].name,style: SmartAppTheme.menuRowItemName),
+            contentPadding:  EdgeInsets.only( left:16,right: 16,bottom: 0,top: 0 ),
             onTap: () {
                Navigator.pop(context, data[idx]);
             },
             
           ),
-          Divider()
+          Divider(height: 1,)
            ]),
         );
   }
@@ -158,7 +158,7 @@ ItemSelectVM selectedItem;
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Text('You have selected the word:'),
+            const Text('You have selected the word:',style: SmartAppTheme.defaultIosTextStype),
             GestureDetector(
               onTap: () {
                 // Returns this.query as result to previous screen, c.f.
@@ -167,9 +167,8 @@ ItemSelectVM selectedItem;
               },
               child: Text(
                 this.query,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
+                style: SmartAppTheme.headline
+                    
                     .copyWith(fontWeight: FontWeight.bold),
               ),
             ),
@@ -234,7 +233,7 @@ class _SuggestionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme.subtitle1;
+    final textTheme = SmartAppTheme.subtitle;
     return ListView.builder(
       itemCount: suggestions.length,
       itemBuilder: (BuildContext context, int i) {

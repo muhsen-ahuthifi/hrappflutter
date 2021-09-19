@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/ui/eval/recivedHistoryEvalPage.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
@@ -77,7 +78,7 @@ return RefreshIndicator(
           return _ListRowView(data: data[index],
            callback: () {
              final row=data[index];
-        Navigator.push(context, MaterialPageRoute(builder: (context) => RecivedHistoryEvalPage(period_id:row.id,period_n: row.period )));
+        Navigator.push(context, CupertinoPageRoute(builder: (context) => RecivedHistoryEvalPage(period_id:row.id,period_n: row.period )));
 
           // var dd=data[index];
          //  print(dd.monitortype);

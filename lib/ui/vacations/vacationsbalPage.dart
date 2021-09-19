@@ -41,6 +41,7 @@ super.initState();
   Widget build(BuildContext context) {
 return RefreshIndicator(
     onRefresh: _getData,
+
     child: getCurrentView(context));
   
   }
@@ -82,9 +83,9 @@ return RefreshIndicator(
               showCupertinoModalPopup<void>(
               context: context,
               builder: (BuildContext context) => CupertinoActionSheet(
-                title: const Text('اختيار نوع الاجازة'),
+                title: const Text('اختيار نوع الاجازة',style: SmartAppTheme.defaultIosTextStype),
                   cancelButton: CupertinoActionSheetAction(
-                    child: const Text('الغاء'),
+                    child: const Text('الغاء',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -93,13 +94,13 @@ return RefreshIndicator(
                 actions: <CupertinoActionSheetAction>[
                   CupertinoActionSheetAction(
                     
-                    child: const Text('اجازة يومية'),
+                    child: const Text('اجازة يومية',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
                         openVacForm(key:VactionPostType.Vacation,vm:data[index]);
                     },
                   ),
                   CupertinoActionSheetAction(
-                    child: const Text('اجازة ساعية'),
+                    child: const Text('اجازة ساعية',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
                          openVacForm(key:VactionPostType.Permission,vm:data[index]);
                     },
@@ -123,7 +124,7 @@ return RefreshIndicator(
           //    );
              }
              else{
-         final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => VacationsPostPage(vm: data[index],postType:VactionPostType.Vacation)));
+         final result = await Navigator.push(context, CupertinoPageRoute(builder: (context) => VacationsPostPage(vm: data[index],postType:VactionPostType.Vacation)));
                 if(result!=null&&result){
                 smartSuccessToast(context,"الاجازات","تمت العملية بنجاح");
                   _getData();
@@ -139,7 +140,7 @@ return RefreshIndicator(
 
    openVacForm({key:String,vm}) async{
        Navigator.pop(context);
-          final result = await   Navigator.push(context, MaterialPageRoute(builder: (context) => VacationsPostPage(vm: vm,postType:key)));
+          final result = await   Navigator.push(context, CupertinoPageRoute(builder: (context) => VacationsPostPage(vm: vm,postType:key)));
            if(result!=null&&result){
             smartSuccessToast(context,"الاجازات","تمت العملية بنجاح");
             _getData();
@@ -214,6 +215,7 @@ class _ListRowView extends StatelessWidget {
                                          data.availableafter.toString(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
+                                            fontFamily: SmartAppTheme.fontName,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14,
                                             letterSpacing: 0.0,
@@ -230,6 +232,7 @@ class _ListRowView extends StatelessWidget {
                                       'متاح بعد',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
+                                        fontFamily: SmartAppTheme.fontName,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 12,
                                         letterSpacing: 0.0,

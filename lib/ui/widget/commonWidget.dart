@@ -4,7 +4,10 @@ import 'dart:math' as math;
 import 'AppTheme.dart';
 
 //errorView(String msg) => Text("${msg}");
-loadingView()=> Center(child:CircularProgressIndicator());
+loadingView()=> Center(child:CircularProgressIndicator(
+ semanticsLabel: "جاري تحميل البيانات .. يرجى الانتظار",
+
+),);
 //noResultViewView() => Center(child: Text("no result"));
 
 
@@ -14,7 +17,9 @@ loadingView()=> Center(child:CircularProgressIndicator());
         mainAxisAlignment: MainAxisAlignment.center,
          crossAxisAlignment: CrossAxisAlignment.center,
        children:[
-     Image.asset('res/img/bg_no_item_cactus.png',alignment: Alignment.center),
+     Image.asset('res/img/bg_no_item_cactus.png',alignment: Alignment.center,
+     semanticLabel: "لا يوجد اي نتيجة",
+     ),
           ] ))]
     );
   }
@@ -36,7 +41,9 @@ loadingView()=> Center(child:CircularProgressIndicator());
           ],
          color: Colors.red,
               ),
-      child: Text( msg,style: TextStyle(fontSize: 16, color: Colors.white),
+      child: Text( msg,
+      semanticsLabel: "حدث خطأ غير متوقع",
+      style: TextStyle(fontSize: 16, color: Colors.white,fontFamily: SmartAppTheme.fontName),
       ),
           ),] 
     )]);

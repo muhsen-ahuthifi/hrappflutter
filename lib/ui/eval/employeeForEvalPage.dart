@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
 import 'package:hrapp/util/app_url.dart';
@@ -53,7 +54,25 @@ return RefreshIndicator(
           return  errorView(response.message);
 
           }
-          List<EmployeeForEvalPanel> data = response.data;
+          List<EmployeeForEvalPanel> data = response.data;//??new List();
+      //     data.add(EmployeeForEvalPanel(
+            
+      //       department_id: 1,descendantEmp_Id: 127,emp_id: 130,emp: "muh",evalcycle_id: 1,
+    
+      // department: 'غير محدد',
+      // evaldoc: 'غير محدد',
+      // job: 'غير محدد',
+      //  weight: 50,
+      // job_id: 0,
+      //   period_id: 0,
+     
+
+      // period: 'غير محدد',
+      //  evaldoc_id: 19,
+   
+          
+          
+      //     ));
           if(data.length==0){
           return  noResultViewView();
           }else{
@@ -78,9 +97,8 @@ return RefreshIndicator(
         itemBuilder: (context, index) {
           return _ListRowView(data: data[index],
            callback: () async {
-                 //      Navigator.push(context, MaterialPageRoute(builder: (context) => EvalFormPage(vm: data[index])));
          final row=data[index];
-                final result = await  Navigator.push(context, MaterialPageRoute(builder: (context) => EvalFormPage(vm: row)));
+                final result = await  Navigator.push(context, CupertinoPageRoute(builder: (context) => EvalFormPage(vm: row)));
            if(result!=null&&result){
             smartSuccessToast(context,"التقييم","تمت العملية بنجاح");
             _getData();

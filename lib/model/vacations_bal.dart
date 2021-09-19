@@ -12,10 +12,10 @@ class VacationsBal {
  String getAriaLabel(){
 return this.monitortype;
 }
- String getAriaValue(){
-return this.monitortype;
-}
 
+ String getAriaValue(){
+ return 'الرصيد المستخدم: $usedbal. , الرصيد المتبقي: $remainderbal.';
+}
   VacationsBal({this.id,this.allowHourTrans,this.monitortype, this.availableafter, this.remainderbal, this.usedbal,this.previousbal,this.begbal});
 
   factory VacationsBal.fromJson(Map<String, dynamic> json) {

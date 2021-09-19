@@ -82,7 +82,7 @@ class SmartAppTheme {
   static const TextStyle lightHeadline = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
-    fontSize: 24,
+    fontSize: 16,
     letterSpacing: 0.27,
     color: lightText,
     

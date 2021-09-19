@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/model/eval/emp_for_eval_panal.dart';
 import 'package:hrapp/model/eval/evalFormVM.dart';
@@ -91,23 +92,50 @@ Future _getData() {
       });
 return false;
     }else{
- return (await showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('تنبيه?'),
-        content: new Text('هل تريد الغاء عملية التقييم '),
-        actions: <Widget>[
-            TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('الاستمرار'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: new Text('الغاء التقييم'),
-          ),
-        ],
-      ),
-    )) ?? false;
+ return (
+        await  showCupertinoModalPopup<bool>(
+              context: context,
+              builder: (BuildContext context) => CupertinoActionSheet(
+                title: const Text('هل تريد الغاء عملية التقييم',style: SmartAppTheme.defaultIosTextStype),
+                  cancelButton: CupertinoActionSheetAction(
+                    child: const Text('الاستمرار',style: SmartAppTheme.defaultIosTextStype),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+              // message: const Text('Message'),
+                actions: <CupertinoActionSheetAction>[
+                  CupertinoActionSheetAction(
+                    
+                    child: const Text('الغاء التقييم',style: SmartAppTheme.defaultIosTextStype),
+                    onPressed: () {
+                       Navigator.of(context).pop(true);
+                    },
+                  ),
+                
+                ],
+              ),
+            ))?? false;
+   
+   
+  //  await showDialog(
+  //     context: context,
+  //     builder: (context) => new AlertDialog(
+  //       title: new Text('تنبيه?'),
+  //       content: new Text('هل تريد الغاء عملية التقييم '),
+  //       actions: <Widget>[
+  //           TextButton(
+  //           onPressed: () => Navigator.of(context).pop(false),
+  //           child: new Text('الاستمرار'),
+  //         ),
+  //         TextButton(
+  //           onPressed: () => Navigator.of(context).pop(true),
+  //           child: new Text('الغاء التقييم'),
+  //         ),
+  //       ],
+  //     ),
+  //   )) 
+  
     }
    
   }
@@ -122,9 +150,9 @@ return false;
      Scaffold(
       appBar: AppBar(
         centerTitle: true,
-      //  backgroundColor: Colors.red,
+        backgroundColor: SmartAppTheme.colorPrimary,
         elevation: 0.0,
-       title:  Text( widget.vm.emp),
+       title:  Text( widget.vm.emp,style: SmartAppTheme.defaultIosTextStype,),
            //automaticallyImplyLeading: false,
            // iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
       ),
@@ -150,14 +178,12 @@ final dataIndex=_processIndex+1;
 
             else if (dataIndex >=this._steps.length) {
                    
-                final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => EvalFormPostPage(vm:this.widget.vm,termsGroup:_steps)));
+                final result = await Navigator.push(context, CupertinoPageRoute(builder: (context) => EvalFormPostPage(vm:this.widget.vm,termsGroup:_steps)));
           //         Navigator.pop(context, true); smartErrorToast(context, key, data[index].monitortype)
           if(result!=null&&result){ 
             Navigator.pop(context, true);
           }
-             // _processIndex=0;
-              // Navigator.push(context,
-              //    MaterialPageRoute(builder: (context) => FinishView()));
+            
             }
 }else if(value==0 &&_processIndex>0){
      setState(() {
@@ -179,6 +205,7 @@ final dataIndex=_processIndex+1;
          BottomNavigationBarItem(
            icon: Icon(Icons.navigate_next),
             label: 'التالي',
+            
          )
        ],
      ),
@@ -193,6 +220,11 @@ final dataIndex=_processIndex+1;
       //                                     crossAxisAlignment:
       //                                         CrossAxisAlignment.start,
         children: [
+          Semantics(
+            label:  _steps.keys.elementAt(_processIndex).toString(),
+          excludeSemantics: true,
+            child:
+          
           Container(
             height: 70,
             child: StatusChange.tileBuilder(
@@ -279,7 +311,7 @@ final dataIndex=_processIndex+1;
                 itemCount: _steps.length,
               ),
             ),
-          ),
+          )),
           // pages == Pages.DeliveryTime
           //     ? DeliveryTime()
           //     : pages == Pages.AddAddress
@@ -424,7 +456,16 @@ final DocumentTermForEval option;
     return new __ListRowViewState();
   }
   }
+
+
+
+
+
+
 class __ListRowViewState extends State<_ListRowView> {
+
+
+
   @override
   Widget build(BuildContext context) {
     
@@ -471,7 +512,8 @@ class __ListRowViewState extends State<_ListRowView> {
 
       ),
        ElevatedButton(
-      child: Text( "5", style:  TextStyle(color: widget.option.evalvalue==5?Colors.white:Colors.black), ),
+         
+      child: Text( "5",  style:  TextStyle(color: widget.option.evalvalue==5?Colors.white:Colors.black), ),
       style: roundedButtonStyle(widget.option.evalvalue==5),
    onPressed:()=> setState(() { widget.option.evalvalue=5; }),
       )                 
@@ -490,6 +532,8 @@ Divider(),
 
     // }),;
   }
+
+
    roundedButtonStyle(bool active)=>
   ButtonStyle(
             elevation:MaterialStateProperty.all(2.0),
@@ -503,3 +547,173 @@ Divider(),
 
 
 
+
+// class __ListRowViewState extends State<_ListRowView> {
+
+// void _showPicker(BuildContext ctx) {
+//     showCupertinoModalPopup(
+//         context: ctx,
+//         builder: (_) => Container(
+//               width: 220,
+//               height: 220,
+//               child: 
+//                new GestureDetector(
+//           // Blocks taps from propagating to the modal sheet and popping.
+//           onTap: () { Navigator.of(context).pop();},
+//           child:
+//               CupertinoPicker(
+//                 backgroundColor: Colors.white,
+//                 itemExtent: 30,
+                
+//                 scrollController: FixedExtentScrollController(initialItem: 4),
+//                 children: [
+//                   Text('1'),
+//                   Text('2'),
+//                   Text('3'),
+//                    Text('4'),
+//                     Text('5'),
+//                 ],
+//                 onSelectedItemChanged: (value) {
+//                   setState(() {
+//                      widget.option.evalvalue = value+1.0 ;
+//                   });
+//                 },
+//               ),
+//             )));
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     final row = SafeArea(
+//       top: false,
+      
+//       bottom: false,
+//       minimum: const EdgeInsets.only(
+//         left: 16,
+//         top: 8,
+//         bottom: 8,
+//         right: 8,
+//       ),
+     
+//             child: Padding(
+//               padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 6),
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.start,
+//                 crossAxisAlignment: CrossAxisAlignment.stretch,
+//                 children: <Widget>[
+               
+//                     Text(widget.option.name.toString(), 
+//                        style:  TextStyle(color: widget.option.evalvalue>0?Colors.black:Colors.red,fontSize: 18, fontFamily: SmartAppTheme.fontName,), ),
+//                   const Padding(padding: EdgeInsets.only(top: 4)),
+//                     // Text(item.subtitle,style:SmartAppTheme.subtitle),
+//                 ],
+//               ),
+//             ),
+        
+        
+      
+    
+//     );
+
+//     // if (lastItem) {
+//     //   return row;
+//     // }
+
+//     return
+//        Material(
+//           child: InkWell(
+//             onTap: () {
+//               _showPicker(context);
+//             //  Navigator.push(
+//             //     context,
+//             //     CupertinoPageRoute(
+//             //         builder: (context) =>  HomeLightPage(navItem: item)));
+            
+//           },
+//        child:
+//      Column(
+      
+//       children: <Widget>[
+//         row,
+//         Padding(
+//           padding: const EdgeInsets.only(
+//             left: 16,
+//             right: 16,
+//           ),
+//           child: Container(
+//             height: 1,
+//             color: SmartAppTheme.menuRowDivider,
+//           ),
+//         ),
+//       ],
+//     )));
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+    
+//     return 
+//          Padding(
+          
+//                       padding:
+//                           const EdgeInsets.only(top: 8, left: 8, right: 8,bottom: 8),
+//                       child: Column(
+        
+//                         mainAxisAlignment: MainAxisAlignment.center,
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: <Widget>[
+                                
+//                        Text(widget.option.name.toString(), 
+//                        style:  TextStyle(color: widget.option.evalvalue>0?Colors.black:Colors.red,fontSize: 18, fontFamily: SmartAppTheme.fontName,), ),
+//                           SizedBox(height:10),
+//                           Row(
+//                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                             crossAxisAlignment: CrossAxisAlignment.center,
+//                             children: <Widget>[
+//                       ElevatedButton(
+//       child: Text( "1", style:  TextStyle(color: widget.option.evalvalue==1?Colors.white:Colors.black), ),
+//       style: roundedButtonStyle(widget.option.evalvalue==1),
+//    onPressed:()=> setState(() { widget.option.evalvalue=1; }),
+
+//       ),
+//       ElevatedButton(
+//       child: Text( "2", style:  TextStyle(color: widget.option.evalvalue==2?Colors.white:Colors.black,), ),
+//       style: roundedButtonStyle(widget.option.evalvalue==2),
+//    onPressed:()=> setState(() { widget.option.evalvalue=2; }),
+
+//       ),
+//                       ElevatedButton(
+//       child: Text( "3", style:  TextStyle(color: widget.option.evalvalue==3?Colors.white:Colors.black), ),
+//       style: roundedButtonStyle(widget.option.evalvalue==3),
+//    onPressed:()=> setState(() { widget.option.evalvalue=3; }),
+
+//       ),
+//                    ElevatedButton(
+//       child: Text( "4", style:  TextStyle(color: widget.option.evalvalue==4?Colors.white:Colors.black), ),
+//       style: roundedButtonStyle(widget.option.evalvalue==4),
+//    onPressed:()=> setState(() { widget.option.evalvalue=4; }),
+
+//       ),
+//        ElevatedButton(
+//       child: Text( "5", style:  TextStyle(color: widget.option.evalvalue==5?Colors.white:Colors.black), ),
+//       style: roundedButtonStyle(widget.option.evalvalue==5),
+//    onPressed:()=> setState(() { widget.option.evalvalue=5; }),
+//       )                 
+//                             ],
+//                           ),
+                         
+//          SizedBox(height:10),                    
+// Divider(),
+//                         ],
+//                       ));
+ 
+//     //  ListTile(title:Text(option.emp),onTap:()=>
+    
+//     //    setState(() {
+//     //         option.emp=option.emp+"t";
+
+//     // }),;
+//   }
+
+
+
+//}

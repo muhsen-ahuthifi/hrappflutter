@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/model/vacations/managerPostVM.dart';
 import 'package:hrapp/model/vacations/vacationsPostVM.dart';
@@ -60,23 +61,32 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
   Widget build(BuildContext context) {
     //final height = MediaQuery.of(context).size.height;
     final isTimePost = widget.postType == VactionPostType.Permission;
-    return Scaffold(
-         appBar: AppBar(
-          
-     //  title:  Text( this.title, style: SmartAppTheme.lightHeadline),
-       // automaticallyImplyLeading: false,
+    return CupertinoPageScaffold(
+       backgroundColor: SmartAppTheme.white,
+        navigationBar: CupertinoNavigationBar(
+
      backgroundColor: SmartAppTheme.white,
-      elevation: 0,
-          iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
+      border: null,
+         // iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
         ),
-      backgroundColor: SmartAppTheme.white,
-      body: Container(
+    //      appBar: AppBar(
+          
+    //  //  title:  Text( this.title, style: SmartAppTheme.lightHeadline),
+    //    // automaticallyImplyLeading: false,
+    //  backgroundColor: SmartAppTheme.white,
+    //   elevation: 0,
+    //       iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
+    //     ),
+    //  backgroundColor: SmartAppTheme.white,
+      child: Container(
         //  height: height,
 
         child: SingleChildScrollView(
           // child: Form(
           padding: EdgeInsets.symmetric(vertical: 0,
               horizontal: MediaQuery.of(context).size.width * .1),
+           child:Material(
+   color: Colors.white,
           child: Form(
               key: formKey,
               // padding: const EdgeInsets.all(16.0),
@@ -166,7 +176,7 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
                       : smartSubmitButton(
                           context, 'حفظ', () => this._post()),
                 ],
-              )),
+              ))),
         ),
         //   ),
         //  ]

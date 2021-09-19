@@ -63,8 +63,8 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
 
       backgroundColor: SmartAppTheme.white,
         navigationBar: CupertinoNavigationBar(
-
      backgroundColor: SmartAppTheme.white,
+    // automaticallyImplyMiddle: false,
       border: null,
          // iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
         ),
@@ -77,9 +77,7 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
           padding:EdgeInsets.symmetric(vertical: 0,horizontal: MediaQuery.of(context).size.width * .1),
           child:Material(
             color: Colors.white,
-            child: 
-          
-           Form(
+            child:   Form(
              
               key: formKey,
               // padding: const EdgeInsets.all(16.0),
@@ -212,7 +210,7 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
    selectEmp() async{
          final result = await Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          CupertinoPageRoute(
                               builder: (context) => ItemSelectPage(
                                   title: 'الموظف المناوب',
                                   url: AppUrl.EmployeeFilter)));
@@ -288,7 +286,7 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
 
   void selectDateTime(TextEditingController dateInput,TextEditingController valueInput) async {
       final DateTime now = DateTime.now();
-
+ bool hasSetDate=false;
    await  showCupertinoModalPopup(
         context: context,
         builder: (_) => Container(
@@ -304,6 +302,7 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
                 mode:CupertinoDatePickerMode.time,
                         initialDateTime: DateTime.now(),
                         onDateTimeChanged: (pickedDate) {
+                          hasSetDate=true;
                 final DateTime formatedTimeValue = DateTime(now.year,now.month,now.day,pickedDate.hour,pickedDate.minute);
             //String formattedDate = pickedDate.format(context);
             String formattedDate = DateFormat('HH:mm').format(formatedTimeValue);
@@ -316,9 +315,23 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
                         }),
                   ),
             Divider(height: 0, thickness: 1),
-                  CupertinoButton(
-                    child: Text('موافق'),
-                    onPressed: () => Navigator.of(context).pop(),
+                   CupertinoButton(
+                    child: Text('موافق',style: SmartAppTheme.defaultIosTextStype,),
+                    onPressed:(){
+                      if(hasSetDate==false){
+               final DateTime formatedTimeValue = DateTime.now();
+            //String formattedDate = pickedDate.format(context);
+            String formattedDate = DateFormat('HH:mm').format(formatedTimeValue);
+            setState(() {
+              valueInput.text = DateFormat('yyyy-MM-dd HH:mm').format(formatedTimeValue);
+              dateInput.text =formattedDate; //set output date to TextField value.
+               
+            formKey.currentState.validate();
+            });
+                      };
+                       Navigator.of(context).pop();
+                    
+                    },
                   )
                 ],
               ),
@@ -329,6 +342,7 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
 // Show the modal that contains the CupertinoDatePicker
   void selectDate(TextEditingController dateInput,TextEditingController valueInput) async{
       int currentYear = DateTime.now().year;
+      bool hasSetDate=false;
    await showCupertinoModalPopup(
         context: context,
         builder: (_) => Container(
@@ -339,12 +353,15 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
                   Container(
                     height: 300,
                     child: CupertinoDatePicker(
-                       minimumDate: DateTime(currentYear -1), 
-                        maximumDate: DateTime(currentYear + 1),
+                     //  minimumDate: DateTime(currentYear -1), 
+                       // maximumDate: DateTime(currentYear + 1),
               
                 mode:CupertinoDatePickerMode.date ,
                         initialDateTime: DateTime.now(),
+                    minimumYear:currentYear -1 ,
+                    maximumYear:currentYear + 1 , //   on
                         onDateTimeChanged: (pickedDate) {
+                          hasSetDate=true;
              String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
             setState(() {
               valueInput.text =formattedDate; //set output date to TextField value.
@@ -357,8 +374,20 @@ class _VacationsPostPageState extends State<VacationsPostPage> {
             Divider(height: 0, thickness: 1),
                   // Close the modal
                   CupertinoButton(
-                    child: Text('موافق'),
-                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text('موافق',style: SmartAppTheme.defaultIosTextStype,),
+                    onPressed:(){
+                      if(hasSetDate==false){
+              String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+            setState(() {
+              valueInput.text =formattedDate; //set output date to TextField value.
+              dateInput.text = formattedDate; //set output date to TextField value.
+                formKey.currentState.validate();
+             
+            });
+                      };
+                       Navigator.of(context).pop();
+                    
+                    },
                   )
                 ],
               ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/ui/eval/evalDetailsPage.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
@@ -112,7 +113,7 @@ super.initState();
         itemBuilder: (context, index) {
           return _ListRowView(data: data[index],
            callback: () {
-         Navigator.push(context, MaterialPageRoute(builder: (context) => EvalDetailsPage(vm: data[index])));
+         Navigator.push(context, CupertinoPageRoute(builder: (context) => EvalDetailsPage(vm: data[index])));
 
           // var dd=data[index];
          //  print(dd.monitortype);

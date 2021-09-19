@@ -178,6 +178,7 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return 
     Row(
           children: [
@@ -206,9 +207,11 @@ class SearchBar extends StatelessWidget {
             Expanded(
               child: CupertinoTextField(
                 controller: controller,
+                
                 focusNode: focusNode,
                 style: SmartAppTheme.searchText,
                 placeholder: 'بحث',
+            //    placeholderStyle: SmartAppTheme.searchText,
                 cursorColor: SmartAppTheme.searchCursorColor,
                 decoration: null,
               ),
@@ -232,17 +235,15 @@ class SearchBar extends StatelessWidget {
         child: 
         Semantics(
         label: "تسجيل الخروج",
-          child:
-        
-        GestureDetector(
+          child:GestureDetector(
         
               onTap:(){
                  showCupertinoModalPopup<void>(
               context: context,
               builder: (BuildContext context) => CupertinoActionSheet(
-                title: const Text('تاكيد تسجيل الخروج'),
+                title: const Text('تاكيد تسجيل الخروج',style: SmartAppTheme.defaultIosTextStype),
                   cancelButton: CupertinoActionSheetAction(
-                    child: const Text('الغاء'),
+                    child: const Text('الغاء',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -251,7 +252,7 @@ class SearchBar extends StatelessWidget {
                 actions: <CupertinoActionSheetAction>[
                   CupertinoActionSheetAction(
                     
-                    child: const Text('تسجيل خروج'),
+                    child: const Text('تسجيل خروج',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
                         UserPreferences().removeUser();
                       Provider.of<UserProvider>(context, listen: false).removeUser();
@@ -267,7 +268,7 @@ class SearchBar extends StatelessWidget {
               child: const Icon(
                 
                 Icons.logout,
-                color: SmartAppTheme.searchIconColor,
+              //  color: SmartAppTheme.searchIconColor,
               ),
             ) )),
     ]
@@ -312,8 +313,7 @@ class MenuRowItem extends StatelessWidget {
                     style: SmartAppTheme.menuRowItemName,
                   ),
                   const Padding(padding: EdgeInsets.only(top: 4)),
-                    Text(item.subtitle,
-                        style:SmartAppTheme.subtitle),
+                    Text(item.subtitle,style:SmartAppTheme.subtitle),
                 ],
               ),
             ),
@@ -343,7 +343,7 @@ class MenuRowItem extends StatelessWidget {
             onTap: () {
              Navigator.push(
                 context,
-                MaterialPageRoute(
+                CupertinoPageRoute(
                     builder: (context) =>  HomeLightPage(navItem: item)));
             
           },
@@ -365,6 +365,7 @@ class MenuRowItem extends StatelessWidget {
       ],
     )));
   }
+
 }
 
 

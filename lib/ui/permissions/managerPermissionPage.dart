@@ -82,9 +82,9 @@ return RefreshIndicator(
             showCupertinoModalPopup<void>(
               context: context,
               builder: (BuildContext context) => CupertinoActionSheet(
-                title: const Text('اختيار نوع الاجراء'),
+                title: const Text('اختيار نوع الاجراء',style: SmartAppTheme.defaultIosTextStype),
                   cancelButton: CupertinoActionSheetAction(
-                    child: const Text('الغاء'),
+                    child: const Text('الغاء',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -93,14 +93,14 @@ return RefreshIndicator(
                 actions: <CupertinoActionSheetAction>[
                   CupertinoActionSheetAction(
                     
-                    child: const Text('موافقة'),
+                    child: const Text('الموافقة على الطلب',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
                        openVacApproveForm(key:VactionApproveType.Apporve,row:data[index]);
                       
                     },
                   ),
                   CupertinoActionSheetAction(
-                    child: const Text('رفض'),
+                    child: const Text('رفض الطلب',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
                     
                          openVacApproveForm(key:VactionApproveType.Reject,row:data[index]);
@@ -127,7 +127,7 @@ return RefreshIndicator(
 
    openVacApproveForm({key:String,row}) async{
        Navigator.pop(context);
-                final result = await  Navigator.push(context, MaterialPageRoute(builder: (context) => ManagerReviewPostPage(vm: ManagerVacTransPostVM(id: row.id,emp: row.emp,spareEmp: row.spareEmp,period: row.period,fromDate: row.fromHour,toDate: row.toHour,monitortype: row.monitortype,bal: row.bal,note: row.note,appreoved: key==VactionApproveType.Apporve),postType:VactionPostType.Permission)));
+                final result = await  Navigator.push(context, CupertinoPageRoute(builder: (context) => ManagerReviewPostPage(vm: ManagerVacTransPostVM(id: row.id,emp: row.emp,spareEmp: row.spareEmp,period: row.period,fromDate: row.fromHour,toDate: row.toHour,monitortype: row.monitortype,bal: row.bal,note: row.note,appreoved: key==VactionApproveType.Apporve),postType:VactionPostType.Permission)));
             if(result!=null&&result){
             smartSuccessToast(context,"الاعتماد","تمت العملية بنجاح");
             _getData();

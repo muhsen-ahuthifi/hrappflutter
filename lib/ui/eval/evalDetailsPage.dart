@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/model/eval/eval_base.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
@@ -43,8 +44,25 @@ super.initState();
 // return RefreshIndicator(
 //     onRefresh: _getData,
 //     child: getCurrentView(context));
-       return Scaffold(
-       backgroundColor: SmartAppTheme.background,
+       return CupertinoPageScaffold(
+       backgroundColor: SmartAppTheme.scaffoldBackground,
+           navigationBar: CupertinoNavigationBar(
+//border:null ,
+           middle:  Text( widget.vm.emp,style: SmartAppTheme.defaultIosTextStype, ),
+           
+           ),
+         
+           child:
+               SafeArea(
+          bottom: false,
+            child:
+           Material(
+             child: RefreshIndicator(
+             
+     onRefresh: _getData,
+    child: getCurrentView(context)),
+           ) ,
+               )
       //  appBar: AppBar(
       //      title:  Text( this.period_n, style: SmartAppTheme.title),
       //      backgroundColor: SmartAppTheme.white,
@@ -55,24 +73,24 @@ super.initState();
     //     body: RefreshIndicator(
     // onRefresh: _getData,
     // child: getCurrentView(context))
-       body: Stack(
-          children: <Widget>[
+    //    child: Stack(
+    //       children: <Widget>[
          
-           getAppBarUI(),
-               Padding(
-              padding:EdgeInsets.only(top: 100),
-              child:   RefreshIndicator(
+    //       // getAppBarUI(),
+    //            Padding(
+    //           padding:EdgeInsets.only(top: 100),
+    //           child:   RefreshIndicator(
              
-     onRefresh: _getData,
-    child: getCurrentView(context)) ,
-            ),
+    //  onRefresh: _getData,
+    // child: getCurrentView(context)) ,
+    //         ),
         
             
-            SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
-            )
-          ],
-        ),
+            // SizedBox(
+            //   height: MediaQuery.of(context).padding.bottom,
+            // )
+       //   ],
+       // ),
     );
   }
 
@@ -116,72 +134,72 @@ super.initState();
         });
   }
 
-Widget getAppBarUI() {
-    return Column(
-      children: <Widget>[
-         SizedBox(
-                        height: MediaQuery.of(context).padding.top,
-                      ),
-            Container(
-              margin: EdgeInsets.only(left: 4, right: 4),
-                  decoration: BoxDecoration(
-                    color: SmartAppTheme.white.withOpacity(topBarOpacity),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(32.0),
-                    ),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: SmartAppTheme.grey
-                              .withOpacity(0.4 * topBarOpacity),
-                          offset: const Offset(1.1, 1.1),
-                          blurRadius: 10.0),
-                    ],
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      // SizedBox(
-                      //   height: MediaQuery.of(context).padding.top,
-                      // ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 16,
-                            right: 16,
-                            top: 18,
-                            bottom: 18),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                 widget.vm.emp,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                     fontFamily: SmartAppTheme.fontName,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16 + 6 - 6 * topBarOpacity,
-                                    letterSpacing: 1.2,
-                                    color: SmartAppTheme.darkerText,
-                                  ),
-                                ),
-                              ),
-                            ),
+// Widget getAppBarUI() {
+//     return Column(
+//       children: <Widget>[
+//          SizedBox(
+//                         height: MediaQuery.of(context).padding.top,
+//                       ),
+//             Container(
+//               margin: EdgeInsets.only(left: 4, right: 4),
+//                   decoration: BoxDecoration(
+//                     color: SmartAppTheme.white.withOpacity(topBarOpacity),
+//                     borderRadius: const BorderRadius.all(
+//                       Radius.circular(32.0),
+//                     ),
+//                     boxShadow: <BoxShadow>[
+//                       BoxShadow(
+//                           color: SmartAppTheme.grey
+//                               .withOpacity(0.4 * topBarOpacity),
+//                           offset: const Offset(1.1, 1.1),
+//                           blurRadius: 10.0),
+//                     ],
+//                   ),
+//                   child: Column(
+//                     children: <Widget>[
+//                       // SizedBox(
+//                       //   height: MediaQuery.of(context).padding.top,
+//                       // ),
+//                       Padding(
+//                         padding: EdgeInsets.only(
+//                             left: 16,
+//                             right: 16,
+//                             top: 18,
+//                             bottom: 18),
+//                         child: Row(
+//                           mainAxisAlignment: MainAxisAlignment.center,
+//                           children: <Widget>[
+//                             Expanded(
+//                               child: Padding(
+//                                 padding: const EdgeInsets.all(8.0),
+//                                 child: Text(
+//                                  widget.vm.emp,
+//                                   textAlign: TextAlign.center,
+//                                   style: TextStyle(
+//                                      fontFamily: SmartAppTheme.fontName,
+//                                     fontWeight: FontWeight.w700,
+//                                     fontSize: 16 + 6 - 6 * topBarOpacity,
+//                                     letterSpacing: 1.2,
+//                                     color: SmartAppTheme.darkerText,
+//                                   ),
+//                                 ),
+//                               ),
+//                             ),
                           
                           
                         
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+//                           ],
+//                         ),
+//                       )
+//                     ],
+//                   ),
                
              
            
-        )
-      ],
-    );
-  }
+//         )
+//       ],
+//     );
+//   }
  
  
 }
@@ -206,10 +224,11 @@ class _ListRowView extends StatelessWidget {
 
       excludeSemantics: true,
       link: true,
-      onTap: callback,
+      
+    //  onTap: callback,
    child: InkWell(
                 splashColor: Colors.transparent,
-                onTap: callback,
+              //  onTap: callback,
             child: Padding(
               padding: const EdgeInsets.only(
                   left: 8, right: 8, top: 8, bottom: 8),

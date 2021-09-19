@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/model/eval/emp_for_eval_panal.dart';
 import 'package:hrapp/model/eval/evalFormVM.dart';
@@ -50,15 +51,23 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
        evalPg+=row.getEvalPercentAge();
      });
    });
-    return Scaffold(
-      backgroundColor: SmartAppTheme.white,
-      body: Container(
+    return CupertinoPageScaffold(
+       backgroundColor: SmartAppTheme.white,
+        navigationBar: CupertinoNavigationBar(
+
+     backgroundColor: SmartAppTheme.white,
+      border: null,
+         // iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
+        ),
+      child: Container(
         //  height: height,
 
         child: SingleChildScrollView(
           // child: Form(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * .1),
+         child:Material(
+   color: Colors.white,
           child: Form(
               key: formKey,
               // padding: const EdgeInsets.all(16.0),
@@ -134,13 +143,18 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
                   //   color:
                   //      Colors.orange 
                   // ),
-                  Text(this.widget.vm.emp, style: SmartAppTheme.title),
+                  ExcludeSemantics(
+                    child:Text(this.widget.vm.emp, style: SmartAppTheme.title),
+                  ),
                   const SizedBox(height: 5),
-
-                  Text( "تقييم",style: SmartAppTheme.caption),
+ ExcludeSemantics(
+                    child:  Text( "تقييم",style: SmartAppTheme.caption),
+                  ),
+                
                   //  const Divider(),
                   const SizedBox(height: 10),
                     TextFormField(
+                        style:SmartAppTheme.defaultTextStyle ,
                     controller: this._strongthInputValue,
                     maxLines: 4,
                    minLines: 2,
@@ -152,6 +166,7 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
                  
                   const SizedBox(height: 4),
                   TextFormField(
+                      style:SmartAppTheme.defaultTextStyle ,
                     controller: this._weaknessInput,
                      maxLines: 4,
                    minLines: 2,
@@ -163,6 +178,7 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
                    const SizedBox(height: 4),
 
                 TextFormField(
+                    style:SmartAppTheme.defaultTextStyle ,
                     controller: this._adviceInputValue,
                    maxLines: 4,
                    minLines: 2,
@@ -184,7 +200,7 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
         //  ]
         //),
       ),
-    );
+    ));
   }
 
   void _reset({bool resetControllers = true}) {

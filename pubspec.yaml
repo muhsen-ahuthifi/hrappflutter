@@ -33,9 +33,16 @@ dependencies:
   shared_preferences: ^0.5.8
   flushbar: ^1.10.4
   status_change: ^1.0.0
+  flutter_launcher_icons: ^0.7.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: res/img/icon.jpg
 
 flutter_native_splash:
   color: "#f6f6f6"

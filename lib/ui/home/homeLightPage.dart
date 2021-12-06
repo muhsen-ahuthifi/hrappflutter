@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hrapp/ui/eval/departmentEmpEvalPage.dart';
+import 'package:hrapp/ui/eval/departmentPeriodEvalPage.dart';
 import 'package:hrapp/ui/eval/employeeForEvalPage.dart';
 import 'package:hrapp/ui/eval/employeeTermEvalPage.dart';
 import 'package:hrapp/ui/eval/periodEvalPage.dart';
@@ -86,6 +88,12 @@ Widget getPage(){
     return EmployeeTermEvalPage();
       case AppFromKey.PeriodEvalPanal:
     return PeriodEvalPage();
+
+    case AppFromKey.DepartmentPeriodEvalPanal:
+    return DepartmentPeriodEvalPage();
+    case AppFromKey.DepartmentEmpEvalPanal:
+    return DepartmentEmpEvalPage();
+
     default:  return VacationsBalPage();
   }
 }

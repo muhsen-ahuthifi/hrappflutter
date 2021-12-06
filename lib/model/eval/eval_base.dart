@@ -11,6 +11,9 @@ abstract  class  BaseEvalPanal {
     final double pgw;
     final double weight;
 
-  BaseEvalPanal(this.id,  this.emp, this.department,this.evaldoc, this.job, this.period, this.pg, this.pgw, this.weight);
+     final String strongth;
+    final String weakness;
+    final String advice;
+  BaseEvalPanal(this.id,  this.emp, this.department,this.evaldoc, this.job, this.period, this.pg, this.pgw, this.weight,this.strongth,this.weakness, this.advice);
 
     }

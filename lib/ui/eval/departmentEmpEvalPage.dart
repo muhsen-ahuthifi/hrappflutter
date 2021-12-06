@@ -1,34 +1,31 @@
+
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hrapp/model/eval/eval_base.dart';
+import 'package:hrapp/model/eval/department_emp_eval_panal.dart';
+import 'package:hrapp/ui/eval/recivedHistoryEvalPage.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
 import 'package:hrapp/util/app_url.dart';
-import '../../model/eval/emp_term_eval_panal.dart';
 import '../../services/smartApiService.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
 
-import 'evalNoteDetailPage.dart';
 
-class EvalDetailsPage extends StatefulWidget {
- const EvalDetailsPage({Key key,@required this.vm}) : super(key: key);
-  final BaseEvalPanal vm;
+class DepartmentEmpEvalPage extends StatefulWidget {
+ const DepartmentEmpEvalPage({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
-    return _EvalDetailsPageState();
+    return _DepartmentEmpEvalPageState();
   }
 }
- 
-class _EvalDetailsPageState extends State<EvalDetailsPage> {
- //   _EvalDetailsPageState({@required this.vm});
-
-  //final BaseEvalPanal vm;
-  ApiListResults<EmployeeTermEvalPanal> response;
-  double topBarOpacity = 1.0;
+class _DepartmentEmpEvalPageState extends State<DepartmentEmpEvalPage> {
+ApiListResults<DepartmentEmpEvalPanal> response;
 
 Future _getData() {
-   return fetchPanelData(AppUrl.EvalPostDetilsPanal+"?evalpost="+widget.vm.id.toString(),(row)=>new EmployeeTermEvalPanal.fromJson(row))
+   return fetchPanelData(AppUrl.DepartmentEmpEvalPanal,(row)=>new DepartmentEmpEvalPanal.fromJson(row))
   .then((_response) {
-       if (mounted) {
+      if (mounted) {
     setState(() {
       response = _response;
     });
@@ -41,87 +38,12 @@ void initState() {
 super.initState();
   this._getData();
 }
-
   @override
   Widget build(BuildContext context) {
-// return RefreshIndicator(
-//     onRefresh: _getData,
-//     child: getCurrentView(context));
-       return CupertinoPageScaffold(
-       backgroundColor: SmartAppTheme.scaffoldBackground,
-      
-           navigationBar: CupertinoNavigationBar(
-//border:null ,
-           middle:  Text( widget.vm.emp,style: SmartAppTheme.defaultIosTextStype, ),
-         
-         // leading: Text( widget.vm.emp,style: SmartAppTheme.defaultIosTextStype, ),
-// trailing:Icon(
-//               CupertinoIcons.info_circle_fill,
-//               semanticLabel: 'نقاط القوة والضعف',
-              
-//             //  color: SmartAppTheme.searchIconColor,
-//             )
-               trailing: GestureDetector(
-              onTap: (){
-                 Navigator.push(context, CupertinoPageRoute(builder: (context) => EvalNoteDetailPage(vm: widget.vm)));
-
-              //    Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => EvalNoteDetailPage(vm: widget.vm)));
-              // //  smartSuccessToast(context,'نقاط القوة',widget.vm.strongth);
-
-              },
-              child: 
-         const Icon(
-                CupertinoIcons.info_circle_fill,
-               semanticLabel: 'نقاط القوة والضعف',
-
-               // color: SmartAppTheme.searchIconColor,
-              ),
-            ),
-           ),
-        
-           child:
-               SafeArea(
-          bottom: false,
-            child:
-           Material(
-             child: RefreshIndicator(
-             
-     onRefresh: _getData,
-    child: getCurrentView(context)),
-           ) ,
-               )
-      //  appBar: AppBar(
-      //      title:  Text( this.period_n, style: SmartAppTheme.title),
-      //      backgroundColor: SmartAppTheme.white,
-      //     // elevation: 0,
-      //       iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
-            
-      //  ),
-    //     body: RefreshIndicator(
-    // onRefresh: _getData,
-    // child: getCurrentView(context))
-    //    child: Stack(
-    //       children: <Widget>[
-         
-    //       // getAppBarUI(),
-    //            Padding(
-    //           padding:EdgeInsets.only(top: 100),
-    //           child:   RefreshIndicator(
-             
-    //  onRefresh: _getData,
-    // child: getCurrentView(context)) ,
-    //         ),
-        
-            
-            // SizedBox(
-            //   height: MediaQuery.of(context).padding.bottom,
-            // )
-       //   ],
-       // ),
-    );
+return RefreshIndicator(
+    onRefresh: _getData,
+    child: getCurrentView(context));
+  
   }
 
   Widget getCurrentView(BuildContext context) {
@@ -132,7 +54,7 @@ super.initState();
           return  errorView(response.message);
 
           }
-          List<EmployeeTermEvalPanal> data = response.data;
+          List<DepartmentEmpEvalPanal> data = response.data;
           if(data.length==0){
           return  noResultViewView();
           }else{
@@ -147,99 +69,34 @@ super.initState();
  
   }
 
-
-  ListView _smartListView(BuildContext context,List<EmployeeTermEvalPanal> data) {
+  ListView _smartListView(BuildContext context,List<DepartmentEmpEvalPanal> data) {
  
     return ListView.builder(
       
         itemCount: data.length,
          scrollDirection: Axis.vertical,
-           padding: EdgeInsets.only( left:4,right: 4,top:8,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
+           padding: EdgeInsets.only( left:4,right: 4,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
         itemBuilder: (context, index) {
           return _ListRowView(data: data[index],
            callback: () {
+         //    final row=data[index];
+      //  Navigator.push(context, CupertinoPageRoute(builder: (context) => RecivedHistoryEvalPage(period_id:row.id,period_n: row.period )));
+
           // var dd=data[index];
          //  print(dd.monitortype);
           });
         });
   }
 
-// Widget getAppBarUI() {
-//     return Column(
-//       children: <Widget>[
-//          SizedBox(
-//                         height: MediaQuery.of(context).padding.top,
-//                       ),
-//             Container(
-//               margin: EdgeInsets.only(left: 4, right: 4),
-//                   decoration: BoxDecoration(
-//                     color: SmartAppTheme.white.withOpacity(topBarOpacity),
-//                     borderRadius: const BorderRadius.all(
-//                       Radius.circular(32.0),
-//                     ),
-//                     boxShadow: <BoxShadow>[
-//                       BoxShadow(
-//                           color: SmartAppTheme.grey
-//                               .withOpacity(0.4 * topBarOpacity),
-//                           offset: const Offset(1.1, 1.1),
-//                           blurRadius: 10.0),
-//                     ],
-//                   ),
-//                   child: Column(
-//                     children: <Widget>[
-//                       // SizedBox(
-//                       //   height: MediaQuery.of(context).padding.top,
-//                       // ),
-//                       Padding(
-//                         padding: EdgeInsets.only(
-//                             left: 16,
-//                             right: 16,
-//                             top: 18,
-//                             bottom: 18),
-//                         child: Row(
-//                           mainAxisAlignment: MainAxisAlignment.center,
-//                           children: <Widget>[
-//                             Expanded(
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Text(
-//                                  widget.vm.emp,
-//                                   textAlign: TextAlign.center,
-//                                   style: TextStyle(
-//                                      fontFamily: SmartAppTheme.fontName,
-//                                     fontWeight: FontWeight.w700,
-//                                     fontSize: 16 + 6 - 6 * topBarOpacity,
-//                                     letterSpacing: 1.2,
-//                                     color: SmartAppTheme.darkerText,
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-                          
-                          
-                        
-//                           ],
-//                         ),
-//                       )
-//                     ],
-//                   ),
-               
-             
-           
-//         )
-//       ],
-//     );
-//   }
- 
+
  
 }
 
 
 
-
 class _ListRowView extends StatelessWidget {
 
-  final EmployeeTermEvalPanal data;
+  final DepartmentEmpEvalPanal data;
 
   const _ListRowView({Key key, this.data,this.callback})
       : super(key: key);
@@ -250,15 +107,14 @@ class _ListRowView extends StatelessWidget {
     
         return  Semantics(
       label: data.getAriaLabel(),
-       value: data.getAriaValue(),
+            value: data.getAriaValue(),
 
       excludeSemantics: true,
       link: true,
-      
-    //  onTap: callback,
+      onTap: callback,
    child: InkWell(
                 splashColor: Colors.transparent,
-              //  onTap: callback,
+                onTap: callback,
             child: Padding(
               padding: const EdgeInsets.only(
                   left: 8, right: 8, top: 8, bottom: 8),
@@ -304,7 +160,7 @@ class _ListRowView extends StatelessWidget {
                                               Container(
                                             width: 200,
                                             child: Text(
-                                                data.term,   
+                                                data.emp,   
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(
                                                    fontFamily: SmartAppTheme.fontName,
@@ -316,6 +172,7 @@ class _ListRowView extends StatelessWidget {
                                                 ),
                                               ),
                                             )),
+                                         
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -326,7 +183,7 @@ class _ListRowView extends StatelessWidget {
                                                 Padding(
                                                   padding: const EdgeInsets.only(left: 2, bottom: 3),
                                                   child: Text(
-                                                    data.aspect,
+                                                    data.job,
                                                   
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
@@ -398,7 +255,7 @@ class _ListRowView extends StatelessWidget {
                                     padding: const EdgeInsets.all(4.0),
                                     child: CustomPaint(
                                       painter: CurvePainter(
-                                   
+                                      
                                           angle: 360*data.pg/100),
                                       child: SizedBox(
                                         width: 68,

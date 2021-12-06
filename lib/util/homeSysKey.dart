@@ -39,8 +39,11 @@ class AppFromKey {
 
       static const String DocumentTermForEval= "EvalDocumentTermForEval"; 
 
-  
-  
+  //--new
+        static const String DepartmentPeriodEvalPanal= "DepartmentPeriodEvalPanal"; 
+        static const String DepartmentEmpEvalPanal= "DepartmentEmpEvalPanal"; 
+
+
 }
 
     
@@ -57,6 +60,8 @@ NavItem(key: AppFromKey.SentEvalPanal,title: "التقييمات الصادرة"
 NavItem(key: AppFromKey.EmployeeForEvalPanel,title: "تقييمات قيد الانتظار",subtitle: "التقييم"),
 NavItem(key: AppFromKey.EmployeeTermEvalPanal,title: "التقييمات الواردة تفصيلي",subtitle: "التقييم"),
 NavItem(key: AppFromKey.PeriodEvalPanal,title: "تقييم لفترات",subtitle: "التقييم"),
+NavItem(key: AppFromKey.DepartmentEmpEvalPanal,title: "تقييم موظفي القسم",subtitle: "التقييم"),
+NavItem(key: AppFromKey.DepartmentPeriodEvalPanal,title: "تقييم القسم لفترات",subtitle: "التقييم"),
 
 NavItem(key: AppFromKey.ManagerVacTransPanel,title: "الموافقة على الاجازات",subtitle: "الاعتماد"),
 NavItem(key: AppFromKey.ManagerPermissionPanel,title: "الموافقة على الاذونات",subtitle: "الاعتماد"),

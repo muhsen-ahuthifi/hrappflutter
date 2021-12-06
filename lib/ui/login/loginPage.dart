@@ -99,14 +99,22 @@ Widget _logo(){
                     ? smartLoadingButton(' ... يرجى الانتظار')
                     : smartSubmitButton(context,'تسجيل الدخول',doLogin),
                 
-                  SizedBox(height: height * .055),
+                  SizedBox(height: height * .12),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    alignment: Alignment.center,
+                    
+                    child:ExcludeSemantics(
+                      child: Text('جميع الحقوق محفوظة AOBWC', style: TextStyle( fontSize: 12, fontWeight: FontWeight.w500,fontFamily: SmartAppTheme.fontName)
+                    ) ),
+                  ),
                 //  _createAccountLabel(),
                 ],
               ),
                ),
             ),
           ),
-        //  Positioned(top: 40, left: 0, child: _backButton()),
+        //  Positioned(bottom: 40, left: 0, child: smartLoadingButton('test')),
         ],
       ),
     ));

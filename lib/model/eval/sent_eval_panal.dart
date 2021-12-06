@@ -9,8 +9,8 @@ return ' تقييم الموظف: $emp. , القسم: $department. , الوظف�
  String getAriaValue(){
  return 'النسبة: $pg %. , الوزن: $weight %. الدرجة المحققة: $pgw %.';
 }
-  SentEvalPanal({int id, String emp, String department, String job, String evaldoc,String period,double pg,double pgw,double weight})
-: super(id, emp, department, evaldoc,job,period,pg,pgw,weight);
+  SentEvalPanal({int id, String emp, String department, String job, String evaldoc,String period,double pg,double pgw,double weight,String strongth,String weakness, String advice})
+: super(id, emp, department, evaldoc,job,period,pg,pgw,weight, strongth, weakness,  advice);
   factory SentEvalPanal.fromJson(Map<String, dynamic> json) {
     return SentEvalPanal(
       id: json['id'],
@@ -24,6 +24,9 @@ return ' تقييم الموظف: $emp. , القسم: $department. , الوظف�
       pg: json['pg'],
       pgw: json['pgw'],
       weight: json['w'],
+  strongth: json['strongth']??'غير محدد',
+      weakness: json['weakness']??'غير محدد',
+      advice: json['advice']??'غير محدد',
 
       
     );

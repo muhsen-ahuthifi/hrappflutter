@@ -2,7 +2,8 @@
 import 'eval_base.dart';
 
 class RecivedEvalPanal extends BaseEvalPanal{
-  
+ 
+   
 
  String getAriaLabel(){
 return ' الفترة: $period. , نموذج التقييم : $evaldoc. , القسم: $department. , الوظفية: $job.' ;
@@ -11,8 +12,8 @@ return ' الفترة: $period. , نموذج التقييم : $evaldoc. , الق
  return 'النسبة: $pg %. , الوزن: $weight %. الدرجة المحققة: $pgw %.';
 }
 
-  RecivedEvalPanal({int id, String emp, String department, String job, String evaldoc,String period,double pg,double pgw,double weight})
-: super(id, emp, department, evaldoc,job,period,pg,pgw,weight);
+  RecivedEvalPanal({int id, String emp, String department, String job, String evaldoc,String period,double pg,double pgw,double weight,String strongth,String weakness, String advice})
+: super(id, emp, department, evaldoc,job,period,pg,pgw,weight, strongth, weakness,  advice);
   factory RecivedEvalPanal.fromJson(Map<String, dynamic> json) {
     return RecivedEvalPanal(
       id: json['id'],
@@ -28,6 +29,9 @@ return ' الفترة: $period. , نموذج التقييم : $evaldoc. , الق
       pg: json['pg'],
       pgw: json['pgw'],
       weight: json['w'],
+      strongth: json['strongth']??'غير محدد',
+      weakness: json['weakness']??'غير محدد',
+      advice: json['advice']??'غير محدد',
 
       
     );

@@ -46,11 +46,16 @@ class AppUrl {
       static const String PeriodEvalPanal= baseURL + "/EvalByEmpPeriodsPanel"; 
     static const String RecivedHistoryEvalPanal= baseURL + "/RecivedEvalPanal"; 
 
+
+
       static const String EmployeeFilter= baseURL + "/EmployeeFilter"; 
 
       static const String DocumentTermForEval= baseURL + "/EvalDocumentTermForEval"; 
       static const String EvalPosts= baseURL + "/EvalPostsSyncSimple"; 
 
-  
+
+      static const String DepartmentPeriodEvalPanal= baseURL + "/EvalByDepartmentPeriodsPanel"; 
+      static const String DepartmentEmpEvalPanal= baseURL + "/EvalByDepartmentEmpsPanel"; 
+
   
 }

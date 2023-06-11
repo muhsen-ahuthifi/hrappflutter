@@ -20,12 +20,12 @@ return ' تقييم الموظف: $emp. , الوظفية: $job.  ' ;
  return 'النسبة: $pg %. ';
 }
  
-  DepartmentEmpEvalPanal({this.id,  this.emp,  this.job,  this.pg});
+  DepartmentEmpEvalPanal({required this.id,required  this.emp, required this.job,  required this.pg});
 
 
   factory DepartmentEmpEvalPanal.fromJson(Map<String, dynamic> json) {
     return DepartmentEmpEvalPanal(
-      id: json['id'],
+      id: json['id']??0,
      emp: json['n']??'غير محدد',
      // department: json['evaldepartment']??'غير محدد',
     //  evaldoc: json['evaldoc']??'غير محدد',
@@ -33,7 +33,7 @@ return ' تقييم الموظف: $emp. , الوظفية: $job.  ' ;
      // period: json['period']??'غير محدد',
 
       
-      pg: json['pg']
+      pg: json['pg']??0
       
 
       

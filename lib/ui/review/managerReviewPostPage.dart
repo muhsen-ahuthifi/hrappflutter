@@ -10,8 +10,8 @@ import 'package:hrapp/util/app_url.dart';
 
 
 class ManagerReviewPostPage extends StatefulWidget {
-  const ManagerReviewPostPage({Key key, @required this.vm, @required this.postType})
-      : super(key: key);
+  const ManagerReviewPostPage({super.key, required this.vm, required this.postType})
+      ;
 
   final ManagerVacTransPostVM vm;
   final String postType;
@@ -206,8 +206,8 @@ class _ManagerReviewPostPageState extends State<ManagerReviewPostPage> {
 
   Future<void> _post() async {
     final form = formKey.currentState;
-        //print("state:"+this.vm.appreoved.toString());
-
+   if(form==null)
+   return;
     if (form.validate()) {
       form.save();
       _reset(resetControllers: false);

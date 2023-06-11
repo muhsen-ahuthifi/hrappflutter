@@ -1,144 +1,48 @@
 import 'package:flutter/material.dart';
-// import 'package:hrapp/model/vacations/vacationsPostVM.dart';
-// import 'package:hrapp/model/vacations_bal.dart';
-// import 'package:hrapp/ui/vacations/vacationsPostPage.dart';
+
 import 'package:hrapp/ui/widget/AppTheme.dart';
 import 'package:hrapp/ui/widget/commonVacTransWidget.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
 import 'package:hrapp/util/app_url.dart';
 import '../../model/vacations/vacation_trans_panal.dart';
 import '../../services/smartApiService.dart';
+import '../widget/list_view.dart';
 
-class VacationTransPage extends StatefulWidget {
- const VacationTransPage({Key key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _VacationTransPageState();
-  }
-}
-class _VacationTransPageState extends State<VacationTransPage> {
-ApiListResults<VacationTransPanel> response;
+class VacationTransPage extends StatelessWidget {
+ const VacationTransPage({super.key});
 
-Future _getData() {
-   return fetchPanelData(AppUrl.VacationTransPanel,(row)=>new VacationTransPanel.fromJson(row))
-  .then((_response) {
-    if (mounted) {
-    setState(() {
-      response = _response;
-    });
-}
-  });
-}
 
-@override
-void initState() {
-super.initState();
-  this._getData();
-}
+
+
+
+
   @override
   Widget build(BuildContext context) {
-return RefreshIndicator(
-    onRefresh: _getData,
-    child: getCurrentView(context));
-  
+   return NgListView(
+      dataLoader: (context) =>fetchPanelData(AppUrl.VacationTransPanel,
+        (row) => new VacationTransPanel.fromJson(row)) ,
+      itemBuilder: (context,row, index,loadDataFun) =>_buildRow(context, row,loadDataFun) ,
+    );
+
   }
-
-  Widget getCurrentView(BuildContext context) {
-
-
-     if (response!=null) {
-          if(!response.success){
-          return  errorView(response.message);
-
-          }
-          List<VacationTransPanel> data = response.data;
-         
-          if(data.length==0){
-          return  noResultViewView();
-          }else{
-          return _smartListView(context,data);
-          }
-          }
-        //  else if (snapshot.hasError) {
-        //   return  errorView(snapshot.error);
-        // }
-         return loadingView();
-      
  
-  }
-
-  ListView _smartListView(BuildContext context,List<VacationTransPanel> data) {
- 
-    return ListView.builder(
-      
-        itemCount: data.length,
-         scrollDirection: Axis.vertical,
-           padding: EdgeInsets.only( left:16,right: 16,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
-        itemBuilder: (context, index) {
-          return _ListRowView(data: data[index],
+Widget _buildRow(BuildContext context,VacationTransPanel row,VoidCallback loadDataFun) {
+   return _ListRowView(data: row,
            callback: () {
-
-             var row=data[index];
             smartSuccessToast(context,'الحالة',row.getAriaValue());
-
-          //  smartStateDialog(context,row.monitortype,
-          //    [
-          //     DialogOptions(key:"1",label:'موافقة المدير المباشر',checked:row.manager_appreoved,reject: row.req_reject&&!row.manager_appreoved),
-          //     DialogOptions(key:"2",label:'اعتماد الطلب',checked:row.hr_appreoved,reject: row.req_reject&&row.manager_appreoved)
-
-          //    ],
-          //   [
-          //    Divider(),
-          // //  Padding(padding:const EdgeInsets.only(top: 4, left: 16, right: 16), child:Text('المدير المباشر : '+ row.spareEmp)),
-          //  //   Divider(),
-          //   Padding(padding:const EdgeInsets.only(top: 4, left: 16, right: 16), child:Text('سبب الرفض')),
-          //    Divider(),
-          //    Padding(padding:const EdgeInsets.only(top: 8, left: 16, right: 16),child:Text(row.rejectNote)),
-              
-          //   ]
-          //    );
-            
           });
-        });
-  }
-
+}
 
 }
 
-  // @override
-  // Widget build(BuildContext context) {
-
-  //   return FutureBuilder<ApiListResults<VacationTransPanel>>(
-  //     future:fetchPanelData(AppUrl.VacationTransPanel,(row)=>new VacationTransPanel.fromJson(row)),
-  //     builder: (context, snapshot) {
-  //       if (snapshot.hasData) {
-  //         if(!snapshot.data.success){
-  //         return  errorView(snapshot.data.message);
-
-  //         }
-  //         List<VacationTransPanel> data = snapshot.data.data;
-  //         if(data.length==0){
-  //         return  noResultViewView();
-  //         }else{
-  //         return _smartListView(context,data);
-  //         }
-  //       } else if (snapshot.hasError) {
-  //         return  errorView(snapshot.error);
-  //       }
-  //        return loadingView();
-      
-  //     },
-  //   );
-  // }
 
 
 class _ListRowView extends StatelessWidget {
 
   final VacationTransPanel data;
 
-  const _ListRowView({Key key, this.data,this.callback})
-      : super(key: key);
+  const _ListRowView({required this.data,required this.callback});
   final VoidCallback callback;
 
   @override

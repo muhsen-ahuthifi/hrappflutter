@@ -24,7 +24,7 @@ return 'نوع الاذن $monitortype. ,  بتاريخ : $atDate. , من الس
  String getAriaValue(){
 return 'حالة الطلب : $appreoveState. , $rejectNote ';
 }
-  PermissionTransPanel({this.id,this.monitortype, this.spareEmp, this.bal, this.period,this.atDate,this.fromHour,this.toHour,this.req_reject,this.hr_appreoved, this.manager_appreoved, this.appreoved, this.appreoveState,this.rejectNote,this.note});
+  PermissionTransPanel({required this.id,required this.monitortype,required this.spareEmp, required this.bal,required this.period,required this.atDate,required this.fromHour,required this.toHour,required this.req_reject,required this.hr_appreoved, required this.manager_appreoved,required this.appreoved,required this.appreoveState,required this.rejectNote,required this.note});
 
   factory PermissionTransPanel.fromJson(Map<String, dynamic> json) {
     return PermissionTransPanel(
@@ -32,19 +32,19 @@ return 'حالة الطلب : $appreoveState. , $rejectNote ';
          id: json['id'],
       spareEmp: json['spare_emp']??'غير محدد ',
       monitortype: json['monitortype']??'غير محدد ',
-      period: json['vdays'],
-      bal: json['bal'],
+      period: json['vdays']??0,
+      bal: json['bal']??0,
       fromHour: json['fhour']??'غير محدد ',
       toHour: json['tohour']??'غير محدد ',
       atDate: json['fdate']??'غير محدد ',
-      req_reject:json['req_reject'],
+      req_reject:json['req_reject']??false,
 
-      hr_appreoved:json['appreoved'],
-      manager_appreoved:json['manager_appreoved'],
-      appreoved:json['appreoved']&&json['manager_appreoved'],
+      hr_appreoved:json['appreoved']??false,
+      manager_appreoved:json['manager_appreoved']??false,
+      appreoved:json['appreoved']==true&&json['manager_appreoved']==true,
 appreoveState:json['req_reject']?"تم رفض الطلب"
-:json['appreoved']&&json['manager_appreoved']?"تمت الموافقة على الطلب":
-json['manager_appreoved']? "تم الموافقة من المدير المباشر ، في انتظار الاعتماد "
+:json['appreoved']==true&&json['manager_appreoved']==true?"تمت الموافقة على الطلب":
+json['manager_appreoved']==true? "تم الموافقة من المدير المباشر ، في انتظار الاعتماد "
 : " قيد الانتظار للموافقة",
 
 rejectNote: json['rej_reason']??'',

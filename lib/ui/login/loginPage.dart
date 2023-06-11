@@ -10,9 +10,8 @@ import 'package:hrapp/providers/user_provider.dart';
 import '../widget/formFields.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
+  const LoginPage({super.key});
 
-  final String title;
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -21,7 +20,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final formKey = new GlobalKey<FormState>();
 
-  String _username, _password;
+  String? _username, _password;
 
 
 Widget _logo(){
@@ -30,8 +29,10 @@ Widget _logo(){
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        entryField("البريد الالكتروني",(value) => _username = value,(value) => value.isEmpty ? "يرجى ادخال البريد الالكتروني" : null),
-        entryField("كلمة المرور",(value) => _password = value,(value) => value.isEmpty ? "يرجى ادخال كلمة المرور" : null, isPassword: true),
+        entryField("البريد الالكتروني",(value) => _username = value,
+        (value) =>value==null|| value.isEmpty ? "يرجى ادخال البريد الالكتروني" : null),
+        entryField("كلمة المرور",(value) => _password = value,
+        (value) =>value==null|| value.isEmpty ? "يرجى ادخال كلمة المرور" : null, isPassword: true),
       ],
     );
   }
@@ -43,24 +44,28 @@ Widget _logo(){
     
     var doLogin = () {
       final form = formKey.currentState;
-
+   if(form==null)
+   return;
       if (form.validate()) {
         form.save();
 
-        final Future<Map<String, dynamic>> successfulMessage = auth.login(_username, _password);
+        final Future<Map<String, dynamic>> successfulMessage = auth.login(_username!, _password!);
         successfulMessage.then((response) {
           if (response['status']) {
             User user = response['user'];
             Provider.of<UserProvider>(context, listen: false).setUser(user);
-            Navigator.pushReplacementNamed(context, AppRouteUrl.apps);
+            // Navigator.pushReplacementNamed(context, AppRouteUrl.apps);
+              Navigator.of(context, rootNavigator: true).pushReplacementNamed(
+           AppRouteUrl.apps);
           } else {
             smartErrorToast(context, "فشل تسجيل الدخول", response['message'].toString());
            
           }
         });
-      } else {
-        print("form is invalid");
-      }
+      } 
+      // else {
+      //  // print("form is invalid");
+      // }
     };
 
     return Scaffold(

@@ -16,7 +16,7 @@ return 'الفترة: $period.' ;
  String getAriaValue(){
  return 'النسبة: $pg %. , عدد الموظفين: $emp_count.';
 }
-  DepartmentPeriodEvalPanal({this.id, this.period,  this.pg,this.emp_count});
+  DepartmentPeriodEvalPanal({required this.id, required this.period,required  this.pg,required this.emp_count});
 
   factory DepartmentPeriodEvalPanal.fromJson(Map<String, dynamic> json) {
     return DepartmentPeriodEvalPanal(

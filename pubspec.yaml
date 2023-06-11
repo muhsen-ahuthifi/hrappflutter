@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.1.1+3
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: '>=2.19.5 <3.0.0'
 
 dependencies:
   flutter:
@@ -27,13 +27,29 @@ dependencies:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
-  provider: ^4.3.1
-  http: ^0.12.1
-  shared_preferences: ^0.5.8
-  flushbar: ^1.10.4
-  status_change: ^1.0.0
-  flutter_launcher_icons: ^0.7.5
+  cupertino_icons: ^1.0.2
+  # provider: ^4.3.1
+  # http: ^0.12.1
+
+  # shared_preferences: ^0.5.8
+  provider: ^5.0.0
+  shared_preferences: ^2.0.5
+  # http: ^0.12.1
+  http: ^0.13.4
+  # flushbar: ^1.10.4
+  # status_change: ^1.0.0
+  status_change: ^2.0.0
+  # flutter_launcher_icons: ^0.7.5
+  firebase_core: ^2.13.0
+  firebase_messaging: ^14.6.1
+  flutter_local_notifications: ^14.0.0+1
+  # flutter_local_notifications: ^8.2.0
+  # firebase_messaging: ^7.0.3
+  # flutter_local_notifications: ^4.0.1+2
+  # firebase_core: ^0.5.3
+dependency_overrides:
+  # Override for `flutter_local_notifications`:
+  plugin_platform_interface: ^2.1.3
 
 dev_dependencies:
   flutter_test:
@@ -44,9 +60,9 @@ flutter_icons:
   ios: true
   image_path: res/img/icon.jpg
 
-flutter_native_splash:
-  color: "#f6f6f6"
-  image: res/img/logo.png
+# flutter_native_splash:
+#   color: "#f6f6f6"
+#   image: res/img/logo.png
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

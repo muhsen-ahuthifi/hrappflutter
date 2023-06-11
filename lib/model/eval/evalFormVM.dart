@@ -17,7 +17,7 @@ class DocumentTermForEval {
     final double evalpg;
    // final double aspect_pg;
 
-  DocumentTermForEval({this.id, this.docterm_id,this.name, this.aspect,this.evalpg,this.evalvalue,this.weight});
+  DocumentTermForEval({required this.id, required this.docterm_id,required this.name, required this.aspect,required this.evalpg,required this.evalvalue,required this.weight});
 
   factory DocumentTermForEval.fromJson(Map<String, dynamic> json) {
     return DocumentTermForEval(
@@ -50,6 +50,6 @@ class DocumentTermForEval {
 
       double getEvalPercentAge()
        {
-           return (this.evalvalue??0 * this.weight??0) / 5;
+           return (this.evalvalue  * this.weight) / 5;
        }
 }

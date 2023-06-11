@@ -27,8 +27,8 @@ return ' تقييم الموظف: $emp. , القسم: $department. , الوظف�
     String getAriaValue(){
  return 'الوزن: $weight %. , قيد الانتظار';
 }
-  EmployeeForEvalPanel({this.id, this.emp, this.department, this.job, this.evaldoc,this.evaldoc_id,this.period,this.weight,
-  this.job_id,this.period_id,this.department_id,this.evalcycle_id,this.emp_id,this.descendantEmp_Id
+  EmployeeForEvalPanel({required this.id,required this.emp,required this.department, required this.job,required this.evaldoc,required this.evaldoc_id,required this.period,required this.weight,
+  required this.job_id,required this.period_id,required this.department_id,required this.evalcycle_id,required this.emp_id,required this.descendantEmp_Id
   });
 
   factory EmployeeForEvalPanel.fromJson(Map<String, dynamic> json) {

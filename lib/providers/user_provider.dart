@@ -6,12 +6,17 @@ class UserProvider with ChangeNotifier {
 
   User get user => _user;
 
+void setUserSession(User user) {
+    _user = user;
+  }
   void setUser(User user) {
     _user = user;
     notifyListeners();
   }
-    void removeUser() {
+    String? removeUser() {
+      final empId=_user.emp;
     _user = new User();
     notifyListeners();
+    return empId;
   }
 }

@@ -23,8 +23,8 @@ const todoColor = Color(0xffd1d2d7);
 
 
 class EvalFormPage extends StatefulWidget {
- const EvalFormPage({Key key, @required this.vm})
-      : super(key: key);
+ const EvalFormPage({super.key, required this.vm})
+      ;
 
   final EmployeeForEvalPanel vm;
   //EmployeeForEvalPanel
@@ -36,11 +36,11 @@ class EvalFormPage extends StatefulWidget {
 
 class _EvalFormPageState extends State<EvalFormPage> {
 
-ApiListResults<DocumentTermForEval> response;
+ApiListResults<DocumentTermForEval>? response;
 int _processIndex = 0;
  // String pages = '';
 
-Map<String,List<DocumentTermForEval> >  _steps;
+Map<String,List<DocumentTermForEval> >?  _steps;
 Future _getData() {
    return fetchEvalDocTermsData(AppUrl.DocumentTermForEval+'?evaldoc='+this.widget.vm.evaldoc_id.toString(),(row)=>new DocumentTermForEval.fromJson(row))
   .then((_response) {
@@ -165,26 +165,33 @@ return false;
             backgroundColor: SmartAppTheme.nearlyWhite,
             onTap: (value) async {
               
-if(this._steps!=null&&this._steps.length>0){
+if(this._steps!=null&&this._steps!.length>0){
 
 if(value==1){
-final dataIndex=_processIndex+1;
+ if( _steps!.values.elementAt(_processIndex).any((element) => element.evalvalue==0)){
+   smartErrorToast(context, "التقييم", "يرجى استكمال ادخال درجات التقييم");
 
-            if (dataIndex < this._steps.length) {
+  }
+else{
+  final dataIndex=_processIndex+1;
+
+            if (dataIndex < this._steps!.length) {
                   setState(() {
              _processIndex++;
                   });
             } 
 
-            else if (dataIndex >=this._steps.length) {
+            else if (dataIndex >=this._steps!.length) {
                    
-                final result = await Navigator.push(context, CupertinoPageRoute(builder: (context) => EvalFormPostPage(vm:this.widget.vm,termsGroup:_steps)));
+                final result = await Navigator.push(context, CupertinoPageRoute(builder: (context) => EvalFormPostPage(vm:this.widget.vm,termsGroup:_steps!)));
           //         Navigator.pop(context, true); smartErrorToast(context, key, data[index].monitortype)
           if(result!=null&&result){ 
             Navigator.pop(context, true);
           }
             
             }
+}
+
 }else if(value==0 &&_processIndex>0){
      setState(() {
              _processIndex--;
@@ -221,7 +228,7 @@ final dataIndex=_processIndex+1;
       //                                         CrossAxisAlignment.start,
         children: [
           Semantics(
-            label:  _steps.keys.elementAt(_processIndex).toString(),
+            label:  _steps!.keys.elementAt(_processIndex).toString(),
           excludeSemantics: true,
             child:
           
@@ -236,7 +243,7 @@ final dataIndex=_processIndex+1;
               ),
               builder: StatusChangeTileBuilder.connected(
                 itemWidth: (_) =>
-                    MediaQuery.of(context).size.width / _steps.length,
+                    MediaQuery.of(context).size.width / _steps!.length,
                 //    itemWidth:(_)=>60,
                     
                 nameWidgetBuilder: (context, index) {
@@ -308,7 +315,7 @@ final dataIndex=_processIndex+1;
                     return null;
                   }
                 },
-                itemCount: _steps.length,
+                itemCount: _steps!.length,
               ),
             ),
           )),
@@ -317,36 +324,59 @@ final dataIndex=_processIndex+1;
           //     : pages == Pages.AddAddress
           //         ? AddAddress()
           //         : Summary()
-         EvalGroupsPage(title: _steps.keys.elementAt(_processIndex).toString(),items:_steps.values.elementAt(_processIndex),)
+         EvalGroupsPage(title: _steps!.keys.elementAt(_processIndex).toString(),items:_steps!.values.elementAt(_processIndex),)
         ],
       );
  }
-    Widget getCurrentView(BuildContext context) {
+  //   Widget getCurrentView(BuildContext context) {
 
 
-     if (response!=null) {
-          if(!response.success){
-          return  errorView(response.message);
+  //    if (response!=null) {
+  //         if(!response.success){
+  //         return  errorView(response.message);
 
-          }
-          List<DocumentTermForEval> data = response.data;
+  //         }
+  //         List<DocumentTermForEval> data = response.data;
+  //         if(data.length==0){
+  //         return  noResultViewView();
+  //         }else{
+  //           this._steps=response.data.groupBy((m) => m.aspect);
+  //         return getSteperView();
+  //         }
+  //         }
+  //       //  else if (snapshot.hasError) {
+  //       //   return  errorView(snapshot.error);
+  //       // }
+  //        return loadingView();
+      
+ 
+  // }
+  
+  
+  Widget getCurrentView(BuildContext context) {
+ 
+  if(response==null)
+  return loadingView();
+
+     
+        if(response?.success==false)
+          return  errorView(response?.message??"Error");
+
+          
+           List<DocumentTermForEval> data = response!.data;
           if(data.length==0){
           return  noResultViewView();
           }else{
-            this._steps=response.data.groupBy((m) => m.aspect);
+            _steps=data.groupBy((m) => m.aspect);
           return getSteperView();
           }
-          }
-        //  else if (snapshot.hasError) {
-        //   return  errorView(snapshot.error);
-        // }
-         return loadingView();
+        
       
  
   }
-  
-}
 
+}
+ 
 // final _steps = [
 //   'Delivery',
 //   'Address',
@@ -359,7 +389,7 @@ final dataIndex=_processIndex+1;
 
 
 class EvalGroupsPage extends StatefulWidget {
-    EvalGroupsPage({@required this.title,@required this.items });
+    EvalGroupsPage({required this.title,required this.items });
        final String title;
 final List<DocumentTermForEval> items;
       @override
@@ -448,7 +478,7 @@ mainAxisAlignment: MainAxisAlignment.center,
 
 
 class _ListRowView extends StatefulWidget {
-    _ListRowView({@required this.option });
+    _ListRowView({required this.option });
       
 final DocumentTermForEval option;
       @override

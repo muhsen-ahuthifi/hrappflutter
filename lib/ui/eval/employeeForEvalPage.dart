@@ -7,107 +7,44 @@ import '../../services/smartApiService.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
 
 import 'evalFormPage.dart';
+import 'widget/eval_weight_view.dart';
+import '../widget/list_view.dart';
 
 
-class EmployeeForEvalPage extends StatefulWidget {
- const EmployeeForEvalPage({Key key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _EmployeeForEvalPageState();
-  }
-}
-class _EmployeeForEvalPageState extends State<EmployeeForEvalPage> {
-ApiListResults<EmployeeForEvalPanel> response;
+class EmployeeForEvalPage extends StatelessWidget {
+ const EmployeeForEvalPage({super.key});
 
-Future _getData() {
-   return fetchPanelData(AppUrl.EmployeeForEvalPanel,(row)=>new EmployeeForEvalPanel.fromJson(row))
-  .then((_response) {
 
-           if (mounted) {
-    setState(() {
-      response = _response;
-    });
-}
-    //
-  });
-}
 
-@override
-void initState() {
-super.initState();
-  this._getData();
-}
   @override
   Widget build(BuildContext context) {
-return RefreshIndicator(
-    onRefresh: _getData,
-    child: getCurrentView(context));
-  
+   return NgListView(
+      dataLoader: (context) =>
+      fetchPanelData(AppUrl.EmployeeForEvalPanel,
+      (row)=>new EmployeeForEvalPanel.fromJson(row)) ,
+      itemBuilder: (context,row, index,loadDataFun) =>
+      _buildRow(context, row,loadDataFun) ,
+    );
+
   }
 
-  Widget getCurrentView(BuildContext context) {
-
-
-     if (response!=null) {
-          if(!response.success){
-          return  errorView(response.message);
-
-          }
-          List<EmployeeForEvalPanel> data = response.data;//??new List();
-      //     data.add(EmployeeForEvalPanel(
-            
-      //       department_id: 1,descendantEmp_Id: 127,emp_id: 130,emp: "muh",evalcycle_id: 1,
-    
-      // department: 'غير محدد',
-      // evaldoc: 'غير محدد',
-      // job: 'غير محدد',
-      //  weight: 50,
-      // job_id: 0,
-      //   period_id: 0,
-     
-
-      // period: 'غير محدد',
-      //  evaldoc_id: 19,
-   
-          
-          
-      //     ));
-          if(data.length==0){
-          return  noResultViewView();
-          }else{
-          return _smartListView(context,data);
-          }
-          }
-        //  else if (snapshot.hasError) {
-        //   return  errorView(snapshot.error);
-        // }
-         return loadingView();
-      
- 
-  }
-
-  ListView _smartListView(BuildContext context,List<EmployeeForEvalPanel> data) {
- 
-    return ListView.builder(
-      
-        itemCount: data.length,
-         scrollDirection: Axis.vertical,
-           padding: EdgeInsets.only( left:4,right: 4,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
-        itemBuilder: (context, index) {
-          return _ListRowView(data: data[index],
+  Widget _buildRow(BuildContext context,EmployeeForEvalPanel row,VoidCallback loadDataFun) {
+     return _ListRowView(data:row,
            callback: () async {
-         final row=data[index];
                 final result = await  Navigator.push(context, CupertinoPageRoute(builder: (context) => EvalFormPage(vm: row)));
            if(result!=null&&result){
             smartSuccessToast(context,"التقييم","تمت العملية بنجاح");
-            _getData();
+            loadDataFun();
           }
           // var dd=data[index];
          //  print(dd.monitortype);
           });
-        });
   }
+ 
+
+
+
 
 
  
@@ -119,8 +56,8 @@ class _ListRowView extends StatelessWidget {
 
   final EmployeeForEvalPanel data;
 
-  const _ListRowView({Key key, this.data,this.callback})
-      : super(key: key);
+   const _ListRowView({required this.data, required this.callback});
+
   final VoidCallback callback;
 
   @override
@@ -313,67 +250,8 @@ class _ListRowView extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'الوزن',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                     fontFamily: SmartAppTheme.fontName,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    letterSpacing: -0.2,
-                                    color: SmartAppTheme.darkText,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 4),
-                                  child: Container(
-                                    height: 4,
-                                    width: 70,
-                                    decoration: BoxDecoration(
-                                      color:
-                                          Color(4287078629).withOpacity(0.2),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(4.0)),
-                                    ),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Container(
-                                          width: ((70 / 1.1) * 1),
-                                          height: 4,
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(colors: [
-                                              Color(4287078629),
-                                              Color(4287078629)
-                                                  .withOpacity(0.5),
-                                            ]),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(4.0)),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 6),
-                                  child: Text(
-                                    data.weight.toString(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                       fontFamily: SmartAppTheme.fontName,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color:
-                                          SmartAppTheme.grey.withOpacity(0.5),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          child: EvalWeightView(weight: data.weight.toString())
+
                           ),
                          
                         

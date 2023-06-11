@@ -6,85 +6,41 @@ import 'package:hrapp/ui/widget/commonWidget.dart';
 import 'package:hrapp/util/app_url.dart';
 import '../../model/eval/sent_eval_panal.dart';
 import '../../services/smartApiService.dart';
+import 'widget/eval_weight_view.dart';
+import '../widget/list_view.dart';
 
 
-class SentEvalPage extends StatefulWidget {
- const SentEvalPage({Key key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _SentEvalPageState();
-  }
-}
-class _SentEvalPageState extends State<SentEvalPage> {
-ApiListResults<SentEvalPanal> response;
+class SentEvalPage extends StatelessWidget {
 
-Future _getData() {
-   return fetchPanelData(AppUrl.SentEvalPanal,(row)=>new SentEvalPanal.fromJson(row))
-  .then((_response) {
-      if (mounted) {
-    setState(() {
-      response = _response;
-    });
-}
-  });
-}
+ const SentEvalPage({super.key});
 
-@override
-void initState() {
-super.initState();
-  this._getData();
-}
+
+
+
+
   @override
   Widget build(BuildContext context) {
-return RefreshIndicator(
-    onRefresh: _getData,
-    child: getCurrentView(context));
-  
+   return NgListView(
+      dataLoader: (context) =>
+      fetchPanelData(AppUrl.SentEvalPanal,
+      (row)=>new SentEvalPanal.fromJson(row)) ,
+      itemBuilder: (context,row, index,loadDataFun) =>
+      _buildRow(context, row,loadDataFun) ,
+    );
+
   }
 
-  Widget getCurrentView(BuildContext context) {
-
-
-     if (response!=null) {
-          if(!response.success){
-          return  errorView(response.message);
-
-          }
-          List<SentEvalPanal> data = response.data;
-          if(data.length==0){
-          return  noResultViewView();
-          }else{
-          return _smartListView(context,data);
-          }
-          }
-        //  else if (snapshot.hasError) {
-        //   return  errorView(snapshot.error);
-        // }
-         return loadingView();
-      
- 
-  }
-
-
-  ListView _smartListView(BuildContext context,List<SentEvalPanal> data) {
- 
-    return ListView.builder(
-      
-        itemCount: data.length,
-         scrollDirection: Axis.vertical,
-           padding: EdgeInsets.only( left:4,right: 4,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
-        itemBuilder: (context, index) {
-          return _ListRowView(data: data[index],
+  Widget _buildRow(BuildContext context,SentEvalPanal row,VoidCallback loadDataFun) {
+    return _ListRowView(data: row,
            callback: () {
-                      Navigator.push(context, CupertinoPageRoute(builder: (context) => EvalDetailsPage(vm: data[index])));
+                      Navigator.push(context, CupertinoPageRoute(builder: (context) => EvalDetailsPage(vm: row)));
 
           // var dd=data[index];
          //  print(dd.monitortype);
           });
-        });
   }
-
+ 
 
  
 }
@@ -95,8 +51,8 @@ class _ListRowView extends StatelessWidget {
 
   final SentEvalPanal data;
 
-  const _ListRowView({Key key, this.data,this.callback})
-      : super(key: key);
+  const _ListRowView({required this.data, required this.callback});
+
   final VoidCallback callback;
 
   @override
@@ -132,90 +88,24 @@ class _ListRowView extends StatelessWidget {
                   ],
                 ),
                 child: Column(
-                  children: <Widget>[
+                  children: [
                     Padding(
                       padding:
                           const EdgeInsets.only(top: 16, left: 4, right: 4),
                       child: Row(
-                        children: <Widget>[
+                        children: [
                           Expanded(                            
-                            child: Padding(
+                            child: 
+                            Padding(
                               padding: const EdgeInsets.only(
                                   left: 2, right:2, top: 4),
                               child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Container(
-                                        height: 48,
-                                        width: 2,
-                                        decoration: BoxDecoration(
-                                          color: Color(4287078629)
-                                              .withOpacity(0.5),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4.0)),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4, bottom: 2),
-                                                  
-                                              child: 
-                                                    Container(
-                                                 width: 200,
-                                                 child:Text(
-                                                data.emp,                                             
-                                                textAlign: TextAlign.start,
-                                                style: TextStyle(
-                                                  fontFamily: SmartAppTheme.fontName,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  letterSpacing: -0.1,
-                                                  color: SmartAppTheme.grey
-                                                      .withOpacity(0.5),
-                                                ),
-                                              )),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: <Widget>[
-     
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: 2, bottom: 3),
-                                                 
-                                                  child: 
-                                              Container(
-                                                 width: 220,
-                                                 child:Text(
-                                                    data.department,
-                                                    textAlign: TextAlign.start,
-                                                    style: TextStyle(
-                                                       fontFamily: SmartAppTheme.fontName,
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 12,
-                                                      color: SmartAppTheme.darkerText,
-                                                    ),
-                                                  )),
-                                                ),
-                                          
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                children:[
+                             
+                                EvalTitleView(title: data.emp,subtitle: data.department,
+                                borderColor:  Color(4287078629).withOpacity(0.5),
+                                ),
+                                
                                 
                                   SizedBox(
                                     height: 8,
@@ -226,7 +116,6 @@ class _ListRowView extends StatelessWidget {
                                         height: 48,
                                         width: 2,
                                         decoration: BoxDecoration(
-                                          
                                           color: Color(0xFFF56E98)
                                               .withOpacity(0.5),
                                           borderRadius: BorderRadius.all(
@@ -371,69 +260,9 @@ class _ListRowView extends StatelessWidget {
                       padding: const EdgeInsets.only(
                           left: 24, right: 24, top: 8, bottom: 16),
                       child: Row(
-                        children: <Widget>[
+                        children: [
                           Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'الوزن',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                     fontFamily: SmartAppTheme.fontName,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    letterSpacing: -0.2,
-                                    color: SmartAppTheme.darkText,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 4),
-                                  child: Container(
-                                    height: 4,
-                                    width: 70,
-                                    decoration: BoxDecoration(
-                                      color:
-                                          Color(4287078629).withOpacity(0.2),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(4.0)),
-                                    ),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Container(
-                                          width: ((70 / 1.1) * 1),
-                                          height: 4,
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(colors: [
-                                             Color(4287078629),
-                                              Color(4287078629)
-                                                  .withOpacity(0.5),
-                                            ]),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(4.0)),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 6),
-                                  child: Text(
-                                    data.weight.toString(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                       fontFamily: SmartAppTheme.fontName,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color:
-                                          SmartAppTheme.grey.withOpacity(0.5),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            child: EvalWeightView(weight: data.weight.toString())
                           ),
                          
                           Expanded(
@@ -441,69 +270,7 @@ class _ListRowView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      'الدرجة المحققة',
-                                      style: TextStyle(
-                                         fontFamily: SmartAppTheme.fontName,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        letterSpacing: -0.2,
-                                        color: SmartAppTheme.darkText,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 0, top: 4),
-                                      child: Container(
-                                        height: 4,
-                                        width: 70,
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFF1B440)
-                                              .withOpacity(0.2),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4.0)),
-                                        ),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                              width: ((70 / 2.5) *
-                                                 1),
-                                              height: 4,
-                                              decoration: BoxDecoration(
-                                                gradient:
-                                                    LinearGradient(colors: [
-                                                  Color(0xFFF1B440)
-                                                      .withOpacity(0.1),
-                                                  Color(0xFFF1B440),
-                                                ]),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(4.0)),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Text(
-                                        data.pgw.toString(),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                           fontFamily: SmartAppTheme.fontName,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: SmartAppTheme.grey
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                               EvalPercentageView(pg: data.pgw.toString())
                               ],
                             ),
                           )

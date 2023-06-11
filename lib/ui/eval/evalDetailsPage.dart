@@ -10,7 +10,7 @@ import 'package:hrapp/ui/widget/AppTheme.dart';
 import 'evalNoteDetailPage.dart';
 
 class EvalDetailsPage extends StatefulWidget {
- const EvalDetailsPage({Key key,@required this.vm}) : super(key: key);
+ const EvalDetailsPage({super.key,required this.vm});
   final BaseEvalPanal vm;
   @override
   State<StatefulWidget> createState() {
@@ -22,7 +22,7 @@ class _EvalDetailsPageState extends State<EvalDetailsPage> {
  //   _EvalDetailsPageState({@required this.vm});
 
   //final BaseEvalPanal vm;
-  ApiListResults<EmployeeTermEvalPanal> response;
+  ApiListResults<EmployeeTermEvalPanal>? response;
   double topBarOpacity = 1.0;
 
 Future _getData() {
@@ -93,56 +93,29 @@ super.initState();
     child: getCurrentView(context)),
            ) ,
                )
-      //  appBar: AppBar(
-      //      title:  Text( this.period_n, style: SmartAppTheme.title),
-      //      backgroundColor: SmartAppTheme.white,
-      //     // elevation: 0,
-      //       iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
-            
-      //  ),
-    //     body: RefreshIndicator(
-    // onRefresh: _getData,
-    // child: getCurrentView(context))
-    //    child: Stack(
-    //       children: <Widget>[
-         
-    //       // getAppBarUI(),
-    //            Padding(
-    //           padding:EdgeInsets.only(top: 100),
-    //           child:   RefreshIndicator(
-             
-    //  onRefresh: _getData,
-    // child: getCurrentView(context)) ,
-    //         ),
-        
-            
-            // SizedBox(
-            //   height: MediaQuery.of(context).padding.bottom,
-            // )
-       //   ],
-       // ),
+     
     );
   }
 
-  Widget getCurrentView(BuildContext context) {
 
+ Widget getCurrentView(BuildContext context) {
+ 
+  if(response==null)
+  return loadingView();
 
-     if (response!=null) {
-          if(!response.success){
-          return  errorView(response.message);
+     
+        if(response?.success==false)
+          return  errorView(response?.message??"Error");
 
-          }
-          List<EmployeeTermEvalPanal> data = response.data;
-          if(data.length==0){
+          
+          List<EmployeeTermEvalPanal> data = response!.data;
+         
+          if(data.length==0)
           return  noResultViewView();
-          }else{
-          return _smartListView(context,data);
-          }
-          }
-        //  else if (snapshot.hasError) {
-        //   return  errorView(snapshot.error);
-        // }
-         return loadingView();
+          else return _smartListView(context,data);
+          
+          
+        
       
  
   }
@@ -158,8 +131,7 @@ super.initState();
         itemBuilder: (context, index) {
           return _ListRowView(data: data[index],
            callback: () {
-          // var dd=data[index];
-         //  print(dd.monitortype);
+         
           });
         });
   }
@@ -241,8 +213,8 @@ class _ListRowView extends StatelessWidget {
 
   final EmployeeTermEvalPanal data;
 
-  const _ListRowView({Key key, this.data,this.callback})
-      : super(key: key);
+  const _ListRowView({required this.data, required this.callback});
+
   final VoidCallback callback;
 
   @override

@@ -1,20 +1,22 @@
 class User {
-  String emp;
-  String name;
+ final String? emp;
+ final String? name;
  // String email;
  // String phone;
  // String type;
-  String token;
+ final String? token;
   //String renewalToken;
 
-  User({this.emp, this.name, this.token});
+final bool isHrAdmin;
+  User({this.emp, this.name, this.token, this.isHrAdmin=false});
 
   factory User.fromJson(Map<String, dynamic> responseData) {
     return User(
         emp: responseData['emp'],
         name: responseData['name'],
-        token: responseData['access_token']
-        
+        token: responseData['access_token'],
+      isHrAdmin: responseData['hrad']=="1"
+
     );
   }
 }

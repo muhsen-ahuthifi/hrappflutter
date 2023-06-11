@@ -8,78 +8,36 @@ import 'package:hrapp/ui/widget/commonWidget.dart';
 import 'package:hrapp/util/app_url.dart';
 import '../../model/vacations_bal.dart';
 import '../../services/smartApiService.dart';
+import '../widget/list_view.dart';
 
 //VacationsPostPage
-class VacationsBalPage extends StatefulWidget {
-      const VacationsBalPage({Key key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _VacationsBalPageState();
-  }
-}
-class _VacationsBalPageState extends State<VacationsBalPage> {
-ApiListResults<VacationsBal> response;
+class VacationsBalPage extends StatelessWidget {
 
-Future _getData() {
-   return fetchPanelData(AppUrl.VacationsBal,(row)=>new VacationsBal.fromJson(row))
-  .then((_response) {
-     if (mounted) {
-    setState(() {
-      response = _response;
-    });
-}
-  });
-}
+      const VacationsBalPage({super.key});
 
-@override
-void initState() {
-super.initState();
-  this._getData();
-}
-  @override
+
+
+
+
+
+ 
+
+ @override
   Widget build(BuildContext context) {
-return RefreshIndicator(
-    onRefresh: _getData,
+   return NgListView(
+      dataLoader: (context) =>fetchPanelData(AppUrl.VacationsBal,
+        (row) => new VacationsBal.fromJson(row)) ,
+      itemBuilder: (context,row, index,loadDataFun) =>_buildRow(context, row,loadDataFun) ,
+    );
 
-    child: getCurrentView(context));
+  }
+
+Widget _buildRow(BuildContext context,VacationsBal row,VoidCallback loadDataFun) {
   
-  }
-
-  Widget getCurrentView(BuildContext context) {
-
-
-     if (response!=null) {
-          if(!response.success){
-          return  errorView(response.message);
-
-          }
-          List<VacationsBal> data = response.data;
-          if(data.length==0){
-          return  noResultViewView();
-          }else{
-          return _smartListView(context,data);
-          }
-          }
-        //  else if (snapshot.hasError) {
-        //   return  errorView(snapshot.error);
-        // }
-         return loadingView();
-      
- 
-  }
-
-  ListView _smartListView(BuildContext context,List<VacationsBal> data) {
- 
-    return ListView.builder(
-         
-        itemCount: data.length,
-         scrollDirection: Axis.vertical,
-           padding: EdgeInsets.only( left:16,right: 16,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
-        itemBuilder: (context, index) {
-          return _ListRowView(data: data[index],
+  return _ListRowView(data: row,
            callback: () async {
-             if(data[index].allowHourTrans){
+             if(row.allowHourTrans){
               showCupertinoModalPopup<void>(
               context: context,
               builder: (BuildContext context) => CupertinoActionSheet(
@@ -96,38 +54,26 @@ return RefreshIndicator(
                     
                     child: const Text('اجازة يومية',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
-                        openVacForm(key:VactionPostType.Vacation,vm:data[index]);
+                        openVacForm(context,loadDataFun,key:VactionPostType.Vacation,vm:row);
                     },
                   ),
                   CupertinoActionSheetAction(
                     child: const Text('اجازة ساعية',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
-                         openVacForm(key:VactionPostType.Permission,vm:data[index]);
+                         openVacForm(context,loadDataFun,key:VactionPostType.Permission,vm:row);
                     },
                   )
                 ],
               ),
             );
          
-          //   smartOptionsDialog(context,data[index].monitortype,
-          //    [
-          //     DialogOptions(key:VactionPostType.Vacation,label:'طلب اجازة'),
-          //     DialogOptions(key:VactionPostType.Permission,label:'طلب اجازة ساعية')
-
-          //    ],
-          //    (key) async{
-
-          //    openVacForm(key:key,vm:data[index]);
-          // //  smartErrorToast(context, key, data[index].monitortype)
-
-          //    }
-          //    );
+          
              }
              else{
-         final result = await Navigator.push(context, CupertinoPageRoute(builder: (context) => VacationsPostPage(vm: data[index],postType:VactionPostType.Vacation)));
+         final result = await Navigator.push(context, CupertinoPageRoute(builder: (context) => VacationsPostPage(vm: row,postType:VactionPostType.Vacation)));
                 if(result!=null&&result){
                 smartSuccessToast(context,"الاجازات","تمت العملية بنجاح");
-                  _getData();
+                  loadDataFun();
           }
              }
             
@@ -135,15 +81,19 @@ return RefreshIndicator(
          //  print(dd.monitortype);
           }
           );
-        });
-  }
+        
+       
+}
 
-   openVacForm({key:String,vm}) async{
+
+
+
+ void  openVacForm(BuildContext context,VoidCallback loadDataFun,{required String key,vm}) async{
        Navigator.pop(context);
           final result = await   Navigator.push(context, CupertinoPageRoute(builder: (context) => VacationsPostPage(vm: vm,postType:key)));
            if(result!=null&&result){
             smartSuccessToast(context,"الاجازات","تمت العملية بنجاح");
-            _getData();
+            loadDataFun();
           }
  }
 }
@@ -154,8 +104,7 @@ class _ListRowView extends StatelessWidget {
 
   final VacationsBal data;
 
-  const _ListRowView({Key key, this.data,this.callback})
-      : super(key: key);
+  const _ListRowView({ required this.data,required this.callback});
   final VoidCallback callback;
 
   @override

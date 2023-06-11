@@ -10,8 +10,7 @@ import 'package:hrapp/util/app_url.dart';
 
 
 class EvalFormPostPage extends StatefulWidget {
-    const EvalFormPostPage({Key key, @required this.vm,  @required this.termsGroup})
-      : super(key: key);
+    const EvalFormPostPage({super.key, required this.vm,  required this.termsGroup});
 
         final EmployeeForEvalPanel vm;
 
@@ -158,6 +157,7 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
                     controller: this._strongthInputValue,
                     maxLines: 4,
                    minLines: 2,
+                   validator:    (value) =>value==null|| value.isEmpty ? "يرجى ادخال  مواطن القوة " : null,
                     decoration: const InputDecoration(
                       labelText: 'مواطن القوة',
                       border: UnderlineInputBorder(),
@@ -170,6 +170,8 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
                     controller: this._weaknessInput,
                      maxLines: 4,
                    minLines: 2,
+                   validator: (value) =>value==null|| value.isEmpty ? "يرجى ادخال مواطن الضعف " : null,
+
                     decoration: const InputDecoration(
                       labelText: 'مواطن الضعف',
                       border: UnderlineInputBorder(),
@@ -182,6 +184,8 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
                     controller: this._adviceInputValue,
                    maxLines: 4,
                    minLines: 2,
+               validator: (value) =>value==null|| value.isEmpty ? " يرجى ادخال  ملاحظات وارشادات عامة " : null,
+
                     decoration: const InputDecoration(
                       labelText: 'ملاحظات وارشادات عامة',
                       border: UnderlineInputBorder(),
@@ -220,6 +224,8 @@ class _EvalFormPostPagetate extends State<EvalFormPostPage> {
 
   Future<void> _post() async {
     final form = formKey.currentState;
+    if(form==null)
+    return;
     if (form.validate()) {
       form.save();
       _reset(resetControllers: false);

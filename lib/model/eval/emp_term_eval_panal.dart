@@ -18,7 +18,7 @@ return ' $term. , $aspect.' ;
  String getAriaValue(){
  return 'النسبة: $pg %. , الوزن: $weight %. الدرجة المحققة: $pgw %.';
 }
-  EmployeeTermEvalPanal({this.id, this.term, this.aspect, this.aspect_pg,this.pg,this.pgw,this.weight});
+  EmployeeTermEvalPanal({required this.id,required this.term,required  this.aspect, required this.aspect_pg,required this.pg,required this.pgw,required this.weight});
 
   factory EmployeeTermEvalPanal.fromJson(Map<String, dynamic> json) {
     return EmployeeTermEvalPanal(
@@ -29,10 +29,10 @@ return ' $term. , $aspect.' ;
      // job: json['job']??'',
     //  period: json['period']??'',
 
-      aspect_pg:json['aspect_pg'],
-      pg: json['pg'],
-      pgw: json['pgw'],
-      weight: json['w'],
+      aspect_pg:json['aspect_pg']??0,
+      pg: json['pg']??0,
+      pgw: json['pgw']??0,
+      weight: json['w']??0,
 
       
     );

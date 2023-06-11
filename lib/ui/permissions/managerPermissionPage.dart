@@ -10,74 +10,30 @@ import 'package:hrapp/util/app_url.dart';
 import '../../services/smartApiService.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
 
+import '../widget/list_view.dart';
 
-class ManagerPermissionPage extends StatefulWidget {
- const ManagerPermissionPage({Key key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _ManagerPermissionPageState();
-  }
-}
-class _ManagerPermissionPageState extends State<ManagerPermissionPage> {
-ApiListResults<ManagerPermissionPanel> response;
 
-Future _getData() {
-   return fetchPanelData(AppUrl.ManagerPermissionPanel,(row)=>new ManagerPermissionPanel.fromJson(row))
-  .then((_response) {
-      if (mounted) {
-    setState(() {
-      response = _response;
-    });
-}
-  });
-}
+class ManagerPermissionPage extends StatelessWidget {
 
-@override
-void initState() {
-super.initState();
-  this._getData();
-}
-  @override
+ const ManagerPermissionPage({super.key});
+
+
+
+ @override
   Widget build(BuildContext context) {
-return RefreshIndicator(
-    onRefresh: _getData,
-    child: getCurrentView(context));
+   return NgListView(
+      dataLoader: (context) =>fetchPanelData(AppUrl.ManagerPermissionPanel,
+        (row) => new ManagerPermissionPanel.fromJson(row)) ,
+      itemBuilder: (context,row, index,loadDataFun) =>_buildRow(context, row,loadDataFun) ,
+    );
+
+  }
+
   
-  }
 
-  Widget getCurrentView(BuildContext context) {
-
-
-     if (response!=null) {
-          if(!response.success){
-          return  errorView(response.message);
-
-          }
-          List<ManagerPermissionPanel> data = response.data;
-          if(data.length==0){
-          return  noResultViewView();
-          }else{
-          return _smartListView(context,data);
-          }
-          }
-        //  else if (snapshot.hasError) {
-        //   return  errorView(snapshot.error);
-        // }
-         return loadingView();
-      
- 
-  }
-
-  ListView _smartListView(BuildContext context,List<ManagerPermissionPanel> data) {
- 
-    return ListView.builder(
-      
-        itemCount: data.length,
-         scrollDirection: Axis.vertical,
-           padding: EdgeInsets.only( left:16,right: 16,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
-        itemBuilder: (context, index) {
-          return _ListRowView(data: data[index],
+Widget _buildRow(BuildContext context,ManagerPermissionPanel row,VoidCallback loadDataFun) {
+    return _ListRowView(data: row,
            callback: () {
             showCupertinoModalPopup<void>(
               context: context,
@@ -95,7 +51,7 @@ return RefreshIndicator(
                     
                     child: const Text('الموافقة على الطلب',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
-                       openVacApproveForm(key:VactionApproveType.Apporve,row:data[index]);
+                       openVacApproveForm(context,loadDataFun,key:VactionApproveType.Apporve,row:row);
                       
                     },
                   ),
@@ -103,36 +59,33 @@ return RefreshIndicator(
                     child: const Text('رفض الطلب',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
                     
-                         openVacApproveForm(key:VactionApproveType.Reject,row:data[index]);
+                         openVacApproveForm(context,loadDataFun,key:VactionApproveType.Reject,row:row);
                     },
                   )
                 ],
               ),
             );
          
-          //    smartOptionsDialog(context,data[index].monitortype,
-          //    [
-          //     DialogOptions(key:VactionApproveType.Apporve,label:'موافقة'),
-          //     DialogOptions(key:VactionApproveType.Reject,label:'رفض')
-
-          //    ],
-          //    (key) async {
-          //     final row=data[index];
-          //    openVacApproveForm(key:key,row:row);
-          // //  smartErrorToast(context, key, data[index].monitortype)
-          //    });
+         
           });
-        });
-  }
+       
+       
+}
+ 
 
-   openVacApproveForm({key:String,row}) async{
+
+ 
+
+
+  void openVacApproveForm(BuildContext context,VoidCallback loadDataFun,{required String key,required ManagerPermissionPanel row}) async{
        Navigator.pop(context);
                 final result = await  Navigator.push(context, CupertinoPageRoute(builder: (context) => ManagerReviewPostPage(vm: ManagerVacTransPostVM(id: row.id,emp: row.emp,spareEmp: row.spareEmp,period: row.period,fromDate: row.fromHour,toDate: row.toHour,monitortype: row.monitortype,bal: row.bal,note: row.note,appreoved: key==VactionApproveType.Apporve),postType:VactionPostType.Permission)));
             if(result!=null&&result){
             smartSuccessToast(context,"الاعتماد","تمت العملية بنجاح");
-            _getData();
+            loadDataFun();
           }
  }
+
 }
 
 
@@ -140,9 +93,8 @@ return RefreshIndicator(
 class _ListRowView extends StatelessWidget {
 
   final ManagerPermissionPanel data;
+  const _ListRowView({required this.data, required this.callback});
 
-  const _ListRowView({Key key, this.data,this.callback})
-      : super(key: key);
   final VoidCallback callback;
 
   @override

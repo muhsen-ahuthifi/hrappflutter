@@ -1,4 +1,5 @@
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hrapp/providers/user_provider.dart';
@@ -10,8 +11,11 @@ import 'package:hrapp/ui/widget/AppTheme.dart';
 import 'package:hrapp/util/shared_preference.dart';
 import 'package:provider/provider.dart';
 
+import '../../messaging/messaging.dart';
+import '../../messaging/permissions.dart';
+
 class AppsLightPage extends StatefulWidget {
-  AppsLightPage({Key key}) : super(key: key);
+const  AppsLightPage({super. key});
 
   final String title="الاجازات والتقييم";
 
@@ -20,18 +24,41 @@ class AppsLightPage extends StatefulWidget {
 }
 
 class _AppsLightPageState extends State<AppsLightPage> {
-  List<NavItem> navs;
-    TextEditingController _controller;
-    FocusNode _focusNode;
-  String _terms = '';
+ late List<NavItem> navs;
+   late TextEditingController _controller;
+   late FocusNode _focusNode;
+  String? _terms = '';
 
   @override
   void initState() {
-        super.initState();
+     super.initState();
 
    navs = getNavItems();
     _controller = TextEditingController()..addListener(_onTextChanged);
     _focusNode = FocusNode();
+_listenToMessage();
+_requestPermissions();
+
+  }
+  void _requestPermissions(){
+NgNotificationManager.requestPermissions();
+
+  }
+ 
+  
+ @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+ final user= Provider.of<UserProvider>(context, listen: false).user;
+   NgNotificationManager.subscribe(user.emp,user.isHrAdmin);
+  }
+
+  void _listenToMessage(){
+    
+  FirebaseMessaging.onMessage.listen((msg) => {
+    saveNotification(msg),
+    showFlutterNotification(msg),
+    });
   }
     @override
   void dispose() {
@@ -64,10 +91,9 @@ class _AppsLightPageState extends State<AppsLightPage> {
   @override
   Widget build(BuildContext context) {
    //   final model = Provider.of<AppStateModel>(context);
-    final resultsNavs =_terms==null||_terms.isEmpty?navs:search(_terms);
+    final resultsNavs =_terms==null||_terms!.isEmpty?navs:search(_terms!);
 
   
-    
  
    return DecoratedBox(
       decoration: const BoxDecoration(
@@ -168,10 +194,10 @@ class _AppsLightPageState extends State<AppsLightPage> {
 
 class SearchBar extends StatelessWidget {
   const SearchBar({
-    @required this.controller,
-    @required this.focusNode,
-    Key key,
-  }) : super(key: key);
+    required this.controller,
+    required this.focusNode,
+    super.key,
+  });
 
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -254,8 +280,10 @@ class SearchBar extends StatelessWidget {
                     
                     child: const Text('تسجيل خروج',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
-                        UserPreferences().removeUser();
-                      Provider.of<UserProvider>(context, listen: false).removeUser();
+                      
+                      UserPreferences.removeUser();
+                     final empId=Provider.of<UserProvider>(context, listen: false).removeUser();
+                       NgNotificationManager.unSubscribe(empId);
                       Navigator.pushReplacementNamed(context, '/login');
                     },
                   ),
@@ -281,10 +309,10 @@ class SearchBar extends StatelessWidget {
   
 class MenuRowItem extends StatelessWidget {
   const MenuRowItem({
-    @required this.item,
-   @required this.lastItem,
-    Key key,
-  }) : super(key: key);
+    required this.item,
+   required this.lastItem,
+    super.key,
+  });
 
   final NavItem item;
   final bool lastItem;

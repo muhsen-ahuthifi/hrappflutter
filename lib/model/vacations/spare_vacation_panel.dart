@@ -23,14 +23,14 @@ return ' مناوبة عن  الموظف : $emp. , نوع الاجازة: $monit
  return 'ملاحظات: $note. ,  المدير المباشر : $manager. ';
 }
 
-    SpareVacationPanel({this.monitortype, this.emp,this.note,  this.period,this.fromDate,this.toDate, this.manager});
+    SpareVacationPanel({required this.monitortype,required this.emp,required this.note, required this.period,required this.fromDate,required this.toDate,required this.manager});
 
   factory SpareVacationPanel.fromJson(Map<String, dynamic> json) {
     return SpareVacationPanel(
      //  id: json['id'],
       emp: json['n']??'غير محدد ',
       monitortype: json['monitortype']??'غير محدد ',
-      period: json['vdays'],
+      period: json['vdays']??0,
     //  bal: json['bal'],
        fromDate: json['fdate']??'غير محدد ',
       toDate: json['todate']??'غير محدد ',

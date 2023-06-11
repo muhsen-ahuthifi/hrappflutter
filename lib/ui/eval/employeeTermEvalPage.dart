@@ -5,81 +5,38 @@ import 'package:hrapp/util/app_url.dart';
 import '../../model/eval/emp_term_eval_panal.dart';
 import '../../services/smartApiService.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
+import '../widget/list_view.dart';
 
 
-class EmployeeTermEvalPage extends StatefulWidget {
- const EmployeeTermEvalPage({Key key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _EmployeeTermEvalPageState();
-  }
-}
-class _EmployeeTermEvalPageState extends State<EmployeeTermEvalPage> {
-ApiListResults<EmployeeTermEvalPanal> response;
+class EmployeeTermEvalPage extends StatelessWidget {
 
-Future _getData() {
-   return fetchPanelData(AppUrl.EmployeeTermEvalPanal,(row)=>new EmployeeTermEvalPanal.fromJson(row))
-  .then((_response) {
-      if (mounted) {
-    setState(() {
-      response = _response;
-    });
-}
-  });
-}
+ const EmployeeTermEvalPage({super.key});
 
-@override
-void initState() {
-super.initState();
-  this._getData();
-}
+
+
+
+ 
   @override
   Widget build(BuildContext context) {
-return RefreshIndicator(
-    onRefresh: _getData,
-    child: getCurrentView(context));
-  
+   return NgListView(
+      dataLoader: (context) =>
+      fetchPanelData(AppUrl.EmployeeTermEvalPanal,
+      (row)=>new EmployeeTermEvalPanal.fromJson(row)) ,
+      itemBuilder: (context,row, index,loadDataFun) =>
+      _buildRow(context, row,loadDataFun) ,
+    );
+
   }
 
-  Widget getCurrentView(BuildContext context) {
-
-
-     if (response!=null) {
-          if(!response.success){
-          return  errorView(response.message);
-
-          }
-          List<EmployeeTermEvalPanal> data = response.data;
-          if(data.length==0){
-          return  noResultViewView();
-          }else{
-          return _smartListView(context,data);
-          }
-          }
-        //  else if (snapshot.hasError) {
-        //   return  errorView(snapshot.error);
-        // }
-         return loadingView();
-      
- 
-  }
-
-  ListView _smartListView(BuildContext context,List<EmployeeTermEvalPanal> data) {
- 
-    return ListView.builder(
-      
-        itemCount: data.length,
-         scrollDirection: Axis.vertical,
-           padding: EdgeInsets.only( left:4,right: 4,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
-        itemBuilder: (context, index) {
-          return _ListRowView(data: data[index],
+  Widget _buildRow(BuildContext context,EmployeeTermEvalPanal row,VoidCallback loadDataFun) {
+    return _ListRowView(data: row,
            callback: () {
           // var dd=data[index];
          //  print(dd.monitortype);
           });
-        });
   }
+ 
 
 
  
@@ -91,8 +48,8 @@ class _ListRowView extends StatelessWidget {
 
   final EmployeeTermEvalPanal data;
 
-  const _ListRowView({Key key, this.data,this.callback})
-      : super(key: key);
+  const _ListRowView({required this.data, required this.callback});
+
   final VoidCallback callback;
 
   @override

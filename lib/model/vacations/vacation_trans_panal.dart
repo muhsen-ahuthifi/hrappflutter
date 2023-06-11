@@ -25,25 +25,25 @@ return 'طلب $monitortype. , الايام : $period. , من تاريخ : $from
  return 'حالة الطلب : $appreoveState. , $rejectNote';
 }
 
-  VacationTransPanel({this.id,this.monitortype, this.spareEmp, this.bal,this.req_reject, this.period,this.fromDate,this.toDate,this.hr_appreoved, this.manager_appreoved, this.appreoved, this.appreoveState,this.rejectNote,this.note});
+  VacationTransPanel({required this.id,required this.monitortype,required this.spareEmp,required this.bal,required this.req_reject, required this.period,required this.fromDate,required this.toDate,required this.hr_appreoved, required this.manager_appreoved,required this.appreoved,required this.appreoveState,required this.rejectNote,required this.note});
 
   factory VacationTransPanel.fromJson(Map<String, dynamic> json) {
     return VacationTransPanel(
       id: json['id'],
       spareEmp: json['spare_emp']??'غير محدد ',
       monitortype: json['monitortype']??'غير محدد ',
-      period: json['vdays'],
-      bal: json['bal'],
+      period: json['vdays']??0,
+      bal: json['bal']??0,
       fromDate: json['fdate']??'غير محدد ',
       toDate: json['todate']??'غير محدد ',
       //manager: json['monitortype']??'',
-      hr_appreoved:json['appreoved'],
-      manager_appreoved:json['manager_appreoved'],
-      appreoved:json['appreoved']&&json['manager_appreoved'],
-      req_reject:json['req_reject'],
-appreoveState:json['req_reject']?"تم رفض الطلب"
-:json['appreoved']&&json['manager_appreoved']?"تمت الموافقة على الطلب":
-json['manager_appreoved']? "تم الموافقة من المدير المباشر ، في انتظار الاعتماد "
+      hr_appreoved:json['appreoved']??false,
+      manager_appreoved:json['manager_appreoved']??false,
+      appreoved:json['appreoved']==true&&json['manager_appreoved']==true,
+      req_reject:json['req_reject']??false,
+appreoveState:json['req_reject']==true?"تم رفض الطلب"
+:json['appreoved']==true&&json['manager_appreoved']==true?"تمت الموافقة على الطلب":
+json['manager_appreoved']==true? "تم الموافقة من المدير المباشر ، في انتظار الاعتماد "
 : " قيد الانتظار للموافقة",
 rejectNote: json['rej_reason']??'',
 note: json['note']??'',

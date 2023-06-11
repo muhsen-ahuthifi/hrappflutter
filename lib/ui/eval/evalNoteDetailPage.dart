@@ -7,7 +7,7 @@ import 'package:hrapp/ui/widget/AppTheme.dart';
 class EvalNoteDetailPage extends StatelessWidget {
     final BaseEvalPanal vm;
 
-  EvalNoteDetailPage({Key key, this.vm}) : super(key: key);
+  EvalNoteDetailPage({super.key, required this.vm});
   @override
   Widget build(BuildContext context) {
     // final levelIndicator = Container(

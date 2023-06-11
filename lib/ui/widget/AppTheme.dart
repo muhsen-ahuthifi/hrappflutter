@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 // import 'colorUtlit.dart';
 
@@ -28,16 +28,16 @@ class SmartAppTheme {
   static const Color spacer = Color(0xFFF2F2F2);
   static const String fontName = 'Tajawal Regular';
 
-  static const TextTheme textTheme = TextTheme(
-    headline4:  display1,
-    headline5: headline,
-    headline6: title,
-    subtitle2: subtitle,
-    bodyText2: body2,
-    bodyText1: body1,
-    caption: caption,
+  // static const TextTheme textTheme = TextTheme(
+  //   headline4:  display1,
+  //   headline5: headline,
+  //   headline6: title,
+  //   subtitle2: subtitle,
+  //   bodyText2: body2,
+  //   bodyText1: body1,
+  //   caption: caption,
     
-  );
+  // );
    static const CupertinoTextThemeData cupertinoTextTheme = CupertinoTextThemeData(
     // headline4:  display1,
     // headline5: headline,
@@ -164,3 +164,47 @@ class SmartAppTheme {
     
 
 }
+
+
+class HrSmartAppTheme {
+  HrSmartAppTheme._();
+
+ static const TextStyle weightLableStyle = TextStyle(
+                                  fontFamily: SmartAppTheme.fontName,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  letterSpacing: -0.2,
+                                  color: SmartAppTheme.darkText,
+
+                                  
+                                );
+
+              static  TextStyle weightValueStyle =     TextStyle(
+                                       fontFamily: SmartAppTheme.fontName,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                      color:
+                                          SmartAppTheme.grey.withOpacity(0.5),
+                                    );
+
+ static  TextStyle evalTitleStyle = TextStyle(
+                        fontFamily: SmartAppTheme.fontName,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        letterSpacing: -0.1,
+                        color: SmartAppTheme.grey.withOpacity(0.5),
+                      );
+
+       static const TextStyle evalsubTitleStyle =        TextStyle(
+                            fontFamily: SmartAppTheme.fontName,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            color: SmartAppTheme.darkerText,
+                          );
+ static const TextStyle evalsubTitleLightStyle =        TextStyle(
+                            fontFamily: SmartAppTheme.fontName,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            color: SmartAppTheme.darkerText,
+                          );
+  }

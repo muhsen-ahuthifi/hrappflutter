@@ -24,14 +24,15 @@ return ' مناوبة عن  الموظف : $emp. , نوع الاذن $monitortyp
 }
 
 
-  SparePermissionPanel({this.monitortype, this.emp,this.note,  this.period,this.atDate,this.fromHour,this.toHour, this.manager});
+  SparePermissionPanel({required this.monitortype,required this.emp,required this.note, required this.period,required this.atDate,required this.fromHour,required this.toHour,required this.manager});
 
   factory SparePermissionPanel.fromJson(Map<String, dynamic> json) {
+    
     return SparePermissionPanel(
      //  id: json['id'],
       emp: json['n']??'غير محدد ',
       monitortype: json['monitortype']??'غير محدد ',
-      period: json['vdays'],
+      period: json['vdays']??0,
     //  bal: json['bal'],
       fromHour: json['fhour']??'غير محدد ',
       toHour: json['tohour']??'غير محدد ',

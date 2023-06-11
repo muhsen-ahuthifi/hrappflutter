@@ -10,72 +10,30 @@ import 'package:hrapp/util/app_url.dart';
 import '../../services/smartApiService.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
 
-class ManagerVacTransPage extends StatefulWidget {
- const ManagerVacTransPage({Key key}) : super(key: key);
+import '../widget/list_view.dart';
 
-  @override
-  State<StatefulWidget> createState() {
-    return _ManagerVacTransPageState();
-  }
-}
-class _ManagerVacTransPageState extends State<ManagerVacTransPage> {
-ApiListResults<ManagerVacTransPanel> response;
 
-Future _getData() {
-   return fetchPanelData(AppUrl.ManagerVacTransPanel,(row)=>new ManagerVacTransPanel.fromJson(row))
-  .then((_response) {
-       if (mounted) {
-    setState(() {
-      response = _response;
-    });
-}
-  });
-}
 
-@override
-void initState() {
-super.initState();
-  this._getData();
-}
+class ManagerVacTransPage extends StatelessWidget {
+ const ManagerVacTransPage({super. key});
+
+
+
   @override
   Widget build(BuildContext context) {
-return RefreshIndicator(
-    onRefresh: _getData,
-    child: getCurrentView(context));
-  
+   return NgListView(
+      dataLoader: (context) =>
+      fetchPanelData(AppUrl.ManagerVacTransPanel,
+      (row)=>new ManagerVacTransPanel.fromJson(row)) ,
+      itemBuilder: (context,row, index,loadDataFun) =>
+      _buildRow(context, row,loadDataFun) ,
+    );
+
   }
 
-  Widget getCurrentView(BuildContext context) {
-
-
-     if (response!=null) {
-          if(!response.success){
-          return  errorView(response.message);
-
-          }
-          List<ManagerVacTransPanel> data = response.data;
-          if(data.length==0){
-          return  noResultViewView();
-          }else{
-          return _smartListView(context,data);
-          }
-          }
-        //  else if (snapshot.hasError) {
-        //   return  errorView(snapshot.error);
-        // }
-         return loadingView();
-      
- 
-  }
-  ListView _smartListView(BuildContext context,List<ManagerVacTransPanel> data) {
- 
-    return ListView.builder(
-      
-        itemCount: data.length,
-         scrollDirection: Axis.vertical,
-           padding: EdgeInsets.only( left:16,right: 16,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
-        itemBuilder: (context, index) {
-          return _ListRowView(data: data[index],
+  Widget _buildRow(BuildContext context,ManagerVacTransPanel row,VoidCallback loadDataFun) {
+    
+      return _ListRowView(data: row,
            callback: () {
                  showCupertinoModalPopup<void>(
               context: context,
@@ -93,42 +51,33 @@ return RefreshIndicator(
                     
                     child: const Text('الموافقة على الطلب',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
-                       openVacApproveForm(key:VactionApproveType.Apporve,row:data[index]);
+                       openVacApproveForm(context,loadDataFun,key:VactionApproveType.Apporve,row:row);
                       
                     },
                   ),
                   CupertinoActionSheetAction(
                     child: const Text('رفض الطلب',style: SmartAppTheme.defaultIosTextStype),
                     onPressed: () {
-                         openVacApproveForm(key:VactionApproveType.Reject,row:data[index]);
+                         openVacApproveForm(context,loadDataFun,key:VactionApproveType.Reject,row:row);
                     },
                   )
                 ],
               ),
             );
          
-          //     smartOptionsDialog(context,data[index].monitortype,
-          //    [
-          //     DialogOptions(key:VactionApproveType.Apporve,label:'موافقة'),
-          //     DialogOptions(key:VactionApproveType.Reject,label:'رفض')
-
-          //    ],
-          //    (key) async{
-          // openVacApproveForm(key: key,row:data[index]);
-          //    }
-          //    );
-          // var dd=data[index];
-         //  print(dd.monitortype);
+          
           });
-        });
+       
   }
 
-   openVacApproveForm({key:String,row}) async{
+  
+ 
+  void openVacApproveForm(BuildContext context,VoidCallback loadDataFun,{ required String key,required ManagerVacTransPanel row}) async{
        Navigator.pop(context);
                 final result = await Navigator.push(context, CupertinoPageRoute(builder: (context) => ManagerReviewPostPage(vm: ManagerVacTransPostVM(id: row.id,emp: row.emp,spareEmp: row.spareEmp,period: row.period,fromDate: row.fromDate,toDate: row.toDate,monitortype: row.monitortype,bal: row.bal,note: row.note,appreoved: key==VactionApproveType.Apporve),postType:VactionPostType.Vacation)));
             if(result!=null&&result){
             smartSuccessToast(context,"الاعتماد","تمت العملية بنجاح");
-            _getData();
+           loadDataFun();
           }
  }
 }
@@ -138,9 +87,8 @@ return RefreshIndicator(
 class _ListRowView extends StatelessWidget {
 
   final ManagerVacTransPanel data;
+  const _ListRowView({required this.data, required this.callback});
 
-  const _ListRowView({Key key, this.data,this.callback})
-      : super(key: key);
   final VoidCallback callback;
 
   @override
@@ -171,7 +119,7 @@ class _ListRowView extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
+                        children: [
                                
                          smartVacTypeTitle(data.monitortype),
                           SizedBox(height:5),

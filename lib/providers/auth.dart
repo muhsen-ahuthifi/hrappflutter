@@ -44,14 +44,14 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
 
     Response response = await post(
-      AppUrl.login,
+     Uri.parse(AppUrl.login) ,
       body:loginData,// json.encode(loginData),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     );
        //   print('go1111111111111');
 
     if (response.statusCode == 200) {
-      print(response.statusCode);
+      // print(response.statusCode);
 
       final Map<String, dynamic> responseData = json.decode(response.body);
 
@@ -59,7 +59,7 @@ class AuthProvider with ChangeNotifier {
 
       User authUser = User.fromJson(userData);
 
-      UserPreferences().saveUser(authUser);
+      UserPreferences.saveUser(authUser);
 
       _loggedInStatus = Status.LoggedIn;
       notifyListeners();
@@ -87,14 +87,14 @@ class AuthProvider with ChangeNotifier {
         'password_confirmation': passwordConfirmation
       }
     };
-    return await post(AppUrl.register,
+    return await post( Uri.parse(AppUrl.register) ,
         body: json.encode(registrationData),
         headers: {'Content-Type': 'application/json'})
         .then(onValue)
         .catchError(onError);
   }
 
-  static Future<FutureOr> onValue(Response response) async {
+  static Future<Map<String, dynamic>> onValue(Response response) async {
     var result;
     final Map<String, dynamic> responseData = json.decode(response.body);
 
@@ -105,7 +105,7 @@ class AuthProvider with ChangeNotifier {
 
       User authUser = User.fromJson(userData);
 
-      UserPreferences().saveUser(authUser);
+     await UserPreferences.saveUser(authUser);
       result = {
         'status': true,
         'message': 'Successfully registered',
@@ -124,7 +124,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   static onError(error) {
-    print("the error is $error.detail");
+    // print("the error is $error.detail");
     return {'status': false, 'message': 'Unsuccessful Request', 'data': error};
   }
 

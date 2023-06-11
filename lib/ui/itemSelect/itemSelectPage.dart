@@ -5,7 +5,7 @@ import 'package:hrapp/ui/widget/AppTheme.dart';
 import 'package:hrapp/ui/widget/commonWidget.dart';
 
 class ItemSelectPage extends StatefulWidget {
-  const ItemSelectPage({Key key,@required this.title,@required this.url}) : super(key: key);
+  const ItemSelectPage({super.key,required this.title,required this.url}) ;
   final String title;
   final String url;
 
@@ -15,11 +15,11 @@ class ItemSelectPage extends StatefulWidget {
 
 class _ItemSelectPageState extends State<ItemSelectPage> {
  // final List<String> kEnglishWords;
-  _MySearchDelegate _delegate;
+  _MySearchDelegate? _delegate;
   final String title;
   final String url;
 
-  _ItemSelectPageState({@required this.title,@required this.url})
+  _ItemSelectPageState({required this.title,required this.url})
       // : kEnglishWords = List.from(Set.from(['apple', 'hello', 'world', 'flutter']))
       //     ..sort(
       //       (w1, w2) => w1.toLowerCase().compareTo(w2.toLowerCase()),
@@ -49,9 +49,9 @@ class _ItemSelectPageState extends State<ItemSelectPage> {
                       
             onPressed: () async {
               if(this._delegate!=null){
-            final ItemSelectVM selected = await showSearch<ItemSelectVM>(
+            final ItemSelectVM? selected = await showSearch<ItemSelectVM?>(
                 context: context,
-                delegate: _delegate,
+                delegate: _delegate!,
               );
               if (selected != null) {
                  Navigator.pop(context,selected);
@@ -72,18 +72,18 @@ class _ItemSelectPageState extends State<ItemSelectPage> {
       future:featchItemSelectData(this.url,(row)=>new ItemSelectVM.fromJson(row)),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-            if(!snapshot.data.success){
-          return  errorView(snapshot.data.message);
+            if(!snapshot.data!.success){
+          return  errorView(snapshot.data!.message??"Error");
 
           }
-          List<ItemSelectVM> data = snapshot.data.data;
+          List<ItemSelectVM> data = snapshot.data!.data;
           if(data.length==0){
           return  noResultViewView();
           }else{
           return _smartListView(context,data);
           }
         } else if (snapshot.hasError) {
-          return  errorView(snapshot.error);
+          return  errorView(snapshot.error?.toString()??"Error");
         }
          return loadingView();
       
@@ -124,10 +124,10 @@ class _ItemSelectPageState extends State<ItemSelectPage> {
 
 // Defines the content of the search page in `showSearch()`.
 // SearchDelegate has a member `query` which is the query string.
-class _MySearchDelegate extends SearchDelegate<ItemSelectVM> {
-  final List<ItemSelectVM> _words;
-  final List<ItemSelectVM> _history;
-ItemSelectVM selectedItem;
+class _MySearchDelegate extends SearchDelegate<ItemSelectVM?> {
+ late final List<ItemSelectVM> _words;
+ late final List<ItemSelectVM> _history;
+ItemSelectVM? selectedItem;
   _MySearchDelegate(List<ItemSelectVM> words)
       : _words = words,
         _history = words,
@@ -225,7 +225,7 @@ ItemSelectVM selectedItem;
 
 // Suggestions list widget displayed in the search page.
 class _SuggestionList extends StatelessWidget {
-  const _SuggestionList({this.suggestions, this.query, this.onSelected});
+  const _SuggestionList({required this.suggestions,required this.query,required this.onSelected});
 
   final List<ItemSelectVM> suggestions;
   final String query;

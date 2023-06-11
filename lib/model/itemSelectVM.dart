@@ -1,6 +1,6 @@
 class ItemSelectVM {
-  String id;
-  String name;
+ final String id;
+ final String name;
  // String email;
  // String phone;
  // String type;
@@ -11,7 +11,7 @@ class ItemSelectVM {
         'name': name,
       };
  }
-  ItemSelectVM({this.id, this.name});
+  ItemSelectVM({required this.id,required this.name});
 
   factory ItemSelectVM.fromJson(Map<String, dynamic> responseData) {
     return ItemSelectVM(

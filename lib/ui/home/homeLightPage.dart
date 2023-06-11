@@ -12,6 +12,7 @@ import 'package:hrapp/ui/permissions/sparePermissionPage.dart';
 import 'package:hrapp/ui/vacations/spareVacationPage.dart';
 import 'package:hrapp/ui/vacations/vacationtransPage.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
+import '../../messaging/message_list_page.dart';
 import '../../util/homeSysKey.dart';
 import '../vacations/vacationsbalPage.dart';
 import '../vacations/managerVacTransPage.dart';
@@ -19,85 +20,84 @@ import '../vacations/managerVacTransPage.dart';
 import '../eval/recivedEvalPage.dart';
 
 class HomeLightPage extends StatelessWidget {
-  const HomeLightPage({Key key,@required this.navItem}) : super(key: key);
+ const HomeLightPage({super.key, required this.navItem});
 
   final NavItem navItem;
 
   @override
   Widget build(BuildContext context) {
     //  var tabs=getTabs();
-     final page=getPage();
-    var title=this.navItem.title;//==HomeSysKey.Vacation ? 'الاجازات':this.uiType==HomeSysKey.Manager ?  'اعتماد الاجازات': 'التقييمات';
-    return  CupertinoPageScaffold(
-     backgroundColor: SmartAppTheme.scaffoldBackground,
+    final page = getPage();
+    var title = this
+        .navItem
+        .title; //==HomeSysKey.Vacation ? 'الاجازات':this.uiType==HomeSysKey.Manager ?  'اعتماد الاجازات': 'التقييمات';
+    return 
+    // ScaffoldMessenger(
+    //   child:Scaffold(
+    //     body: 
+    // // child:
+     CupertinoPageScaffold(
+        backgroundColor: SmartAppTheme.scaffoldBackground,
         navigationBar: CupertinoNavigationBar(
 //border:null ,
-           middle:  Text( title,style: SmartAppTheme.defaultIosTextStype, ),
-         //  backgroundColor:SmartAppTheme.background,
-          
-         //  elevation: 0,
-           //automaticallyImplyLeading: false,
-           
-         //   iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
-            
-         
-            
+          middle: Text(
+            title,
+            style: SmartAppTheme.defaultIosTextStype,
+          ),
+          //  backgroundColor:SmartAppTheme.background,
+
+          //  elevation: 0,
+          //automaticallyImplyLeading: false,
+
+          //   iconTheme: IconThemeData(color: SmartAppTheme.iconColor),
         ),
-        child:
-         SafeArea(
-          bottom: false,
-            child:Material(
-     child: page
-            )
-        
-      
-      ));
-   
+        child: SafeArea(bottom: false, child: Material(child: page)));
+        //));
   }
- 
-Widget getPage(){
-  switch (this.navItem.key){
-    case AppFromKey.VacationsBal:
-    return VacationsBalPage();
 
-       case AppFromKey.VacationTransPanel:
-    return VacationTransPage();
+  Widget getPage() {
+    switch (this.navItem.key) {
+      case AppFromKey.VacationsBal:
+        return VacationsBalPage();
 
-       case AppFromKey.PermissionTransPanel:
-    return PermissionTransPage();
+      case AppFromKey.VacationTransPanel:
+        return VacationTransPage();
 
-       case AppFromKey.SpareVacationPanel:
-    return SpareVacationPage();
+      case AppFromKey.PermissionTransPanel:
+        return PermissionTransPage();
 
-       case AppFromKey.SparePermissionPanel:
-    return SparePermissionPage();
+      case AppFromKey.SpareVacationPanel:
+        return SpareVacationPage();
 
-    case AppFromKey.ManagerVacTransPanel:
-    return ManagerVacTransPage();
+      case AppFromKey.SparePermissionPanel:
+        return SparePermissionPage();
 
-       case AppFromKey.ManagerPermissionPanel:
-    return ManagerPermissionPage();
+      case AppFromKey.ManagerVacTransPanel:
+        return ManagerVacTransPage();
+
+      case AppFromKey.ManagerPermissionPanel:
+        return ManagerPermissionPage();
 
       case AppFromKey.RecivedEvalPanal:
-    return RecivedEvalPage();
+        return RecivedEvalPage();
       case AppFromKey.SentEvalPanal:
-    return SentEvalPage();
+        return SentEvalPage();
       case AppFromKey.EmployeeForEvalPanel:
-    return EmployeeForEvalPage();
+        return EmployeeForEvalPage();
       case AppFromKey.EmployeeTermEvalPanal:
-    return EmployeeTermEvalPage();
+        return EmployeeTermEvalPage();
       case AppFromKey.PeriodEvalPanal:
-    return PeriodEvalPage();
+        return PeriodEvalPage();
 
-    case AppFromKey.DepartmentPeriodEvalPanal:
-    return DepartmentPeriodEvalPage();
-    case AppFromKey.DepartmentEmpEvalPanal:
-    return DepartmentEmpEvalPage();
+      case AppFromKey.DepartmentPeriodEvalPanal:
+        return DepartmentPeriodEvalPage();
+      case AppFromKey.DepartmentEmpEvalPanal:
+        return DepartmentEmpEvalPage();
+  case AppFromKey.MessageList:
+        return MessageListPage();
 
-    default:  return VacationsBalPage();
+      default:
+        return VacationsBalPage();
+    }
   }
 }
-}
-       
-
-       

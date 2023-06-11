@@ -7,83 +7,42 @@ import 'package:hrapp/util/app_url.dart';
 import '../../model/eval/emp_period_eval_panal.dart';
 import '../../services/smartApiService.dart';
 import 'package:hrapp/ui/widget/AppTheme.dart';
+import '../widget/list_view.dart';
 
 
-class PeriodEvalPage extends StatefulWidget {
- const PeriodEvalPage({Key key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _PeriodEvalPageState();
-  }
-}
-class _PeriodEvalPageState extends State<PeriodEvalPage> {
-ApiListResults<PeriodEvalPanal> response;
 
-Future _getData() {
-   return fetchPanelData(AppUrl.PeriodEvalPanal,(row)=>new PeriodEvalPanal.fromJson(row))
-  .then((_response) {
-      if (mounted) {
-    setState(() {
-      response = _response;
-    });
-}
-  });
-}
+class PeriodEvalPage extends StatelessWidget {
+ const PeriodEvalPage({super.key});
 
-@override
-void initState() {
-super.initState();
-  this._getData();
-}
+
+
+
+ 
+
+ 
+
   @override
   Widget build(BuildContext context) {
-return RefreshIndicator(
-    onRefresh: _getData,
-    child: getCurrentView(context));
-  
+   return NgListView(
+      dataLoader: (context) =>
+      fetchPanelData(AppUrl.PeriodEvalPanal,
+      (row)=>new PeriodEvalPanal.fromJson(row)) ,
+      itemBuilder: (context,row, index,loadDataFun) =>
+      _buildRow(context, row,loadDataFun) ,
+    );
+
   }
 
-  Widget getCurrentView(BuildContext context) {
-
-
-     if (response!=null) {
-          if(!response.success){
-          return  errorView(response.message);
-
-          }
-          List<PeriodEvalPanal> data = response.data;
-          if(data.length==0){
-          return  noResultViewView();
-          }else{
-          return _smartListView(context,data);
-          }
-          }
-        //  else if (snapshot.hasError) {
-        //   return  errorView(snapshot.error);
-        // }
-         return loadingView();
-      
- 
-  }
-
-  ListView _smartListView(BuildContext context,List<PeriodEvalPanal> data) {
- 
-    return ListView.builder(
-      
-        itemCount: data.length,
-         scrollDirection: Axis.vertical,
-           padding: EdgeInsets.only( left:4,right: 4,bottom: 62 + MediaQuery.of(context).padding.bottom, ),
-        itemBuilder: (context, index) {
-          return _ListRowView(data: data[index],
+  Widget _buildRow(BuildContext context,PeriodEvalPanal row,VoidCallback loadDataFun) {
+    return _ListRowView(data:row,
            callback: () {
-             final row=data[index];
         Navigator.push(context, CupertinoPageRoute(builder: (context) => RecivedHistoryEvalPage(period_id:row.id,period_n: row.period )));
 
           // var dd=data[index];
          //  print(dd.monitortype);
           });
-        });
+      
   }
 
 
@@ -96,8 +55,8 @@ class _ListRowView extends StatelessWidget {
 
   final PeriodEvalPanal data;
 
-  const _ListRowView({Key key, this.data,this.callback})
-      : super(key: key);
+   const _ListRowView({required this.data, required this.callback});
+
   final VoidCallback callback;
 
   @override

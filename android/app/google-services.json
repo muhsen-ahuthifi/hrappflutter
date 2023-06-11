@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "929689339419",
+    "project_id": "alaman-2d492",
+    "storage_bucket": "alaman-2d492.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929689339419:android:442fa81298665d74001abe",
+        "android_client_info": {
+          "package_name": "com.Alaman.hrapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "929689339419-2d4oqq68n1g5ia94j2alu7rgdrpdj5gv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAycd0KBR2EZ1Pt_HaqtRXqkTHs82gsMn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "929689339419-2d4oqq68n1g5ia94j2alu7rgdrpdj5gv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
